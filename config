@@ -1,0 +1,348 @@
+# ~/.fvwm/config
+#  __________
+#  \   _____/_  ___  __  ____  __
+#   \   __/ \ \/ / \/  \/ /  \/  \
+#   |__/     \__/ \__/\__/_/\__/\_\
+#
+#   Author: Anton Popov <mail@antonpopov.de>
+#  Created: 2013-10-02
+# Modified: 2014-06-17
+#
+# Recommended screen size: 1366x768
+# Fvwm version: 2.6.5
+# Fvwm patches required:
+#  * BorderUnderTitle
+# External tools required:
+#  * dzen-0.9.5-svn (with xft support)
+#  * dmenu 4.5
+#  * conky 1.9.0
+#  * compton
+#  * hsetroot 1.0.2
+#
+# Use at your own risk.
+#
+#### VARIABLES {{{1
+
+#### Desktop settings {{{2
+#
+# pager width is calculated by 'desk.size.x * page.w - 1'
+#
+InfoStoreAdd desk.size.x    8
+InfoStoreAdd desk.size.y    1
+InfoStoreAdd page.w         25
+InfoStoreAdd dock.h         14
+
+# EwmhBaseStruts
+InfoStoreAdd scr.top    14
+InfoStoreAdd scr.bottom 14
+InfoStoreAdd scr.left   0
+InfoStoreAdd scr.right  0
+
+#}}}2
+#### Appearance {{{2
+
+#InfoStoreAdd IconSize "16x16"
+#InfoStoreAdd Colorset ""
+InfoStoreAdd Font "xft:SnapTTF:pixelsize=10"
+
+InfoStoreAdd window.border.width 1
+
+#### Colorset definitions {{{2
+
+#  0 = window title-inactive	# also used by FvwmIdent
+#  1 = window title-active	# also used by FvwmIdent
+#  2 = window borders
+#  3 = window handles
+InfoStoreAdd cs.window.title.inactive   0
+InfoStoreAdd cs.window.title.active     1
+InfoStoreAdd cs.window.border           2
+InfoStoreAdd cs.window.handles          3
+
+#  4 = pager-inactive
+#  5 = pager-hilight
+#  6 = pager-window
+#  7 = pager-window
+InfoStoreAdd cs.pager.inactive          4
+InfoStoreAdd cs.pager.active            5
+InfoStoreAdd cs.pager.window.inactive   6
+InfoStoreAdd cs.pager.window.active     7
+
+#  8 = panel-inactive
+#  9 = panel-active
+InfoStoreAdd cs.panel.inactive          8
+InfoStoreAdd cs.panel.active            9
+
+# 10 = menu-title
+# 11 = tearoff-window-title
+# 16 = menu-inactive
+# 17 = menu-active
+InfoStoreAdd cs.menu.title              10
+InfoStoreAdd cs.menu.title.tearoff      11
+InfoStoreAdd cs.menu.inactive           16
+InfoStoreAdd cs.menu.active             17
+
+# 12 = transparent-inactive: somebtn
+# 13 = transparent-active: somebtn
+
+# 14 = newpanel-inactive
+# 15 = newpanel-active
+
+#}}}2
+#### Commands {{{2
+
+InfoStoreAdd cmd.term   "urxvt"
+InfoStoreAdd cmd.lock   "xtrlock"
+InfoStoreAdd cmd.run    "dmenu_recent"
+
+#}}}2
+
+#}}}1
+#### INIT {{{1
+
+Read default/functions
+Read default/bindings
+Read default/menus
+
+Read prefs/Decoration
+Read prefs/Font
+Read prefs/IconSize
+Read prefs/Colorset
+
+Read func/FvwmMiniConsole
+Read func/Screenshot.scrot
+
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Exec exec hsetroot -full $[FVWM_USERDIR]/wp/orbit-redux_1366x768_mono.png
++ I Exec exec compton -c -C -f -i 0.8 --shadow-red 0.2 --shadow-green 0.8 --shadow-blue 0.9 -D 10 -I 0.08 -O 0.05 -l -18 -t -18 --shadow-exclude-reg x14+0+0 --shadow-exclude-reg x14+0-0 --shadow-exclude 'name *?= "dzen title"' --shadow-exclude 'class_g *?= "Fvwm"'
++ I PipeRead 'killall dzen2 2>/dev/null'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "SnapTTF:pixelsize=10" -x 680 -y 0 -w 686 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "SnapTTF:pixelsize=10" -x 199 -y 754 -w 367 -h 14 -ta l -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "SnapTTF:pixelsize=10" -x 566 -y 754 -w 800 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
+
+#}}}1
+#### DESKTOP {{{1
+
+BusyCursor * True
+
+Style * PositionPlacement Center
+Style * SnapAttraction 8 Screen
+
+Style * SloppyFocus, FPGrabFocus
+
+# deprecated <- use TitleFormat %n (%t)
+#Style * IndexedWindowName
+
+EwmhBaseStruts $[infostore.scr.left] $[infostore.scr.right] $[infostore.scr.top] $[infostore.scr.bottom]
+
+EdgeScroll 100 100
+EdgeThickness 1
+EdgeResistance -1
+#Style * EdgeMoveDelay 0
+Style * EdgeMoveResistance 200
+
+DesktopSize $[infostore.desk.size.x]x$[infostore.desk.size.y]
+
+#}}}1
+#### STYLES {{{1
+
+#### FVWM styles {{{2
+
+Style * ResizeOpaque
+OpaqueMoveSize unlimited
+
+Style * Font $[infostore.Font]
+
+Style fvwm_menu Title, Font $[infostore.Font], !Button 4, !Button 6
+MenuStyle * Font $[infostore.Font]
+MenuStyle * PopupOffset 0 99
+MenuStyle * BorderWidth 1
+# Hilight3DOff to draw border colors!
+MenuStyle * Hilight3DOff
+MenuStyle * ItemFormat "%.8|%.4i%.4l%.4l%.4r%4.i%2.4>%1|%.6%s"
+MenuStyle * VerticalItemSpacing 4 4
+MenuStyle * SeparatorsLong
+MenuStyle * TrianglesSolid, TrianglesUseFore
+MenuStyle * MenuColorset $[infostore.cs.menu.inactive]
+MenuStyle * ActiveColorset $[infostore.cs.menu.active]
+MenuStyle * TitleColorset $[infostore.cs.menu.title]
+MenuStyle * HilightBack
+
+Style * DecorateTransient
+
+Style * InitialMapCommand Current (Maximized) !Borders
+
+#### Application styles {{{2
+
+Style "dzen title" Layer 9, StaysOnTop
+
+Style urxvt ResizeHintOverride
+
+#}}}2
+
+#}}}1
+#### MODULES {{{1
+
+#### FvwmEvent {{{2
+
+KillModule FvwmEvent
+DestroyModuleConfig FvwmEvent: *
+*FvwmEvent: Cmd "Exec mplayer -really-quiet "
+*FvwmEvent: destroy_window "$[FVWM_USERDIR]/sound/close.mp3 2>/dev/null"
+*FvwmEvent: raise_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
+*FvwmEvent: lower_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
+Module FvwmEvent
+
+#}}}2
+#### FvwmIdent {{{2
+
+DestroyModuleConfig FvwmIdent: *
+#*FvwmIdent: Colorset ?
+*FvwmIdent: Fore white
+*FvwmIdent: Back black
+*FvwmIdent: Font $[infostore.Font]
+*FvwmIdent: MinimalLayer 4
+#Module FvwmIdent
+
+Style FvwmIdent Title, Borders
+
+#### FvwmPager{{{2
+
+# FvwmPager doesn't seem to allow you to hide all windows.
+# Setting the window-colorsets to Transparent leaves strange artifacts.
+# WindowListSkip on all windows (together with UseSkipList) is used to emulate
+# this.
+# As a consequence the normal WindowList won't work if certain windows are not to
+# be listed in it (like Fvwm* modules). Use the FvwmWindowMenu module for this!
+#
+# Page highlighting is done by RootTransparent and an image of the pager with the
+# desired highlight effect on the wallpaper. The highlight effect is partly
+# obscured by the inactive pager-colorset.
+# This way we can have a non-regular pager background that is always visible and
+# can be highlighted.
+#
+# This method is ugly as it has lots of implications.
+#
+# TODO: find a better way for this (wallpaper-independant, WindowListSkip-less)!
+#
+# See also FvwmIconMan config and pager colorsets.
+Style * WindowListSkip
+
+#All (FvwmPager) Close
+KillModule FvwmPager
+DestroyModuleConfig FvwmPager: *
+*FvwmPager: Colorset * $[infostore.cs.pager.inactive]
+*FvwmPager: HilightColorset * $[infostore.cs.pager.active]
+*FvwmPager: WindowColorsets $[infostore.cs.pager.window.inactive] $[infostore.cs.pager.window.active]
+#*FvwmPager: Window3DBorders
+*FvwmPager: WindowBorderWidth 0
+*FvwmPager: UseSkipList
+*FvwmPager: NoSeparators
+*FvwmPager: Font none
+#*FvwmPager: Geometry 199x14+0-0
+PipeRead 'echo "*FvwmPager: Geometry $(($[infostore.desk.size.x]*$[infostore.page.w]-1))x$[infostore.dock.h]+0-0"'
+Module FvwmPager
+
+Style FvwmPager Sticky, !Title, !Borders, NeverFocus, WindowListSkip, FixedPosition, FixedSize, !Closable, StaysOnTop
+
+#### FvwmProxy {{{2
+
+KillModule FvwmProxy
+DestroyModuleConfig FvwmProxy: *
+*FvwmProxy: Font $[infostore.Font]
+*FvwmProxy: ProxyMove false
+*FvwmProxy: Colorset $[infostore.cs.panel.inactive]
+Module FvwmProxy
+
+Style FvwmProxy !Borders
+
+Key Escape  A   M   SendToModule FvwmProxy ShowToggle
+
+#}}}2
+#### FvwmIconMan {{{2
+#
+# Setting Format to %t instead of %i displays the windows title and not WM_NAME.
+#
+
+KillModule FvwmIconMan
+DestroyModuleConfig FvwmIconMan: *
+*FvwmIconMan: Font $[infostore.Font]
+*FvwmIconMan: DontShow Class=FvwmPager,FvwmIdent,FvwmForm,FvwmButtons,FvwmIconMan
+*FvwmIconMan: ShowOnlyFocused True
+*FvwmIconMan: ShowTransient True
+*FvwmIconMan: Resolution Global
+*FvwmIconMan: UseWinList False
+*FvwmIconMan: DrawIcons False
+*FvwmIconMan: FollowFocus True
+*FvwmIconMan: Title "No window"
+*FvwmIconMan: Format "%c | %i"
+*FvwmIconMan: ButtonGeometry 680x14
+*FvwmIconMan: ManagerGeometry 1x1+0+0
+*FvwmIconMan: MaxButtonWidthByColumns 1
+*FvwmIconMan: FocusButton flat
+*FvwmIconMan: FocusAndSelectButton flat
+*FvwmIconMan: Colorset $[infostore.cs.panel.inactive]
+*FvwmIconMan: FocusAndSelectColorset $[infostore.cs.panel.inactive]
+*FvwmIconMan: Action Mouse 1 A SendCommand "WindowList (CurrentPage) Root +0p +14p NoCurrentDeskTitle NoHotkeys"
+*FvwmIconMan: Action Mouse 2 A SendCommand "Nop"
+*FvwmIconMan: Action Mouse 3 A SendCommand "WindowList Root +0p +14p NoCurrentDeskTitle NoHotkeys"
+*FvwmIconMan: Action Mouse 4 A SendCommand "Nop"
+*FvwmIconMan: Action Mouse 5 A SendCommand "Nop"
+Module FvwmIconMan
+
+Style FvwmIconMan !Title, !Borders, Sticky, !Closable, StaysOnTop, SkipMapping, \
+    WindowListSkip, FixedSize, FixedPosition, NoIcon, !Iconifiable, \
+    !Maximizable, NeverFocus
+
+#}}}2
+#### FvwmWindowMenu {{{2
+#
+# A warning appeared in ~/.xsession-errors:
+#
+#   Use of uninitialized value in string eq at
+#     /usr/local/libexec/fvwm/2.6.5/FvwmWindowMenu line 215.
+#
+# Disappeared when commenting out that line.
+# fvwm-2.6.5 (don't know about other versions)
+#
+
+KillModule FvwmWindowMenu
+DestroyModuleConfig FvwmWindowMenu: *
+*FvwmWindowMenu: MenuStyle WindowMenu
+*FvwmWindowMenu: AllDesks off
+*FvwmWindowMenu: AllPages off
+*FvwmWindowMenu: MaxLen 80
+*FvwmWindowMenu: DontShowClass ^Fvwm.*
+*FvwmWindowMenu: Debug 0
+*FvwmWindowMenu: ItemFormat %c %t %i %t +%x+%y (%d)
+Module FvwmWindowMenu
+
+CopyMenuStyle * WindowMenu
+MenuStyle WindowMenu SelectOnRelease Meta_L
+
+# overrides binding in default/bindings
+Key Tab A $[infostore.Mod1] SendToModule FvwmWindowMenu Post Root c c
+
+#}}}2
+
+#}}}1
+#### FUNCTIONS {{{1
+
+# Overrides NotifyMe in default/functions
+DestroyFunc NotifyMe
+AddToFunc NotifyMe
++ I Exec exec echo "$*" | dzen2 -h $[infostore.dock.h] -bg blue -fg white -fn $(echo "$[infostore.Font]" | sed -e's/xft://') -p 2
+
+#}}}1
+#### CURSORS {{{1
+
+CursorStyle DEFAULT     left_ptr        black white
+CursorStyle ROOT        left_ptr        black white
+CursorStyle MENU        top_left_arrow  black white
+CursorStyle STROKE      top_left_arrow  red white
+CursorStyle LEFT_EDGE   left_ptr        black white
+CursorStyle RIGHT_EDGE  left_ptr        black white
+CursorStyle TITLE       left_ptr        blue white
+
+#}}}1
+

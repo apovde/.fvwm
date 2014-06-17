@@ -1,0 +1,47 @@
+#
+# FvwmMiniConsole
+#
+#### Bindings {{{1
+
+Mouse (FvwmQuickConsole) 2 W $[infostore.Mod1] FvwmMiniConsole-Resize
+Key (FvwmQuickConsole) plus A $[infostore.Mod1] Current (FvwmQuickConsole) ResizeMove keep w+2c keep -0p
+Key (FvwmQuickConsole) plus A $[infostore.Mod2] Current (FvwmQuickConsole) ResizeMove keep w-2c keep -0p
+
+#}}}1
+#### Functions {{{1
+
+DestroyFunc FvwmMiniConsole
+AddToFunc FvwmMiniConsole
++ I None (FvwmQuickConsole) FvwmMiniConsole_Init
++ I All (FvwmQuickConsole, CurrentDesk, Focused) FvwmMiniConsole_Hide
++ I TestRc (0) FvwmMiniConsole_Show
+
+DestroyFunc FvwmMiniConsole_Init
+AddToFunc FvwmMiniConsole_Init
++ I Style FvwmQuickConsole !Title, Borders, SkipMapping, \
+    VariableSize, VariablePosition, NoIcon, StaysOnTop, !Iconifiable, \
+    StickyAcrossPages, !Maximizable, Handles
++ I Style FvwmQuickConsole WindowShadeSteps 16
++ I Style FvwmQuickConsole WindowShadeShrinks
++ I Style FvwmQuickConsole TitleAtBottom
++ I Module FvwmConsole -terminal $[infostore.cmd.term] -geometry 80x8-$[infostore.scr.right]-$[infostore.scr.bottom] -title FvwmQuickConsole
++ I Wait FvwmQuickConsole
+#+ I Style FvwmQuickConsole FixedPosition
++ I All (FvwmQuickConsole) MoveToDesk 0 666
++ I Prev (CurrentPage) Focus
+
+DestroyFunc FvwmMiniConsole_Show
+AddToFunc FvwmMiniConsole_Show
++ I All (FvwmQuickConsole) MoveToDesk 0 $[desk.n]
++ I All (FvwmQuickConsole) Focus
+ 
+DestroyFunc FvwmMiniConsole_Hide
+AddToFunc FvwmMiniConsole_Hide
++ I All (FvwmQuickConsole) MoveToDesk 0 666 
++ I Prev (CurrentPage, AcceptsFocus, Visible) Focus
+
+DestroyFunc FvwmMiniConsole-Resize
+AddToFunc FvwmMiniConsole-Resize
++ I Resize Direction NE
+
+#}}}1

@@ -1,0 +1,1673 @@
+#===============#
+# Default menus #
+#===============#
+
+#   MenuPositions {{{1
+
+InfoStoreAdd MenuPosition-Above "mouse o100+50m -100m-5p"
+InfoStoreAdd MenuPosition-Below "mouse o100+50m 15p"
+InfoStoreAdd MenuPosition-AboveLeft "mouse -100m-5p -100m-5p"
+InfoStoreAdd MenuPosition-BelowLeft "mouse -100m-5p 15p"
+InfoStoreAdd MenuPosition-AboveRight "mouse 15p -100m-5p"
+InfoStoreAdd MenuPosition-BelowRight "mouse 15p 15p"
+
+InfoStoreAdd MenuPosition-N   "Rectangle $widthx$height+$left+$top@c o50 -100m"
+InfoStoreAdd MenuPosition-W   "Rectangle $widthx$height+$left+$top@c -100m o50"
+InfoStoreAdd MenuPosition-E   "Rectangle $widthx$height+$left+$top@c 100 o50"
+InfoStoreAdd MenuPosition-S   "Rectangle $widthx$height+$left+$top@c o50 100"
+InfoStoreAdd MenuPosition-NE  "Rectangle $widthx$height+$left+$top@c 0 -100m"
+InfoStoreAdd MenuPosition-NW  "Rectangle $widthx$height+$left+$top@c o100 -100m"
+InfoStoreAdd MenuPosition-WN  "Rectangle $widthx$height+$left+$top@c -100m o100"
+InfoStoreAdd MenuPosition-WS  "Rectangle $widthx$height+$left+$top@c -100m 0"
+InfoStoreAdd MenuPosition-EN  "Rectangle $widthx$height+$left+$top@c 100 o100"
+InfoStoreAdd MenuPosition-ES  "Rectangle $widthx$height+$left+$top@c 100 0"
+InfoStoreAdd MenuPosition-SE  "Rectangle $widthx$height+$left+$top@c 0 100"
+InfoStoreAdd MenuPosition-SW  "Rectangle $widthx$height+$left+$top@c o100 100"
+
+#}}}1
+
+#   ROOT MENU {{{1
+
+DestroyMenu /RootMenu
+AddToMenu /RootMenu
++ "&Terminal"		Exec exec $[infostore.cmd.term]
+#+ "&Screen"		Exec exec $[infostore.cmd.term] -e screen
++ "&Run..."		Exec exec gmrun
++ "&Applications"	Popup /Applications
++ "&Network"		Popup /Network
++ "S&ystem"		Popup /System
++ "" Nop
++ "&FVWM"		Popup /Fvwm
++ "&Preferences"	Popup /Preferences
++ "&Restart"		Restart
++ "" Nop
++ "&Lock screen"	LockScreen
++ "E&xit"	    Quit
+#+ "E&xit"		FvwmQuit
+
+#}}}1
+
+#   1. APPLICATIONS {{{1
+
+DestroyMenu /Applications
+AddToMenu /Applications
++ "Game&s"		Popup /Applications/Games
++ "&Internet"		Popup /Applications/Internet
++ "&Network"		Popup /Applications/Network
++ "&Graphics"		Popup /Applications/Graphics
++ "GI&S"		Popup /Applications/Gis
++ "&Math"		Popup /Applications/Math
++ "O&ffice"		Popup /Applications/Office
++ "&Multimedia"		Popup /Applications/Multimedia
++ "&Other"		Popup /Applications/Other
+
+# 1.2 Games {{{2
+
+DestroyMenu /Applications/Games
+AddToMenu /Applications/Games
++ "Open&TTD"	Exec exec openttd
++ "Free&Civ"	Popup /Applications/Games/Freeciv
++ "&LinCity"	Exec exec lincity
++ "&Anno 1404"	Exec exec anno1404
++ "Siedler 3"	Popup /Applications/Games/Siedler3
++ "" Nop
++ "&TotalA"	Popup /Applications/Games/TotalA
++ "&WarZone 2100"	Exec exec warzone2100
++ "&Spring"	Exec exec springlobby
++ "&Starcraft"	Exec exec starcraft
++ "&Startrek Armada"	Exec exec startrek-armada
++ "&GnuGo"	Exec exec $[infostore.cmd.term] -e gnugo
++ "&Sudoku"	Exec exec $[infostore.cmd.term] -e sudoku
++ "" Nop
++ "&xtris"	Exec exec xtris
++ "" Nop
++ "&Diablo 2"	Exec exec diablo2
++ "&Fallout"	Exec exec fallout
++ "&Fallout 3"	Popup /Applications/Games/Fallout3
++ "&Freelancer"	Exec exec freelancer
++ "Limit&Ro"	Exec exec limitro
++ "Feel&Ro"	Exec exec feelro
++ "" Nop
++ "&OpenArena"	Exec exec openarena
++ "" Nop
++ "Tu&xRacer"	Exec exec etracer
++ "" Nop
++ "&FlightGear"	Popup /Applications/Games/FlightGear
+
+DestroyMenu /Applications/Games/FlightGear
+AddToMenu /Applications/Games/FlightGear
++ "&EDDP::A-10t"	Exec exec fgfs --aircraft=A-10 --airport=EDDP
++ "&Atlas"	Exec exec Atlas
+
+DestroyMenu /Applications/Games/Freeciv
+AddToMenu /Applications/Games/Freeciv
++ "&Client"	Exec exec civclient
++ "&Server"	Exec exec $[infostore.cmd.term] -e civserver
+
+DestroyMenu /Applications/Games/Siedler3
+AddToMenu /Applications/Games/Siedler3
++ "&Game"	Exec exec siedler3
++ "Map &Editor"	Exec exec siedler3-map
+
+DestroyMenu /Applications/Games/TotalA
+AddToMenu /Applications/Games/TotalA
++ "TotalA"	Exec exec totala
++ "Map editor"	Exec exec totala-editor
+
+DestroyMenu /Applications/Games/Fallout3
+AddToMenu /Applications/Games/Fallout3
++ "Game"	Exec exec fallout3
++ "Launcher"	Exec exec fallout3 -c
+
+# 1.2 Internet {{{2
+
+DestroyMenu /Applications/Internet
+AddToMenu /Applications/Internet
++ "&Iceweasel"		Exec exec iceweasel
++ "&Opera"		Exec exec opera
++ "&Arora"		Exec exec arora
++ "&Chromium (3D)"	Exec exec chromium-browser --enable-webgl
++ "I&E's"		Popup /Applications/Internet/IEs
++ "&Dillo"		Exec exec dillo
++ "Lynx"		Exec exec $[infostore.cmd.term] -e lynx
++ "Links2	(txt)"	Exec exec $[infostore.cmd.term] -e links2
++ "Links2	(gfx)"	Exec exec $[infostore.cmd.term] -e links2 -mode 640x480x256
++ "eLinks"		Exec exec $[infostore.cmd.term] -e elinks
++ "W3M"			Exec exec $[infostore.cmd.term] -e w3m
++ "" Nop
++ "&Vis"		Exec exec vis
++ "" Nop
++ "Vrweb"		Exec exec vrweb
++ "FreeWRL"		Exec exec freewrl
++ "" Nop
++ "&Pidgin"		Exec exec pidgin
++ "&Skype"		Exec exec skype
++ "Irssi"		Exec exec $[infostore.cmd.term] -e irssi
++ "" Nop
++ "&Mutt"		Exec exec $[infostore.cmd.term] -e mutt
+
+DestroyMenu /Applications/Internet/IEs
+AddToMenu /Applications/Internet/IEs
++ "IE &5"	Exec exec ie5
++ "IE &5.5"	Exec exec ie55
++ "IE &6"	Exec exec ie6
++ "IE &7"	Exec exec ie7
+
+# 1.2 Network {{{2
+
+DestroyMenu /Applications/Network
+AddToMenu /Applications/Network
++ "[sudo] wifi-radar"	Exec exec $[infostore.cmd.term] -e sudo wifi-radar
++ "wavemon"		Exec exec $[infostore.cmd.term] -e wavemon
++ "kismet"	Exec exec $[infostore.cmd.term] -e kismet
++ "ethstatus"		Exec exec $[infostore.cmd.term] -e ethstatus
++ "" Nop
++ "[sudo] iftop"	Exec exec $[infostore.cmd.term] -e sudo iftop
++ "[sudo] iptraf"	Exec exec $[infostore.cmd.term] -e sudo iptraf
++ "[sudo] etherape"	Exec exec $[infostore.cmd.term] -e sudo etherape
++ "" Nop
++ "[sudo] Zenmap"	Exec exec $[infostore.cmd.term] -e sudo zenmap
++ "" Nop
++ "xsmbrowser"		Exec exec xsmbrowser
++ "pyNeighborhood"	Exec exec pyNeighborhood
++ "wpagui"		Exec exec wpa_gui
+
+# 1.2 Graphics {{{2
+
+DestroyMenu /Applications/Graphics
+AddToMenu /Applications/Graphics
++ "&Gimp-2.7"	Exec exec gimp-2.7
++ "&Inkscape"	Exec exec inkscape
++ "&Xfig"	Exec exec xfig
++ "" Nop
+#+ "GQ&View"	Exec exec gqview
++ "GQ&View"	Exec exec geeqie
++ "" Nop
++ "Gocr"	Exec exec gocr.tcl
++ "" Nop
++ "&Blender"	Exec exec blender
++ "C&ycas"	Exec exec cycas39
++ "" Nop
++ "Qcad"	Exec exec qcad
+
+# 1.2 Office {{{2
+
+DestroyMenu /Applications/Office
+AddToMenu /Applications/Office
++ "g&Vim"		Exec exec gvim
++ "&Abiword"		Exec exec abiword
++ "&Gnumeric"		Exec exec gnumeric
++ "&OpenOffice"		Popup /Applications/Office/OpenOffice
++ "E&clipse"		Exec exec eclipse
++ "&Calcurse"		Exec exec $[infostore.cmd.term] -e calcurse
++ "&Osmo"		Exec exec osmo
++ "&Evince"		Exec exec evince
++ "&xPDF"		Exec exec xpdf
++ "&Apvlv"		Exec exec apvlv
++ "&Pptview"		Exec exec pptview
++ "&pdfshuffler"	Exec exec pdfshuffler
++ "&pdfsam"		Exec exec pdfsam
++ "&Zim"		Exec exec zim
+
+DestroyMenu /Applications/Office/OpenOffice
+AddToMenu /Applications/Office/OpenOffice
++ "oo&ffice"	Exec exec ooffice
++ "" Nop
++ "oo&writer"	Exec exec oowriter
++ "oo&calc"	Exec exec oocalc
++ "oo&impress"	Exec exec ooimpress
++ "oo&math"	Exec exec oomath
++ "oo&draw"	Exec exec oodraw
++ "oowe&b"	Exec exec ooweb
+
+# 1.2 Multimedia {{{2
+
+DestroyMenu /Applications/Multimedia
+AddToMenu /Applications/Multimedia
++ "&Ncmpc"	Exec exec $[infostore.cmd.term] -e ncmpc
++ "&Alsamixer"	Exec exec $[infostore.cmd.term] -e alsamixer
++ "" Nop
++ "&VLC"	Exec exec vlc
++ "" Nop
++ "&GtkPod"	Exec exec gtkpod
++ "Gnome&baker"	Exec exec gnomebaker
+
+# 1.2 GIS {{{2
+
+DestroyMenu /Applications/Gis
+AddToMenu /Applications/Gis
++ "Gaia"		Exec exec gaia
++ "Earthview"		Exec exec earthview
++ "&Xrmap"		Exec exec xrmap
++ "&TangoGPS"		Exec exec tangogps
++ "Gosmore [NoData]"	Exec exec gosmore
++ "" Nop
++ "Gosm"		Exec exec gosm
++ "Josm"		Exec exec josm
++ "Open&Jump"		Exec exec openjump
++ "&qGis"		Exec exec qgis
++ "Grass"		Exec exec $[infostore.cmd.term] -e grass
++ "gvSig"		Exec exec gvsig
++ "" Nop
++ "&Celestia"		Exec exec celestia
++ "Xastir"		Exec exec xastir
++ "ClientNG"		Exec exec clientNG
+
+# 1.2 Math {{{2
+
+DestroyMenu /Applications/Math
+AddToMenu /Applications/Math
++ "&Mathematica 6"	Exec exec mathematica
++ "&Maxima"		Exec exec xmaxima
++ "Free&Mat"		Exec exec freemat
++ "" Nop
++ "DrGeo"		Exec exec drgeo
++ "Geomview"		Exec exec geomview
+
+# 1.2 Other {{{2
+
+DestroyMenu /Applications/Other
+AddToMenu /Applications/Other
++ "&Thunar"			Exec exec thunar
++ "&Terminal	($[infostore.cmd.term])"	Exec exec $[infostore.cmd.term]
++ "&ncdu"			Exec exec $[infostore.cmd.term] -e ncdu
++ "" Nop
++ "Xcalc"			Exec exec xcalc
++ "Xclock"			Exec exec xclock
++ "Xload"			Exec exec xload
++ "" Nop
++ "Gucharmap"			Exec exec gucharmap
++ "X&fontsel"			Exec exec xfontsel
++ "Xfd"				Exec exec xfd -fn fixed
++ "X&ev"			Exec exec $[infostore.cmd.term] -e xev
++ "" Nop
++ "hdaps-gl"			Exec exec hdaps-gl
++ "Xvkbd"			Exec exec xvkbd
++ "X&zoom"			Exec exec xzoom
++ "" Nop
++ "&Virtualbox"			Exec exec VirtualBox
++ "" Nop
++ "Gespeaker"			Exec exec gespeaker
++ "" Nop
++ "&Wine"			Popup /Applications/Other/Wine
++ "Gconf-Editor"		Exec exec gconf-editor
+
+DestroyMenu /Applications/Other/Wine
+AddToMenu /Applications/Other/Wine
++ "winecfg" Exec exec winecfg
++ "regedit" Exec exec regedit
+
+#}}}2
+
+#}}}1
+#   1. NETWORK {{{1
+
+DestroyMenu /Network
+AddToMenu /Network
++ "&VPN"	Popup /Network/Vpn
++ "&SSH"	Popup /Network/Ssh
++ "" Nop
++ "&Interfaces"	Popup /Network/Interfaces
++ "&Nameserver"	Popup /Network/Nameserver
++ "I&ptables"	Popup /Network/Iptables
+
+# Nameserver {{{2
+
+DestroyMenu /Network/Nameserver
+AddToMenu /Network/Nameserver
++ DynamicPopUpAction MakeMenu-Nameserver
+
+DestroyFunc MakeMenu-Nameserver
+AddToFunc MakeMenu-Nameserver
++ I DestroyMenu /Network/Nameserver
++ I AddToMenu /Network/Nameserver
++ I + DynamicPopUpAction MakeMenu-Nameserver
++ I + "Valid nameservers in: de" Title
++ I Piperead 'sh $[FVWM_USERDIR]/bin/makemenu-nameserver.sh'
+
+#}}}2
+# SSH {{{2
+
+DestroyMenu /Network/Ssh
+AddToMenu /Network/Ssh
++ "&Mount"		Popup /Network/Ssh/Mount
++ "" Nop
++ "&Home (Local)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh 192.168.0.112
+#+ "&Home (Remote)"	Nop
++ "AP-&G3 (Local)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh 192.168.0.114
++ "AP-DS (Local)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh root@192.168.0.111
++ "Sheeva (Local)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh sheeva
++ "" Nop
++ "HTWK"		Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh apopov@goliath.imn.htwk-leipzig.de
++ "" Nop
++ "jow.artofcoding.de"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh xyron@jow.artofcoding.de
++ "&ffx.subsignal.org"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh ffx.subsignal.org
++ "" Nop
+#+ "&Sven (RootServer)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh 87.106.81.130
++ "&Sven (RootServer)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh 83.133.124.84
++ "&Sven (Desktop)"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh sk.wwsnet.net
++ "" Nop
++ "Sub&lab"		Popup /Network/Ssh/Sublab
++ "nuwiki.openwrt.org"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh xyron@nuwiki.openwrt.org
+
+# 1.2 SUBMENUS {{{3
+
+DestroyMenu /Network/Ssh/Mount
+AddToMenu /Network/Ssh/Mount
++ "Home	~"		Sshfs home anton
++ "AP-G3	~"	Sshfs ap-g3 anton
++ "" Nop
++ "Sven (RootServer)	~"	Sshfs 83.133.124.84 anton
++ "sublab.org	~"	Sshfs ffx.subsignal.org anton
++ "sublab.org	~"	Sshfs sublab.org xyron
++ "nuwiki.openwrt.org	~"	Sshfs nuwiki.openwrt.org xyron
+
+DestroyFunc Sshfs
+AddToFunc Sshfs
++ I Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/sshfs.sh $0 $1
+
+DestroyMenu /Network/Ssh/Sublab
+AddToMenu /Network/Ssh/Sublab
++ "sublab.org"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh xyron@sublab.org
++ "" Nop
++ "Nautilus"	Nop
++ "Trieste"	Exec exec $[infostore.cmd.term] -tint yellow -e sh $[FVWM_USERDIR]/bin/ssh.sh sublab@trieste
++ "Hunley"	Nop
++ "Taifun"	Nop
++ "Tsunami"	Nop
++ "Halibut"	Nop
+
+#}}}3
+#}}}2
+# VPN {{{2
+
+DestroyMenu /Network/Vpn
+AddToMenu /Network/Vpn
++ "Show Topology" Nop
++ "Neighbors" Nop
++ "" Nop
++ "Restart" Nop
++ "Configure" Nop
+
+#}}}2
+
+#}}}1
+#   1. SYSTEM {{{1
+
+#
+#	glxinfo | grep rendering
+#
+
+DestroyMenu /System
+AddToMenu /System
+#Piperead 'echo + \"`/etc/issue`\" Title'	# permission denied
++ "&Mount"			Popup /System/Mount
++ "&Daemons"			Popup /Daemons
++ "" Nop
++ "Packages"			Popup /System/Packages
++ "" Nop
++ "Cronjobs"			Exec exec $[infostore.cmd.term] -tint red -title crontab -e crontab -e
++ "Udev"			Popup /System/Udev
++ "modconf"			Exec exec $[infostore.cmd.term] -tint red -geometry 119x71 -title modconf -e sudo modconf
++ "" Nop
++ "&CPU Frequency scaling"	Popup /System/CpuFreq
++ "&Laptop mode"		Popup /System/LaptopMode
++ "" Nop
++ "&Thinklight"			Popup /Systen/ThinkLight
++ "&Bluetooth"			Popup /Systen/Bluetooth
++ "" Nop
++ "Edit mailcap"		Exec exec $[infostore.cmd.term] -tint red -title mailcap -e sudo vim /etc/mailcap
++ "Edit x-www-browser"		Exec exec $[infostore.cmd.term] -tint red -title x-www-browser -e sudo update-alternatives --config x-www-browser
++ "Reconfigure timezone"	Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/timezone.sh
+
+# PACKAGES {{{2
+
+DestroyMenu /System/Packages
+AddToMenu /System/Packages
++ "List &packages"		Exec exec $[infostore.cmd.term] -geometry 119x71 -title dpkg-list -e sh $[FVWM_USERDIR]/bin/pkglist.sh
++ "" Nop
++ "[sudo] Edit sources.list"	Exec exec $[infostore.cmd.term] -e sudo vim /etc/apt/sources.list
+
+# CPUFREQ {{{2
+
+DestroyMenu /System/CpuFreq
+AddToMenu /System/CpuFreq
++ DynamicPopUpAction MakeMenu-CpuFreq
+
+DestroyFunc MakeMenu-CpuFreq
+AddToFunc MakeMenu-CpuFreq
++ I DestroyMenu /System/CpuFreq
++ I AddToMenu /System/CpuFreq
++ I Piperead 'sh $[FVWM_USERDIR]/bin/sys.cpufreq.sh check'
++ I + DynamicPopUpAction MakeMenu-CpuFreq
+
+DestroyFunc CpufreqScalingEnable
+AddToFunc CpufreqScalingEnable
++ I Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.cpufreq.sh enable
++ I NotifyMe CPU frequency scaling enabled
+
+DestroyFunc CpufreqScalingDisable
+AddToFunc CpufreqScalingDisable
++ I Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.cpufreq.sh disable
++ I NotifyMe CPU frequency scaling disabled
+
+#}}}2
+# CPU menu {{{2
+
+DestroyMenu /Cpu
+AddToMenu /Cpu
++ DynamicPopUpAction MakeMenu-Cpu
+
+DestroyFunc MakeMenu-Cpu
+AddToFunc MakeMenu-Cpu
++ I DestroyMenu /Cpu
++ I AddToMenu /Cpu
++ I + DynamicPopUpAction MakeMenu-Cpu
++ I Piperead 'sh $[FVWM_USERDIR]/bin/sys.cpufreq.sh check verbose'
+
+DestroyMenu /Cpu/Frequency
+AddToMenu /Cpu/Frequency
++ "2200 MHz"	Exec exec $[infostore.cmd.term] -e $[FVWM_USERDIR]/bin/sys.cpufreq.sh set 2200
++ "1600 MHz"	Exec exec $[infostore.cmd.term] -e $[FVWM_USERDIR]/bin/sys.cpufreq.sh set 1600
++ "1200 MHz"	Exec exec $[infostore.cmd.term] -e $[FVWM_USERDIR]/bin/sys.cpufreq.sh set 1200
++ "800 MHz"	Exec exec $[infostore.cmd.term] -e $[FVWM_USERDIR]/bin/sys.cpufreq.sh set 800
+
+#}}}2
+# LAPTOP MODE {{{2
+
+DestroyMenu /System/LaptopMode
+AddToMenu /System/LaptopMode
++ DynamicPopUpAction MakeMenu-LaptopMode
+
+DestroyFunc MakeMenu-LaptopMode
+AddToFunc MakeMenu-LaptopMode
++ I DestroyMenu /System/LaptopMode
++ I AddToMenu /System/LaptopMode
++ I + DynamicPopUpAction MakeMenu-LaptopMode
++ I Piperead 'state=`cat /proc/sys/vm/laptop_mode`; \
+	if [ $state = 0 ]; then \
+		echo "+ \"Not\\\\ active\" Title"; \
+		echo "+ \"Start\" Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.laptop-mode.sh start"; \
+	else \
+		echo "+ \"Active\" Title"; \
+		echo "+ \"Stop\" Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.laptop-mode.sh stop"; \
+	fi'
+
+#}}}2
+# DAEMONS {{{2
+
+DestroyMenu /Daemons
+AddToMenu /Daemons
++ '&Cron' Popup /Daemons/Cron
++ '&Tinc' Popup /Daemons/Tinc
++ '&OpenVPN' Popup /Daemons/Openvpn
++ '&Exim4' Popup /Daemons/Exim
++ '&Mysql' Popup /Daemons/Mysql
++ '&Apache' Popup /Daemons/Apache
++ '&Rsync' Popup /Daemons/Rsync
++ '&Samba' Popup /Daemons/Samba
++ '&Cups' Popup /Daemons/Cups
++ '&GPSd' Popup /Daemons/Gpsd
++ 'M&PD' Popup /Daemons/Mpd
++ '&uml-utilities'	Popup /Daemons/Uml-utilities
+
+# SubMenus {{{3
+DestroyMenu /Daemons/Cron
+AddToMenu /Daemons/Cron
++ 'Restart' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh cron restart
+
+DestroyMenu /Daemons/Tinc
+AddToMenu /Daemons/Tinc
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh tinc start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh tinc stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/tinc start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/tinc stop
+
+DestroyMenu /Daemons/Openvpn
+AddToMenu /Daemons/Openvpn
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh openvpn start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh openvpn stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/openvpn start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/openvpn stop
+
+DestroyMenu /Daemons/Exim
+AddToMenu /Daemons/Exim
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh exim4 start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh exim4 stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/exim4 start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/exim4 stop
+
+DestroyMenu /Daemons/Mysql
+AddToMenu /Daemons/Mysql
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh mysql start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh mysql stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/mysql start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/mysql stop
+
+DestroyMenu /Daemons/Apache
+AddToMenu /Daemons/Apache
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh apache2 start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh apache2 stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/apache2 start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/apache2 stop
++ "" Nop
++ 'Reload' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh apache2 reload
+#+ 'Reload' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/apache2 reload
+
+DestroyMenu /Daemons/Rsync
+AddToMenu /Daemons/Rsync
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh rsync start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh rsync stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/rsync start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/rsync stop
+
+DestroyMenu /Daemons/Samba
+AddToMenu /Daemons/Samba
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh samba start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh samba stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/samba start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/samba stop
+
+DestroyMenu /Daemons/Cups
+AddToMenu /Daemons/Cups
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh cups start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh cups stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/cups start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/cups stop
+
+DestroyMenu /Daemons/Mpd
+AddToMenu /Daemons/Mpd
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh mpd start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh mpd stop
+#+ 'Start' Exec exec mpd
+#+ 'Stop' Exec exec mpd --kill
+
+DestroyMenu /Daemons/Gps
+AddToMenu /Daemons/Gps
++ 'Start' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh gpsd start
++ 'Stop' Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/daemon.sh gpsd stop
+#+ 'Start' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/gpsd start
+#+ 'Stop' Exec exec $[infostore.cmd.term] -e sudo /etc/init.d/gpsd stop
+
+#}}}3
+
+#}}}2
+# ThinkLight {{{2
+
+DestroyMenu /Systen/ThinkLight
+AddToMenu /Systen/ThinkLight
++ "Off" Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.thinklight.sh off
++ "On" Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.thinklight.sh on
+
+# Bluetooth {{{2
+
+DestroyMenu /Systen/Bluetooth
+AddToMenu /Systen/Bluetooth
++ "Off" Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.bluetooth.sh off
++ "On" Exec exec $[infostore.cmd.term] -e sudo sh $[FVWM_USERDIR]/bin/sys.bluetooth.sh on
+
+#}}}2
+
+#}}}1
+#   1. FVWM {{{1
+
+DestroyMenu /Fvwm
+AddToMenu /Fvwm
+# version shouldn't be changed without fvwm restart
++ "FVWM $[version.num]$[version.info]"	Title
++ "FvwmConsole"		FvwmConsole
++ "Output Events"	FVWMEVENTS
++ "&Read config"	Popup /Fvwm/Config
++ "" Nop
++ "&Preferences"	Popup /Fvwm/Preferences
++ "" Nop
++ "&Functions"		Popup /Fvwm/Functions
++ "&Scripts"		Popup /Fvwm/Scripts
++ "&Applets"		Popup /Fvwm/Applets
++ "&Modules"		Popup /Fvwm/Modules
++ "" Nop
++ "&Wallpapers"		Popup /Wallpapers
++ "&Colorsets"		Popup /Fvwm/Colorsets
++ "Window &decorations"	Popup /Fvwm/Decorations
++ "&GTK themes"		Popup /Fvwm/GtkThemes
++ "" Nop
++ "&Help"		Popup /Fvwm/Help
+
+# 1.2 READ CONFIG {{{2
+
+DestroyMenu /Fvwm/Config
+AddToMenu /Fvwm/Config
++ "&applets" Popup /Fvwm/Config/applets
++ "&functions" Popup /Fvwm/Config/functions
++ "&default" Popup /Fvwm/Config/default
++ "&preferences" Popup /Fvwm/Config/preferences
++ "" Nop
++ "&theme" Popup /Fvwm/Config/theme
+
+MenuStyle /Fvwm/Config/applets AutomaticHotkeys
+MenuStyle /Fvwm/Config/default AutomaticHotkeys
+MenuStyle /Fvwm/Config/functions AutomaticHotkeys
+MenuStyle /Fvwm/Config/preferences AutomaticHotkeys
+
+DestroyMenu /Fvwm/Config/theme
+AddToMenu /Fvwm/Config/theme
++ DynamicPopUpAction MakeMenu-ConfigTheme
+
+DestroyFunc MakeMenu-ConfigTheme
+AddToFunc MakeMenu-ConfigTheme
++ I DestroyMenu /Fvwm/Config/theme
++ I AddToMenu /Fvwm/Config/theme
++ I + DynamicPopUpAction MakeMenu-ConfigTheme
++ I + "Current: $[Theme]" Title
++ I Piperead 'ls -1 $[FVWM_USERDIR]/$[ThemePath] | while read line; do echo "+ \"$line\" Read $[ThemePath]/$line"; done'
+
+DestroyMenu /Fvwm/Config/applets
+AddToMenu /Fvwm/Config/applets
++ DynamicPopUpAction MakeMenu-Config applets
+
+DestroyMenu /Fvwm/Config/default
+AddToMenu /Fvwm/Config/default
++ DynamicPopUpAction MakeMenu-Config default
+
+DestroyMenu /Fvwm/Config/functions
+AddToMenu /Fvwm/Config/functions
++ DynamicPopUpAction MakeMenu-Config functions
+
+DestroyMenu /Fvwm/Config/preferences
+AddToMenu /Fvwm/Config/preferences
++ DynamicPopUpAction MakeMenu-Config preferences
+
+DestroyFunc MakeMenu-Config
+AddToFunc MakeMenu-Config
++ I DestroyMenu /Fvwm/Config/$0
++ I AddToMenu /Fvwm/Config/$0
++ I + DynamicPopUpAction MakeMenu-Config $0
++ I Piperead 'ls -1 $[FVWM_USERDIR]/$0 | while read line; do echo "+ \"$line\" Read $0/$line"; done'
+
+# 1.2 FUNCTIONS {{{2
+
+DestroyMenu /Fvwm/Functions
+AddToMenu /Fvwm/Functions
++ "Currently loaded" Title
++ "" Nop
++ "LoadFunctions" LoadFunctions
+
+# 1.2 SCRIPTS {{{2
+
+DestroyFunc MakeMenu-Scripts
+AddToFunc MakeMenu-Scripts
++ I DestroyMenu /Fvwm/Scripts
++ I AddToMenu /Fvwm/Scripts
++ I + DynamicPopupAction MakeMenu-Scripts
++ I Piperead 'ls -1 $[FVWM_USERDIR]/scripts | while read line; do echo "+ \"$line\" FvwmScript scripts/$line"; done;'
+
+DestroyMenu /Fvwm/Scripts
+AddToMenu /Fvwm/Scripts
++ DynamicPopupAction MakeMenu-Scripts
+
+# 1.2 MODULES {{{2
+
+DestroyFunc MakeMenu-Modules
+AddToFunc MakeMenu-Modules
++ I DestroyMenu /Fvwm/Modules
++ I AddToMenu /Fvwm/Modules
++ I Piperead 'ls -1 /usr/local/libexec/fvwm/2.6.5/ | grep -v ".sh" | grep -v ".pl" | grep -v ".pm" | while read line; do echo "+ \"$line\" Module $line"; done;'
+
+# 1.2 APPLETS {{{2
+DestroyMenu /Fvwm/Applets
+AddToMenu /Fvwm/Applets
++ "FvwmButtons-Calendar" Module FvwmButtons FvwmButtons-Calendar
+
+# 1.2 WALLPAPERS {{{2
+
+DestroyMenu /Wallpapers
+AddToMenu /Wallpapers
++ DynamicPopUpAction MakeMenu-Wallpapers
+
+DestroyFunc MakeMenu-Wallpapers
+AddToFunc MakeMenu-Wallpapers
++ I DestroyMenu /Wallpapers
++ I AddToMenu /Wallpapers
++ I + DynamicPopUpAction MakeMenu-Wallpapers
++ I Piperead 'echo -e "+ \"Current:\\\\ `cat $[FVWM_USERDIR]/prefs/Wallpaper | sed -e \'s/\\/home\\/anton/~/g\'`\" Title"'
++ I Piperead 'sh $[FVWM_USERDIR]/bin/makemenu-wallpapers.sh'
+
+DestroyFunc SetWallpaper
+AddToFunc SetWallpaper
++ I Exec exec hsetroot -fill $0
++ I Exec exec echo $0 > $[FVWM_USERDIR]/prefs/Wallpaper
++ I NotifyMe Wallpaper set to: $0
+
+# 1.2 COLORSETS {{{2
+
+DestroyMenu /Fvwm/Colorsets
+AddToMenu /Fvwm/Colorsets
++ DynamicPopUpAction MakeMenu-Colorsets
+
+DestroyFunc MakeMenu-Colorsets
+AddToFunc MakeMenu-Colorsets
++ I DestroyMenu /Fvwm/Colorsets
++ I AddToMenu /Fvwm/Colorsets
++ I + DynamicPopUpAction MakeMenu-Colorsets
++ I Piperead 'echo -e "+ \"Current:\\\\ `cat $[FVWM_USERDIR]/prefs/Colorset | grep Read | cut -d\'/\' -f4`\" Title"'
++ I Piperead 'ls -1 $[FVWM_USERDIR]/$[ThemePath]/color | while read line; do echo -e "+ \"$line\" SelectColorset $line"; done'
+
+DestroyFunc SelectColorset
+AddToFunc SelectColorset
++ I Read $[ThemePath]/colorsets/$0
++ I Piperead 'echo "Read $[ThemePath]/color/$0" > $[FVWM_USERDIR]/prefs/Colorset'
++ I NotifyMe Colorset set to: $0
+
+# 1.2 DECORATIONS {{{2
+
+DestroyMenu /Fvwm/Decorations
+AddToMenu /Fvwm/Decorations
++ DynamicPopUpAction MakeMenu-Decorations
+
+DestroyFunc MakeMenu-Decorations
+AddToFunc MakeMenu-Decorations
++ I DestroyMenu /Fvwm/Decorations
++ I AddToMenu /Fvwm/Decorations
++ I + DynamicPopUpAction MakeMenu-Decorations
++ I Piperead 'echo -e "+ \"Current:\\\\ `cat $[FVWM_USERDIR]/prefs/Decoration | grep Read | cut -d\'/\' -f2`\" Title"'
++ I Piperead 'ls -1 $[FVWM_USERDIR]/decorations | while read line; do echo -e "+ \"$line\" SelectDecor $line"; done'
+
+DestroyFunc SelectDecor
+AddToFunc SelectDecor
++ I Read decorations/$0/decor
++ I Piperead 'echo "Read decorations/$0/decor" > $[FVWM_USERDIR]/prefs/Decoration'
++ I NotifyMe Window-decoration set to: $0
+
+# 1.2 GTK-THEMES {{{2
+
+DestroyMenu /Fvwm/GtkThemes
+AddToMenu /Fvwm/GtkThemes
++ DynamicPopUpAction MakeMenu-GtkThemes
+
+DestroyFunc MakeMenu-GtkThemes
+AddToFunc MakeMenu-GtkThemes
++ I DestroyMenu /Fvwm/GtkThemes
++ I AddToMenu /Fvwm/GtkThemes
++ I + DynamicPopUpAction MakeMenu-GtkThemes
++ I Piperead 'echo -e "+ \"Current:\\\\ `cat .gtkrc-2.0 | grep themes | sed -e \'s/.*themes\\///g;s/\\/.*//g\'`\" Title"'
++ I Piperead 'ls -1 ~/.themes/ | sed -e \'s/\ /\\\\\\\\ /g\' | while read line; do echo "+ \"$line\" Exec exec gtk-theme-switch2 .themes/$line"; done'
++ I Piperead 'ls -1 /usr/share/themes/ | sed -e \'s/\ /\\\\\\\\ /g\' | while read line; do echo "+ \"$line\" Exec exec gtk-theme-switch2 /usr/share/themes/$line"; done'
+
+# 1.2 PREFERENCES {{{2
+
+DestroyMenu /Fvwm/Preferences
+AddToMenu /Fvwm/Preferences
++ "&Theme"		Popup /Fvwm/Preferences/Theme
++ "" Nop
++ "Default terminal"	Popup /Preferences/Terminal
++ "Screensaver"		Popup /Fvwm/Preferences/Screensaver
++ "" Nop
++ "Icon size"		Popup /Fvwm/Preferences/IconSize
++ "Font"		Popup /Fvwm/Preferences/Font
++ "Thumbnails"		Popup /Fvwm/Preferences/Thumbnails
++ "" Nop
++ "Menu style"		Popup /Fvwm/Preferences/MenuStyle
++ "" Nop
++ "ClickTime"		Popup /Fvwm/Preferences/ClickTime
++ "OpaqueMoveSize"	Popup /Fvwm/Preferences/OpaqueMoveSize
++ "ResizeOpaque"	Popup /Fvwm/Preferences/ResizeOpaque
++ "HideGeometryWindow"	Popup /Fvwm/Preferences/HideGeometryWindow
++ "" Nop
++ "FvwmAnimate"		Popup MenuFvwmAnimate
++ "" Nop
++ "BugOpts"		Popup /Fvwm/Preferences/BugOpts
+
+# 1.2.3 Themes {{{3
+
+DestroyMenu /Fvwm/Preferences/Theme
+AddToMenu /Fvwm/Preferences/Theme
++ "Change theme"	Popup /Fvwm/Preferences/Theme/Change
++ "" Nop
++ "Shortcuts" 		Popup /Fvwm/Preferences/Shortcuts
++ "Save wallpaper on exit"	Popup /Fvwm/Preferences/SaveWallpaper
++ "" Nop
++ "Make snapshot" Exec exec $[infostore.cmd.term] -e sh $[FVWM_USERDIR]/bin/snapshot.sh
+
+DestroyMenu /Fvwm/Preferences/Theme/Change
+AddToMenu /Fvwm/Preferences/Theme/Change
++ DynamicPopupAction MakeMenu-Themes
+
+DestroyFunc MakeMenu-Themes
+AddToFunc MakeMenu-Themes
++ I DestroyMenu /Fvwm/Preferences/Theme/Change
++ I AddToMenu /Fvwm/Preferences/Theme/Change
++ I + DynamicPopupAction MakeMenu-Themes
++ I Piperead 'echo "+ \"$[Theme]\" Title"'
++ I Piperead 'ls -1 $FVWM_USERDIR/themes | grep -v OTHERS | while read line; do echo -e "+ \"$line\" SetTheme $line"; done'
+
+# 1.2.3 Shortcuts {{{3
+
+DestroyMenu /Fvwm/Preferences/Shortcuts
+AddToMenu /Fvwm/Preferences/Shortcuts
++ "Shortcuts"	Title
++ "FvwmConsole  	Alt+;"		Popup /Fvwm/Preferences/Shortcuts/FvwmConsole
++ "Move Window  	Alt+Arrows"	Popup /Fvwm/Preferences/Shortcuts/MoveWindow
++ "Root menu  	Alt+Shift+Menu"		Popup /Fvwm/Preferences/Shortcuts/RootMenu
+
+DestroyMenu /Fvwm/Preferences/Shortcuts/FvwmConsole
+AddToMenu /Fvwm/Preferences/Shortcuts/FvwmConsole
++ "Change" Nop
++ "" Nop
++ "Remove" Nop
+
+# 1.2.3 ClickTime {{{3
+
+DestroyMenu /Fvwm/Preferences/ClickTime
+AddToMenu /Fvwm/Preferences/ClickTime
++ "Current: $SomeClickTime"	Title
++ "50 ms"	SetClickTime 50
++ "150 ms	(fvwm-default)"	SetClickTime 150
++ "250 ms	(theme-default)"	SetClickTime 250
++ "350 ms"	SetClickTime 350
++ "450 ms"	SetClickTime 450
+
+DestroyFunc SetClickTime
+AddToFunc SetClickTime
++ I ClickTime $0
++ I NotifyMe ClickTime set to: $0
+
+# 1.2.3 MenuStyle {{{3
+
+DestroyMenu /Fvwm/Preferences/MenuStyle
+AddToMenu /Fvwm/Preferences/MenuStyle
++ "Animation"	Popup /Fvwm/Preferences/MenuStyle/Animation
++ "Edit IconFormat"	Nop
++ "" Nop
+
+DestroyMenu /Fvwm/Preferences/MenuStyle/Animation
+AddToMenu /Fvwm/Preferences/MenuStyle/Animation
++ "Current: Off"	Title
++ "On"	SetMenuStyle * Animation
++ "Off"	SetMenuStyle * !Animation
+
+DestroyFunc SetMenuStyle
+AddToFunc SetMenuStyle
++ I NotifyMe Set: MenuStyle $*
++ I MenuStyle $*
+
+# 1.2.3 OpaqueMoveSize {{{3
+
+DestroyMenu /Fvwm/Preferences/OpaqueMoveSize
+AddToMenu /Fvwm/Preferences/OpaqueMoveSize
++ "0" OpaqueMoveSize 0
++ "5	(default)" OpaqueMoveSize 5
++ "unlimited" OpaqueMoveSize unlimited
+
+# 1.2.3 ResizeOpaque {{{3
+
+DestroyMenu /Fvwm/Preferences/ResizeOpaque
+AddToMenu /Fvwm/Preferences/ResizeOpaque
++ "On" Style * ResizeOpaque
++ "Off" Style * !ResizeOpaque
+
+# 1.2.3 Geometry window {{{3
+
+DestroyMenu /Fvwm/Preferences/HideGeometryWindow
+AddToMenu /Fvwm/Preferences/HideGeometryWindow
++ "Always" HideGeometryWindow
++ "Never" HideGeometryWindow Never
++ "Move" HideGeometryWindow Move
++ "Resize" HideGeometryWindow Resize
+
+# 1.2.3 BugOpts {{{3
+
+DestroyMenu /Fvwm/Preferences/BugOpts
+AddToMenu /Fvwm/Preferences/BugOpts
++ "FlickeringMoveWorkaround"		Popup /Fvwm/Preferences/BugOpts/FlickeringMoveWorkaround
++ "MixedVisualWorkaround"		Popup /Fvwm/Preferences/BugOpts/MixedVisualWorkaround
++ "ModalityIsEvil"			Popup /Fvwm/Preferences/BugOpts/ModalityIsEvil
++ "RaiseOverNativeWindows"		Popup /Fvwm/Preferences/BugOpts/RaiseOverNativeWindows
++ "RaiseOverUnmanaged"			Popup /Fvwm/Preferences/BugOpts/RaiseOverUnmanaged
++ "FlickeringQtDialogsWorkaround"	Popup /Fvwm/Preferences/BugOpts/FlickeringQtDialogsWorkaround
++ "QtDragnDropWorkaround"		Popup /Fvwm/Preferences/BugOpts/QtDragnDropWorkaround
++ "EWMHIconicStateWorkaround"		Popup /Fvwm/Preferences/BugOpts/EWMHIconicStateWorkaround
++ "DisplayNewWindowNames"		Popup /Fvwm/Preferences/BugOpts/DisplayNewWindowNames
++ "ExplainWindowPlacement"		Popup /Fvwm/Preferences/BugOpts/ExplainWindowPlacement
++ "DebugCRMotionMethod"			Popup /Fvwm/Preferences/BugOpts/DebugCRMotionMethod
++ "TransliterateUtf8"			Popup /Fvwm/Preferences/BugOpts/TransliterateUtf8
+
+DestroyFunc SetBugOpts
+AddToFunc SetBugOpts
++ I BugOpts $0 $1
++ I NotifyMe $0 set to: $1
+
+# FlickeringMoveWorkaround
+DestroyMenu /Fvwm/Preferences/BugOpts/FlickeringMoveWorkaround
+AddToMenu /Fvwm/Preferences/BugOpts/FlickeringMoveWorkaround
++ "true"	SetBugOpts FlickeringMoveWorkaround true
++ "false"	SetBugOpts FlickeringMoveWorkaround false
+
+# MixedVisualWorkaround
+DestroyMenu /Fvwm/Preferences/BugOpts/MixedVisualWorkaround
+AddToMenu /Fvwm/Preferences/BugOpts/MixedVisualWorkaround
++ "true"	SetBugOpts MixedVisualWorkaround true
++ "false"	SetBugOpts MixedVisualWorkaround false
+
+# ModalityIsEvil
+DestroyMenu /Fvwm/Preferences/BugOpts/ModalityIsEvil
+AddToMenu /Fvwm/Preferences/BugOpts/ModalityIsEvil
++ "true"	SetBugOpts ModalityIsEvil true
++ "false"	SetBugOpts ModalityIsEvil false
+
+# RaiseOverNativeWindows
+DestroyMenu /Fvwm/Preferences/BugOpts/RaiseOverNativeWindows
+AddToMenu /Fvwm/Preferences/BugOpts/RaiseOverNativeWindows
++ "true"	SetBugOpts RaiseOverNativeWindows true
++ "false"	SetBugOpts RaiseOverNativeWindows false
+
+# RaiseOverUnmanaged
+DestroyMenu /Fvwm/Preferences/BugOpts/RaiseOverUnmanaged
+AddToMenu /Fvwm/Preferences/BugOpts/RaiseOverUnmanaged
++ "true"	SetBugOpts RaiseOverUnmanaged true
++ "false"	SetBugOpts RaiseOverUnmanaged false
+
+# FlickeringQtDialogsWorkaround
+DestroyMenu /Fvwm/Preferences/BugOpts/FlickeringQtDialogsWorkaround
+AddToMenu /Fvwm/Preferences/BugOpts/FlickeringQtDialogsWorkaround
++ "true"	SetBugOpts FlickeringQtDialogsWorkaround true
++ "false"	SetBugOpts FlickeringQtDialogsWorkaround false
+
+# QtDragnDropWorkaround
+DestroyMenu /Fvwm/Preferences/BugOpts/QtDragnDropWorkaround
+AddToMenu /Fvwm/Preferences/BugOpts/QtDragnDropWorkaround
++ "true"	SetBugOpts QtDragnDropWorkaround true
++ "false"	SetBugOpts QtDragnDropWorkaround false
+
+# EWMHIconicStateWorkaround
+DestroyMenu /Fvwm/Preferences/BugOpts/EWMHIconicStateWorkaround
+AddToMenu /Fvwm/Preferences/BugOpts/EWMHIconicStateWorkaround
++ "true"	SetBugOpts EWMHIconicStateWorkaround true
++ "false"	SetBugOpts EWMHIconicStateWorkaround false
+
+# DisplayNewWindowNames
+DestroyMenu /Fvwm/Preferences/BugOpts/DisplayNewWindowNames
+AddToMenu /Fvwm/Preferences/BugOpts/DisplayNewWindowNames
++ "true"	SetBugOpts DisplayNewWindowNames true
++ "false"	SetBugOpts DisplayNewWindowNames false
+
+# ExplainWindowPlacement
+DestroyMenu /Fvwm/Preferences/BugOpts/ExplainWindowPlacement
+AddToMenu /Fvwm/Preferences/BugOpts/ExplainWindowPlacement
++ "true"	SetBugOpts ExplainWindowPlacement true
++ "false"	SetBugOpts ExplainWindowPlacement false
+
+# DebugCRMotionMethod
+DestroyMenu /Fvwm/Preferences/BugOpts/DebugCRMotionMethod
+AddToMenu /Fvwm/Preferences/BugOpts/DebugCRMotionMethod
++ "true"	SetBugOpts DebugCRMotionMethod true
++ "false"	SetBugOpts DebugCRMotionMethod false
+
+# TransliterateUtf8
+DestroyMenu /Fvwm/Preferences/BugOpts/TransliterateUtf8
+AddToMenu /Fvwm/Preferences/BugOpts/TransliterateUtf8
++ "true"	SetBugOpts TransliterateUtf8 true
++ "false"	SetBugOpts TransliterateUtf8 false
+
+#}}}3
+
+# 1.2.3 Default Terminal {{{3
+
+DestroyMenu /Preferences/Terminal
+AddToMenu /Preferences/Terminal
++ "Current: $[infostore.cmd.term]" Title
+Test (x aterm) + "aterm" SetTerminal aterm
+Test (x urxvt) + "urxvt" SetTerminal urxvt
+Test (x mrxvt) + "mrxvt" SetTerminal mrxvt
+
+DestroyFunc SetTerminal
+AddToFunc SetTerminal
++ I InfoStoreAdd term $0
++ I Piperead 'echo InfoStoreAdd term $0 > $[FVWM_USERDIR]/prefs/Terminal; echo NotifyMe Terminal set to: $0'
+
+# 1.2.3 Thumbnail size {{{3
+
+DestroyMenu /Fvwm/Preferences/Thumbnails
+AddToMenu /Fvwm/Preferences/Thumbnails
++ "Current size: " Title
++ "80x60" Nop
+
+# 1.2.3 IconSize {{{3
+
+DestroyMenu /Fvwm/Preferences/IconSize
+AddToMenu /Fvwm/Preferences/IconSize
++ "Current: $[IconSize]" Title
++ "16x16" SetIconSize 16x16
++ "22x22" SetIconSize 22x22
++ "32x32" SetIconSize 32x32
++ "48x48" SetIconSize 48x48
+
+DestroyFunc SetIconSize
+AddToFunc SetIconSize
++ I InfoStoreAdd IconSize $0
++ I Piperead 'echo InfoStoreAdd IconSize $0 > $[FVWM_USERDIR]/prefs/IconSize; echo NotifyMe IconSize set to: $0'
+
+# 1.2.3 Font {{{3
+
+DestroyMenu /Fvwm/Preferences/Font
+AddToMenu /Fvwm/Preferences/Font
++ "Current: $[infostore.Font]" Title
++ "Verdana:pixelsize=11" SetFont Verdana:pixelsize=11
++ "Verdana:pixelsize=12" SetFont Verdana:pixelsize=12
++ "Gros:pixelsize=8" SetFont Gros:pixelsize=8
++ "SnapTTF:pixelsize=10" SetFont SnapTTF:pixelsize=10
+
+DestroyFunc SetFont
+AddToFunc SetFont
++ I InfoStoreAdd Font $0
++ I Piperead 'echo InfoStoreAdd Font $0 > $[FVWM_USERDIR]/prefs/Font; echo NotifyMe Font set to: $0'
+
+# 1.2.3 Screensaver {{{3
+
+DestroyMenu /Fvwm/Preferences/Screensaver
+AddToMenu /Fvwm/Preferences/Screensaver
++ "Current: $[Screensaver]" Title
++ "xtrlock"		SetScreensaver xtrlock
++ "xscreensaver"	SetScreensaver xscreensaver
++ "" Nop
++ "Add screensaver"	AddToMenu-Screensaver
+
+DestroyFunc SetScreensaver
+AddToFunc SetScreensaver
++ I InfoStoreAdd Screensaver $0
++ I Read prefs/Screensaver.$0
++ I Piperead 'echo InfoStoreAdd Screensaver $0 > $[FVWM_USERDIR]/prefs/Screensaver; echo NotifyMe Screensaver set to: $0'
+
+#}}}3
+# 1.2 HELP {{{2
+
+DestroyFunc FvwmViewManPage
+AddToFunc FvwmViewManPage
++ I Exec exec $[infostore.cmd.term] -e man $0
+
+DestroyMenu /Fvwm/Help
+AddToMenu /Fvwm/Help
++ "Main"		FvwmViewManPage fvwm
++ "" Nop
++ "FvwmAnimate"		FvwmViewManPage FvwmAnimate
++ "FvwmAuto"		FvwmViewManPage FvwmAuto
++ "FvwmBacker"		FvwmViewManPage FvwmBacker
++ "FvwmBanner"		FvwmViewManPage FvwmBanner
++ "FvwmButtons"		FvwmViewManPage FvwmButtons
++ "FvwmConsole"		FvwmViewManPage FvwmConsole
++ "FvwmConsoleC.pl"	FvwmViewManPage FvwmConsoleC.pl
++ "FvwmCommand"		FvwmViewManPage FvwmCommand
++ "FvwmCpp"		FvwmViewManPage FvwmCpp
++ "FvwmDebug"		FvwmViewManPage FvwmDebug
++ "FvwmDragWell"	FvwmViewManPage FvwmDragWell
++ "FvwmEvent"		FvwmViewManPage FvwmEvent
++ "FvwmForm"		FvwmViewManPage FvwmForm
++ "FvwmGtk"		FvwmViewManPage FvwmGtk
++ "FvwmGtkDebug"	FvwmViewManPage FvwmGtkDebug
++ "FvwmIconBox"		FvwmViewManPage FvwmIconBox
++ "FvwmIconMan"		FvwmViewManPage FvwmIconMan
++ "FvwmIdent"		FvwmViewManPage FvwmIdent
++ "FvwmM4"		FvwmViewManPage FvwmM4
++ "FvwmPager"		FvwmViewManPage FvwmPager
++ "FvwmPager"		FvwmViewManPage FvwmPager
++ "FvwmPerl"		FvwmViewManPage FvwmPerl
++ "FvwmProxy"		FvwmViewManPage FvwmProxy
++ "FvwmRearrange"	FvwmViewManPage FvwmRearrange
++ "FvwmSave"		FvwmViewManPage FvwmSave
++ "FvwmSaveDesk"	FvwmViewManPage FvwmSaveDesk
++ "FvwmScript"		FvwmViewManPage FvwmScript
++ "FvwmScroll"		FvwmViewManPage FvwmScroll
++ "FvwmTabs"		FvwmViewManPage FvwmTabs
++ "FvwmTaskBar"		FvwmViewManPage FvwmTaskBar
++ "FvwmWharf"		FvwmViewManPage FvwmWharf
++ "FvwmWinList"		FvwmViewManPage FvwmWinList
++ "FvwmWindowMenu"	FvwmViewManPage FvwmWindowMenu
++ "" Nop
++ "fvwm-menu-desktop"	FvwmViewManPage fvwm-menu-desktop
++ "fvwm-menu-directory"	FvwmViewManPage fvwm-menu-directory
++ "fvwm-menu-headlines"	FvwmViewManPage fvwm-menu-headlines
++ "fvwm-menu-xlock"	FvwmViewManPage fvwm-menu-xlock
++ "fvwm-root"		FvwmViewManPage fvwm-root
+
+#}}}2
+
+#}}}1
+#   1. PREFERENCES {{{1
+
+DestroyMenu /Preferences
+AddToMenu /Preferences
++ "&Environment"	Popup /Preferences/Environment
++ "&Xorg"		Popup /Preferences/Xorg
++ "Start up &apps"	Popup /Preferences/StartUp
++ "" Nop
++ "&Audio"		Popup /Preferences/Audio
++ "" Nop
++ "&3ddesk"		Popup /3ddesk
++ "X&screensaver"	Exec exec xscreensaver-command -prefs
+
+# Environment {{{2
+
+DestroyMenu /Preferences/Environment
+AddToMenu /Preferences/Environment
++ "Location"	Popup /Weather/Location
+
+# Xorg {{{2
+
+DestroyMenu /Preferences/Xorg
+AddToMenu /Preferences/Xorg
++ "&Resolution"	Popup /Preferences/Xorg/Resolution
++ "" Nop
++ "&Bell"	Popup /Preferences/Xorg/Speaker
++ "&Mouse"	Popup /Preferences/Xorg/Mouse
++ "&Keyboard"	Popup /Preferences/Xorg/Keyboard
++ "&Gsynaptics"	Exec exec gsynaptics
++ "&Grandr"	Exec exec grandr
++ "&Slim theme"	Popup /Preferences/Xorg/Slim
+
+# resolution {{{3
+
+DestroyMenu /Preferences/Xorg/Resolution
+AddToMenu /Preferences/Xorg/Resolution
++ DynamicPopupAction MakeMenu-Resolution
+
+DestroyFunc MakeMenu-Resolution
+AddToFunc MakeMenu-Resolution
++ I DestroyMenu /Preferences/Xorg/Resolution
++ I AddToMenu /Preferences/Xorg/Resolution
++ I + DynamicPopupAction MakeMenu-Resolution
++ I Piperead 'echo "+ \\"Current: `xrandr | grep \"*\" | cut -d\' \' -f4`\\" Title"'
++ I Piperead 'xrandr | grep -v Screen | grep -v default | cut -d\' \' -f4 | while read line; do echo "+ \\"$line\\" Exec exec xrandr -s $line"; done'
+
+# Speaker {{{3
+
+DestroyMenu /Preferences/Xorg/Speaker
+AddToMenu /Preferences/Xorg/Speaker
++ "Off" Exec exec xset b off
++ "Normal" Exec exec xset b on
++ "Loud" Exec exec xset b 100 600 50
++ "Loud and long" Exec exec xset b 100 600 300
+
+# Mouse {{{3
+
+DestroyMenu /Preferences/Xorg/Mouse
+AddToMenu /Preferences/Xorg/Mouse
++ "Fast" Exec exec xset m 4 2
++ "Normal" Exec exec xset m 2 5
++ "Slow" Exec exec xset m 1 1
++ "" Nop
++ "Left handed" Exec exec xmodmap -e
+
+# Keyboard {{{3
+
+DestroyMenu /Preferences/Xorg/Keyboard
+AddToMenu /Preferences/Xorg/Keyboard
++ "Hard" Exec exec xset c 100
++ "Soft" Exec exec xset c on
++ "Off" Exec exec xset c off
+
+# Slim theme {{{3
+
+DestroyMenu /Preferences/Xorg/Slim
+AddToMenu /Preferences/Xorg/Slim
++ DynamicPopUpAction MakeMenu-Slim
+
+DestroyFunc MakeMenu-Slim
+AddToFunc MakeMenu-Slim
++ I DestroyMenu /Preferences/Xorg/Slim
++ I AddToMenu /Preferences/Xorg/Slim
++ I + DynamicPopUpAction MakeMenu-Slim
++ I Piperead 'echo "+ \\\"Current: `cat /etc/slim.conf | grep current_theme | sed -e\'s/current.*\ \ //;s/\ /\\ /\'`\\\" Title"'
++ I Piperead 'ls -1 /usr/share/slim/themes/ | while read line; do echo "+ \"$line\" SetSlimTheme $line"; done'
+
+#}}}3
+
+# StartUp {{{2
+
+DestroyMenu /Preferences/StartUp
+AddToMenu /Preferences/StartUp
++ "&Screensaver"	Popup /Preferences/Screensaver
++ "" Nop
++ "Desktop manager"	Popup /Preferences/DesktopManager
++ "" Nop
++ "Composite manager"	Popup /Preferences/Composite
++ "&3ddesk"		Popup /Preferences/3ddesk
++ "" Nop
++ "Add/Remove	(dialog here?)" Nop
+
+# Screensaver {{{3
+
+DestroyMenu /Preferences/Screensaver
+AddToMenu /Preferences/Screensaver
++ "Xscreensaver"	Popup /Preferences/Screensaver/Xscreensaver
+
+# DesktopManager {{{3
+
+DestroyMenu /Preferences/DesktopManager
+AddToMenu /Preferences/DesktopManager
++ "None" Nop
++ "" Nop
+
+# Composite manager {{{3
+
+DestroyMenu /Preferences/Composite
+AddToMenu /Preferences/Composite
++ "None" Nop
++ "" Nop
++ "Xcompmgr" Nop
++ "Cairo-compmgr" Nop
+
+#}}}3
+
+# Audio {{{2
+
+DestroyMenu /Preferences/Audio
+AddToMenu /Preferences/Audio
++ "&Volume"	Popup /Music/Volume
++ "Crossfade"	Popup /Music/Crossfade
++ "Toggle Random"	Exec exec mpc random
++ "Toggle Repeat"	Exec exec mpc repeat
++ "" Nop
++ "Driver"	Popup /Preferences/Audio/Driver
+
+# Volume {{{3
+
+DestroyMenu /Music/Volume
+AddToMenu /Music/Volume
++ DynamicPopUpAction MakeMenu-Volume
+
+DestroyFunc MakeMenu-Volume
+AddToFunc MakeMenu-Volume
++ I DestroyMenu /Music/Volume
++ I AddToMenu /Music/Volume
++ I + DynamicPopUpAction MakeMenu-Volume
++ I Piperead 'echo + \"Volume:\\ `mpc volume | tail -n1 | sed -e \'s/volume:\\ //g;s/%.*//g;s/\\ //g\'`\" Title'
++ I + "&+5" Exec exec mpc volume +5
++ I + "&-5" Exec exec mpc volume -5
++ I + "" Nop
++ I + "1&00" Exec exec mpc volume 100
++ I + "&90" Exec exec mpc volume 90
++ I + "&80" Exec exec mpc volume 80
++ I + "&70" Exec exec mpc volume 70
++ I + "&60" Exec exec mpc volume 60
++ I + "&50" Exec exec mpc volume 50
++ I + "&40" Exec exec mpc volume 40
++ I + "&30" Exec exec mpc volume 30
++ I + "&20" Exec exec mpc volume 20
++ I + "&10" Exec exec mpc volume 10
++ I + "&0" Exec exec mpc volume 0
+
+#}}}3
+# Crossfade {{{3
+
+DestroyMenu /Music/Crossfade
+AddToMenu /Music/Crossfade
++ DynamicPopUpAction MakeMenu-Crossfade
+
+DestroyFunc MakeMenu-Crossfade
+AddToFunc MakeMenu-Crossfade
++ I DestroyMenu /Music/Crossfade
++ I AddToMenu /Music/Crossfade
++ I + DynamicPopUpAction MakeMenu-Crossfade
++ I Piperead 'echo + \"Current:\\ `mpc crossfade | sed -e \'s/^.*:\ //g\'`\" Title'
++ I + "&0"	Exec exec mpc crossfade 0
++ I + "&1"	Exec exec mpc crossfade 1
++ I + "&2"	Exec exec mpc crossfade 2
++ I + "&3"	Exec exec mpc crossfade 3
++ I + "&4"	Exec exec mpc crossfade 4
++ I + "&5"	Exec exec mpc crossfade 5
++ I + "&6"	Exec exec mpc crossfade 6
++ I + "&7"	Exec exec mpc crossfade 7
++ I + "&8"	Exec exec mpc crossfade 8
++ I + "&9"	Exec exec mpc crossfade 9
++ I + "1&0"	Exec exec mpc crossfade 10
+
+#}}}3
+# Driver {{{3
+
+DestroyMenu /Preferences/Audio/Driver
+AddToMenu /Preferences/Audio/Driver
++ "Current: unknown" Title
++ "Alsa" Nop
++ "OSS" Nop
++ "Pulse" Nop
+
+# }}}3
+
+#}}}2
+# xcompmgr {{{2
+
+DestroyMenu /Xcompmgr
+AddToMenu /Xcompmgr
++ DynamicPopUpAction MakeMenu-Xcompmgr
+
+DestroyFunc MakeMenu-Xcompmgr
+AddToFunc MakeMenu-Xcompmgr
++ I DestroyMenu /Xcompmgr
++ I AddToMenu /Xcompmgr
++ I + DynamicPopUpAction MakeMenu-Xcompmgr
++ I Piperead 'pid=`pidof xcompmgr`; if [ $pid \\> 0 ]; then echo "+ \"Running\" Title"; echo "+ \"[stop]\" XcompmgrDisable"; else echo "+ \"Not\\\\ running\" Title"; echo "+ \"[start]\" XcompmgrEnable"; fi'
+#+ I + "" Nop
+#+ I + "" Nop
+#+ I + "Profiles"		Popup /Xcompmgr/Profiles
+#+ I + "" Nop
+#+ I + "" Nop
+#+ I + "Shadow"			Popup /Xcompmgr/Shadow
+#+ I + "Radius"			Popup /Xcompmgr/Radius
+#+ I + "Offset"			Popup /Xcompmgr/Offset
+#+ I + "Fade"			Popup /Xcompmgr/Fade
++ I + "" Nop
++ I + "Enable on startup"	SetXcompmgrOnStartup
+
+DestroyFunc XcompmgrEnable
+AddToFunc XcompmgrEnable
++ I NotifyStep Starting Xcompmgr...
+#+ I Piperead 'fork-exec echo "Loading Xcompmgr..." |  osd_cat -p middle -o -40 -O 1 -u black -A center -d 4 -f -*-helvetica-*-r-*-*-24-*-*-*-*-*-*-* -c white'
++ I Exec exec xcompmgr -o 0.5 -l -12 -t -12 -Ff -I 0.1 -O 0.05
++ I NotifyMe Xcompmgr started
+
+DestroyFunc XcompmgrDisable
+AddToFunc XcompmgrDisable
++ I Exec exec killall xcompmgr
++ I NotifyMe Xcompmgr stopped
+
+DestroyFunc SetXcompmgrOnStartup
+AddToFunc SetXcompmgrOnStartup
++ I Piperead 'echo XcompmgrEnable > $[FVWM_USRDIR]/prefs/Xcompmgr'
+
+
+# 3ddeskd {{{2
+
+DestroyMenu /3ddesk
+AddToMenu /3ddesk
++ DynamicPopUpAction MakeMenu-3ddeskd
+
+DestroyFunc MakeMenu-3ddeskd
+AddToFunc MakeMenu-3ddeskd
++ I DestroyMenu /3ddesk
++ I AddToMenu /3ddesk
++ I + DynamicPopUpAction MakeMenu-3ddeskd
++ I Piperead 'pid=`pidof 3ddeskd`; if [ $pid \\> 0 ]; then echo "+ \"Running\" Title"; echo "+ \"[stop]\" 3ddeskdDisable"; else echo "+ \"Not\\\\ running\" Title"; echo "+ \"[start]\" 3ddeskdEnable"; fi'
++ I + "" Nop
++ I + "Configure"	Exec exec $[infostore.cmd.term] -e sudo vim /etc/3ddesktop.conf
+
+DestroyFunc 3ddeskdEnable
+AddToFunc 3ddeskdEnable
++ I Exec exec 3ddeskd --wm=enlightenment --acquire
++ I BindPager3ddesk
++ I NotifyMe 3ddeskd started
+
+DestroyFunc 3ddeskdDisable
+AddToFunc 3ddeskdDisable
++ I Exec exec killall 3ddeskd
++ I BindPagerDefaults
++ I NotifyMe 3ddeskd stopped
+
+
+#}}}1 
+
+#   WINDOWS {{{1
+DestroyMenu /Windows
+AddToMenu /Windows
++ '&Identify window'	Module FvwmIdent
++ "" Nop
++ "Screen sessions"	Popup /Windows/Screen
++ "" Nop
++ "Listen to events"	Popup /Windows/Events
++ "&Layer"		Popup /Windows/Layer
++ "" Nop
++ "Raise"		Pick Raise
++ "Lower"		Pick Lower
++ "DestroyWindowStyle"	Pick DestroyWindowStyle
++ "" Nop
++ "Window-&Maximize"	Pick Window-Maximize
++ "Window-&Maximize-Y"	Pick Window-Maximize-Y
++ "Window-&Maximize-X"	Pick Window-Maximize-X
++ "Window-&Maximize-Full"	Pick Window-Maximize-Full
++ "" Nop
++ "VariablePosition"	Pick WindowStyle VariablePosition
++ "FixedPosition"	Pick WindowStyle FixedPosition
++ "" Nop
++ "VariableSize"	Pick WindowStyle VariableSize
++ "FixedSize"		Pick WindowStyle FixedSize
++ "" Nop
++ "!&Title"		Pick WindowStyle !Title
++ "&Title"		Pick WindowStyle Title
++ "TitleAtBottom"	Pick WindowStyle TitleAtBottom
++ "TitleAtLeft"		Pick WindowStyle TitleAtLeft
++ "TitleAtRight"	Pick WindowStyle TitleAtRight
++ "TitleAtTop"		Pick WindowStyle TitleAtTop
++ "" Nop
++ "!&Borders"		Pick WindowStyle !Borders
++ "&Borders"		Pick WindowStyle Borders
++ "" Nop
++ "StaysOnTop"		Pick WindowStyle StaysOnTop
++ "StaysPut"		Pick WindowStyle StaysPut
++ "StaysOnBottom"	Pick WindowStyle StaysOnBottom
++ "" Nop
++ "!&Sticky"		Pick WindowStyle !Sticky
++ "&Sticky"		Pick WindowStyle Sticky
++ "" Nop
++ "!&Closable"		Pick WindowStyle !Closable
++ "&Closable"		Pick WindowStyle Closable
++ "" Nop
++ "&Opacity"		Popup /Windows/Opacity
++ "" Nop
++ "Sloppy&Focus"	Pick WindowStyle SloppyFocus
++ "Mouse&Focus"		Pick WindowStyle MouseFocus
++ "Never&Focus"		Pick WindowStyle NeverFocus
++ "" Nop
++ "ResizeOpaque"	Pick WindowStyle ResizeOpaque
++ "ResizeOutline"	Pick WindowStyle ResizeOutline
++ "" Nop
++ "MoveToDesk"		Popup /Windows/MoveToDesk
++ "MoveToPage"		Popup /Windows/MoveToPage
++ "" Nop
++ "Destroy window"	Exec xkill
+
+# screen {{{2
+
+DestroyMenu /Windows/Screen
+AddToMenu /Windows/Screen
++ DynamicPopUpAction MakeMenu-ScreenSessions
+
+DestroyFunc MakeMenu-ScreenSessions
+AddToFunc MakeMenu-ScreenSessions
++ I DestroyMenu /Windows/Screen
++ I AddToMenu /Windows/Screen
++ I + DynamicPopUpAction MakeMenu-ScreenSessions
++ I Piperead 'screen -list | grep "[0-9][0-9]" | grep -v Sockets | while read line; do echo "+ \\"$line\\" Nop"; done'
+# nu wuk nu more
+#+ I Piperead 'i=0; screen -list | grep "[0-9][0-9]" | grep -v Sockets | while read line; do echo "+ \\"$line\\" Nop"; i=`expr $i + 1`; done; if [ $i = 0 ]; then echo "+ \\"No session found\\" Title"; fi'
+
+# opacity {{{2
+
+DestroyMenu /Windows/Opacity
+AddToMenu /Windows/Opacity
++ "0.&0" Pick Exec exec transset -i $[w.id] 0.0
++ "0.&1" Pick Exec exec transset -i $[w.id] 0.1
++ "0.&2" Pick Exec exec transset -i $[w.id] 0.2
++ "0.&3" Pick Exec exec transset -i $[w.id] 0.3
++ "0.&4" Pick Exec exec transset -i $[w.id] 0.4
++ "0.&5" Pick Exec exec transset -i $[w.id] 0.5
++ "0.&6" Pick Exec exec transset -i $[w.id] 0.6
++ "0.&7" Pick Exec exec transset -i $[w.id] 0.7
++ "0.&8" Pick Exec exec transset -i $[w.id] 0.8
++ "0.&9" Pick Exec exec transset -i $[w.id] 0.9
++ "1.&0" Pick Exec exec transset -i $[w.id] 1.0
+
+# MoveToDesk {{{2
+
+DestroyMenu /Windows/MoveToDesk
+AddToMenu /Windows/MoveToDesk
++ "One"		MoveToDesk 0 0
++ "Two"		MoveToDesk 0 1
++ "Three"	MoveToDesk 0 2
++ "Four"	MoveToDesk 0 3
++ "Five"	MoveToDesk 0 4
++ "Six"		MoveToDesk 0 5
++ "Seven"	MoveToDesk 0 6
++ "Eight"	MoveToDesk 0 7
+
+# MoveToPage {{{2
+
+DestroyMenu /Windows/MoveToPage
+AddToMenu /Windows/MoveToPage
++ "One"		MoveToPage 0 0
++ "Two"		MoveToPage 1 0
++ "Three"	MoveToPage 2 0
++ "Four"	MoveToPage 3 0
++ "Five"	MoveToPage 4 0
++ "Six"		MoveToPage 5 0
++ "Seven"	MoveToPage 6 0
++ "Eight"	MoveToPage 7 0
+
+# Events {{{2
+
+DestroyMenu /Windows/Events
+AddToMenu /Windows/Events
++ "" Nop
++ "Add new event listener"	NewFvwmEvent
+
+DestroyFunc NewFvwmEvent
+AddToFunc NewFvwmEvent
++ I Echo FvwmForm-AddWindowListener
+
+# Layer {{{2
+
+DestroyMenu /Windows/Layer
+AddToMenu /Windows/Layer
++ "&Default"	Pick Layer default
++ "" Nop
++ "Layer 0 &0"	Pick Layer 0 0
++ "Layer 0 &1"	Pick Layer 0 1
++ "Layer 0 &2"	Pick Layer 0 2
++ "Layer 0 &3"	Pick Layer 0 3
++ "Layer 0 &4"	Pick Layer 0 4
++ "Layer 0 &5"	Pick Layer 0 5
++ "Layer 0 &6"	Pick Layer 0 6
++ "Layer 0 &7"	Pick Layer 0 7
++ "Layer 0 &8"	Pick Layer 0 8
++ "Layer 0 &9"	Pick Layer 0 9
++ "" Nop
++ "&+1 Layer"	Pick Layer 1
++ "&-1 Layer"	Pick Layer -1
+
+#}}}2
+
+#}}}1
+#   WEATHER {{{1
+
+DestroyMenu /Weather
+AddToMenu /Weather
++ DynamicPopUpAction MakeMenu-Weather
+
+DestroyFunc MakeMenu-Weather
+AddToFunc MakeMenu-Weather
++ I DestroyMenu /Weather
++ I AddToMenu /Weather
++ I + DynamicPopUpAction MakeMenu-Weather
++ I + "Last Report" Popup /Weather/Report
++ I + "Update metar" Get-Metar
++ I + "" Nop
++ I + "Location" Popup /Weather/Location
++ I + "" Nop
++ I Piperead 'sh $[FVWM_USERDIR]/bin/makemenu-weather.sh'
++ I + "" Nop
++ I + "Sunclock" Exec exec sunclock -map
+
+# Reports
+
+DestroyMenu /Weather/Report
+AddToMenu /Weather/Report
++ DynamicPopUpAction MakeMenu-WeatherReport
+
+DestroyFunc MakeMenu-WeatherReport
+AddToFunc MakeMenu-WeatherReport
++ I DestroyMenu /Weather/Report
++ I AddToMenu /Weather/Report
++ I + DynamicPopUpAction MakeMenu-WeatherReport
+#+ I Piperead 'echo "+ \\"$(cat $HOME/.weather/$(cat $HOME/.weather/station).latest12 | head -n 1)\\" Nop"'
++ I Piperead 'station=$(cat $HOME/.weather/station); cat $HOME/.weather/$station.latest12 | tail -n12 | while read line; do echo "+ \\"$line\\" Nop"; done'
+
+# Location
+
+DestroyMenu /Weather/Location
+AddToMenu /Weather/Location
++ DynamicPopupAction MakeMenu-Locations
+
+DestroyFunc MakeMenu-Locations
+AddToFunc MakeMenu-Locations
++ I DestroyMenu /Weather/Location
++ I AddToMenu /Weather/Location
++ I + DynamicPopupAction MakeMenu-Locations
++ I Piperead 'sh $[FVWM_USERDIR]/bin/makemenu-locations.sh'
+#+ I + "Leipzig	EDDP"	SetLocation eddp
+#+ I + "Dessau	EDAD"	SetLocation edad
+#+ I + "Mexico	MMMX"	SetLocation mmmx
++ I + "" Nop
++ I + "Add location"	Module FvwmForm FvwmForm-AddLocation
+
+
+#}}}1
+#   MUSIC {{{1
+
+DestroyMenu /Music
+AddToMenu /Music
++ "Playlists"	Popup /Music/Playlists
++ "Radio"	Popup /Music/Radio
++ "" Nop
++ "Repeat"	Music-Repeat
++ "Random"	Music-Random
++ "" Nop
++ "Clear Playlist" Music-ClearPlayList
++ "Crop Tune"	Music-Crop
++ "" Nop
++ "Seek"	Popup /Music/Seek
++ "Crossfade"	Popup /Music/Crossfade
+
+DestroyMenu /Music/Radio
+AddToMenu /Music/Radio
++ DynamicPopupAction MakeMenu-Radio
+
+DestroyFunc MakeMenu-Radio
+AddToFunc MakeMenu-Radio
++ I DestroyMenu /Music/Radio
++ I AddToMenu /Music/Radio
++ I + DynamicPopupAction MakeMenu-Radio
++ I Piperead 'cat $HOME/.mpd/playlists/radios.m3u | while read line; do echo "+ \"$line\" Music-AddRadio $line"; done'
+#+ I Piperead 'sh $[FVWM_USERDIR]/bin/makemenu-radio.sh'
++ I + "" Nop
++ I + "Add all stations" Piperead 'cat $HOME/.mpd/playlists/radios.m3u | while read line; do mpc add $line | sed -e \'s/^/&NotifyStep mpd: /\'; done'
+
+DestroyMenu /Music/Seek
+AddToMenu /Music/Seek
++ "&+ 10s"	Music-Seek +0:10
++ "&+ 30s"	Music-Seek +0:30
++ "&+ 1m"	Music-Seek +1:00
++ "&+ 5m"	Music-Seek +5:00
++ "&+ 10m"	Music-Seek +10:00
++ "&- 10s"	Music-Seek -0:10
++ "&- 30s"	Music-Seek -0:30
++ "&- 1m"	Music-Seek -1:00
++ "&- 5m"	Music-Seek -5:00
++ "&- 10m"	Music-Seek -10:00
+
+#}}}1
+
+#   EXIT FVWM {{{1
+
+DestroyMenu /Fvwm/Quit
+AddToMenu /Fvwm/Quit
++ "" Title
++ "Exit FVWM" Title
++ "What do you want to do?" Nop
++ "" TearOffImmediately
+
+#}}}1
+
+# EXEC MakeMenu-* {{{1
+
+MakeMenu-Modules
+
+#}}}1
+
+# vim:foldmethod=marker:foldenable:foldlevel=0:ft=fvwm:number

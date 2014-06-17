@@ -1,0 +1,26 @@
+#
+#	Take a screenshot using scrot
+#
+# Functions {{{1
+
+DestroyFunc Screenshot
+AddToFunc Screenshot
+#+ I NotifyStep Taking screenshot...
++ I Exec exec scrot fvwm-$(date +%Y%m%d_%H%M%S).png
+
+DestroyFunc ScreenshotIn
+AddToFunc ScreenshotIn
+#+ I NotifyMe Taking screenshot...
++ I Exec exec scrot -d $0 fvwm-$(date +%Y%m%d_%H%M%S)+$0s.png
+
+#}}}1
+# Menu entry {{{1
+
+AddToMenu /Fvwm/Functions
++ "" Nop
++ "Screenshot" Screenshot
++ "ScreenshotIn 5" ScreenshotIn 5
++ "ScreenshotIn 10" ScreenshotIn 10
+
+#}}}1
+

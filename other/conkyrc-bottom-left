@@ -1,0 +1,42 @@
+out_to_x no
+out_to_console yes
+update_interval 1.0
+update_interval_on_battery 10.0
+short_units yes
+
+TEXT
+# apache
+${if_running apache2}\
+^fg(\#fff)^bg(\#00f) apache ^bg(\#000)\
+${else}\
+^fg(\#fff)^bg(\#000) apache \
+${endif}\
+# tomcat
+^fg(\#888)^r(1x14)\
+${if_empty ${exec ps aux | grep -v grep | grep tomcat | grep Dcatalina.base}}\
+^fg(\#fff)^bg(\#000) tomcat \
+${else}\
+^fg(\#fff)^bg(\#00f) tomcat ^bg(\#000)\
+${endif}\
+# postgres
+^fg(\#888)^r(1x14)\
+${if_running postgres}\
+^fg(\#fff)^bg(\#00f) postgres ^bg(\#000)\
+${else}\
+^fg(\#fff)^bg(\#000) postgres \
+${endif}\
+# mysql
+#^fg(\#888)^r(1x14)\
+#${if_running mysql}\
+#^fg(\#fff)^bg(\#00f) mysql ^bg(\#000)\
+#${else}\
+#^fg(\#fff)^bg(\#000) mysql \
+#${endif}\
+# geoserver
+^fg(\#888)^r(1x14)\
+${if_empty ${exec ps aux | grep -v grep | grep geoserver | grep DGEOSERVER_DATA_DIR}}\
+^fg(\#fff)^bg(\#000) geoserver \
+${else}\
+^fg(\#fff)^bg(\#00f) geoserver ^bg(\#000)\
+${endif}\
+^fg(\#888)^r(1x14)

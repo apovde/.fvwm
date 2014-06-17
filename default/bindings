@@ -1,0 +1,272 @@
+#======================#
+# Default key bindings #
+#======================#
+
+# Keyboard modifiers {{{1
+#
+# N - no modifier (none pressed)
+# A - any modifier (0 or more)
+# S - Left Shift key (Shift_L)
+# M - Left Meta/Alt key (Alt_L)
+# C - Left Control key (Control_L)
+# 4 - Left Windows key (Super_L)
+#
+# Taken from fvwm-crystal
+#
+# Mod - any modifier {{{2
+
+# M - Meta or Alt key (Alt_L)
+InfoStoreAdd Mod A
+
+# Mod0 - no modifier {{{2
+
+# N - no modifier (none pressed)
+InfoStoreAdd Mod0 N
+
+# Mod1, usually Meta (Alt). Used as "base" modifier for many functions.{{{2
+
+# M - Meta or Alt key (Alt_L)
+InfoStoreAdd Mod1 M
+#InfoStoreAdd Mod1 4
+
+# Mod2 - "second mode" of some functions {{{2
+
+# M - Meta or Alt key (Alt_L)
+# S - Shift key (Shift_L)
+InfoStoreAdd Mod2 MS
+
+# Mod3 - "third mode" of some functions {{{2
+
+# M - Meta or Alt key (Alt_L)
+# C - Control key (Control_L)
+InfoStoreAdd Mod3 MC
+
+#}}}1
+
+# Apps menu             Alt+Menu {{{1
+
+Key Menu A $[infostore.Mod1] Menu /Applications
+
+# Window menu           Super_L {{{1
+
+Key Super_L A $[infostore.Mod] Menu /Windows
+
+# Root menu             Mouse 1 on root-window {{{1
+
+Mouse 1 R $[infostore.Mod0] Menu /RootMenu $[infostore.MenuPosition-Below]
+
+# +                     Alt+Shift+Menu {{{1
+
+Key Menu A $[infostore.Mod2] Menu /RootMenu Root c-10 c-10
+
+# WindowList            Alt+Tab {{{1
+
+Key Tab A $[infostore.Mod1] WindowList (CurrentPage) Root c c CurrentAtEnd
+Key Tab A $[infostore.Mod2] WindowList (Iconified) Root c c OnlyIcons
+#Key Tab A $[infostore.Mod2] WindowList-Icons
+
+DestroyFunc WindowList-Icons
+AddToFunc WindowList-Icons
++ I WindowList Root c c Function DeThumbnail Layer 0 0 OnlySkipList SelectOnRelease Alt_L
+
+#}}}1
+
+# Warp to Home          Alt+Pos1 {{{1
+
+Key Home A $[infostore.Mod1] WindowId root 1 WarpToWindow 12p 12p
+
+#}}}1
+# Warp to Center        Alt+End {{{1
+
+Key End A $[infostore.Mod1] WindowId root 1 WarpToWindow 50c 50c
+
+#}}}1
+
+# GotoDesk              Ctrl+Alt+Up/Down {{{1
+
+Key Up A $[infostore.Mod3] GotoDesk -1
+Key Down A $[infostore.Mod3] GotoDesk 1
+
+#}}}1
+# GotoPage              Alt+{F1-F8} {{{1
+
+Key F1 A $[infostore.Mod1] GotoPage 0 0
+Key F2 A $[infostore.Mod1] GotoPage 1 0
+Key F3 A $[infostore.Mod1] GotoPage 2 0
+Key F4 A $[infostore.Mod1] GotoPage 3 0
+Key F5 A $[infostore.Mod1] GotoPage 4 0
+Key F6 A $[infostore.Mod1] GotoPage 5 0
+Key F7 A $[infostore.Mod1] GotoPage 6 0
+Key F8 A $[infostore.Mod1] GotoPage 7 0
+
+Key Left A $[infostore.Mod3] GotoPage -1p 0
+Key Right A $[infostore.Mod3] GotoPage +1p 0
+
+#}}}1
+# MoveToPage            Alt+Shift+{F1-F8} {{{1
+
+Key F1 A $[infostore.Mod2] Current MoveToPage 0 0
+Key F2 A $[infostore.Mod2] Current MoveToPage 1 0
+Key F3 A $[infostore.Mod2] Current MoveToPage 2 0
+Key F4 A $[infostore.Mod2] Current MoveToPage 3 0
+Key F5 A $[infostore.Mod2] Current MoveToPage 4 0
+Key F6 A $[infostore.Mod2] Current MoveToPage 5 0
+Key F7 A $[infostore.Mod2] Current MoveToPage 6 0
+Key F8 A $[infostore.Mod2] Current MoveToPage 7 0
+
+Key Left A $[infostore.Mod2] MoveToPage -1p 0
+Key Right A $[infostore.Mod2] MoveToPage +1p 0
+
+#}}}1
+
+# Window controll       Alt+[Shift+]{Backspace|Minus} {{{1
+
+# Raise/Lower
+Key minus       	A $[infostore.Mod1] Raise
+Key minus       	A $[infostore.Mod2] Lower
+
+# Iconify/Close
+Key BackSpace   	A $[infostore.Mod1] Window-Iconify on
+Key BackSpace   	A $[infostore.Mod2] Close
+
+# Maximize
+Key ssharp		A $[infostore.Mod2] Window-Maximize
+Key X			A $[infostore.Mod2] Window-Maximize-Full
+
+# Move
+Mouse 1			T  $[infostore.Mod]  Window-Raise-Move
+Mouse 1			WT $[infostore.Mod1] Window-Raise-Move
+
+# Titlebar
+Mouse 2			T  $[infostore.Mod]  ThisWindow WindowShade
+Mouse 3			WT $[infostore.Mod1] Lower
+Mouse 3			T  $[infostore.Mod]  Lower
+
+#   revert
+Mouse (Blender) 1	WT $[infostore.Mod1] -
+Mouse (Blender) 3	WT $[infostore.Mod1] -
+Mouse (Wine) 1		WT $[infostore.Mod1] -
+Mouse (Wine) 3		WT $[infostore.Mod1] -
+
+# deiconify on click
+
+Mouse 1		I A Window-Iconify off
+
+#}}}1
+# Window warping        Alt+hjkl & Alt+Shift+hjklm {{{1
+
+Key H   A $[infostore.Mod1] Window-Warp-LeftLeft
+Key J   A $[infostore.Mod1] Window-Warp-BottomBottom
+Key K   A $[infostore.Mod1] Window-Warp-TopTop
+Key L   A $[infostore.Mod1] Window-Warp-RightRight
+
+Key H   A $[infostore.Mod2] Window-Warp-LeftTop
+Key J   A $[infostore.Mod2] Window-Warp-LeftBottom
+Key K   A $[infostore.Mod2] Window-Warp-RightTop
+Key L   A $[infostore.Mod2] Window-Warp-RightBottom
+
+Key M   A $[infostore.Mod2] Window-Warp-CenterCenter
+
+Key (FeelRO) H A $[infostore.Mod1] --
+Key (FeelRO) J A $[infostore.Mod1] --
+Key (FeelRO) K A $[infostore.Mod1] --
+Key (FeelRO) L A $[infostore.Mod1] --
+Key (Limit*) H A $[infostore.Mod1] --
+Key (Limit*) J A $[infostore.Mod1] --
+Key (Limit*) K A $[infostore.Mod1] --
+Key (Limit*) L A $[infostore.Mod1] --
+
+Key (Limit*) S A $[infostore.Mod1] --
+
+#}}}1
+# Window move           Alt+Arrows {{{1
+
+Key Up          A $[infostore.Mod1] MoveWindowUp
+Key Right       A $[infostore.Mod1] MoveWindowRight
+Key Down        A $[infostore.Mod1] MoveWindowDown
+Key Left        A $[infostore.Mod1] MoveWindowLeft
+
+# firefox fix
+Key (Iceweasel) Left	A $[infostore.Mod1] --
+Key (Iceweasel) Right	A $[infostore.Mod1] --
+Key (Iceweasel) Up	A $[infostore.Mod1] --
+Key (Iceweasel) Down	A $[infostore.Mod1] --
+Key (Firefox) Left	A $[infostore.Mod1] --
+Key (Firefox) Right	A $[infostore.Mod1] --
+Key (Firefox) Up	A $[infostore.Mod1] --
+Key (Firefox) Down	A $[infostore.Mod1] --
+#Key (Iceweasel) Left	A $[infostore.Mod2] --
+#Key (Iceweasel) Right	A $[infostore.Mod2] --
+#Key (Iceweasel) Up	A $[infostore.Mod2] --
+#Key (Iceweasel) Down	A $[infostore.Mod2] --
+
+# blender fix
+Key (Blender) Left	A $[infostore.Mod1] --
+Key (Blender) Right	A $[infostore.Mod1] --
+Key (Blender) Up	A $[infostore.Mod1] --
+Key (Blender) Down	A $[infostore.Mod1] --
+#Key (Blender) Left	A $[infostore.Mod2] --
+#Key (Blender) Right	A $[infostore.Mod2] --
+#Key (Blender) Up	A $[infostore.Mod2] --
+#Key (Blender) Down	A $[infostore.Mod2] --
+
+#}}}1
+# Window rearrange      Alt+Shift+12  567890 {{{1
+
+Key (*term) 1 A $[infostore.Mod2] Window-Rearrange-One-Column
+Key (*term) 2 A $[infostore.Mod2] Window-Rearrange-Two-Column
+Key (urxvt) 1 A $[infostore.Mod2] Window-Rearrange-One-Column
+Key (urxvt) 2 A $[infostore.Mod2] Window-Rearrange-Two-Column
+
+#}}}1
+# Window opacity        Alt+Page<Up|Down> {{{1
+
+Key Next	WST $[infostore.Mod2] Exec exec transset --dec 0.05 -i $[w.id]
+Key Prior	WST $[infostore.Mod2] Exec exec transset --inc 0.05 -i $[w.id]
+
+Mouse 4 FST $[infostore.Mod1] Exec exec transset --inc 0.1 -i $[w.id]
+Mouse 5 FST $[infostore.Mod1] Exec exec transset --dec 0.1 -i $[w.id]
+
+#}}}1
+
+# Music Keys            XF86Audio* {{{1
+
+Key XF86AudioPlay A $[infostore.Mod] Music-PlayPause
+Key XF86AudioStop A $[infostore.Mod] Music-Stop
+Key XF86AudioNext A $[infostore.Mod] Music-Next
+Key XF86AudioPrev A $[infostore.Mod] Music-Prev
+Key XF86AudioMute A $[infostore.Mod] Music-PlayPause
+Key XF86AudioLowerVolume A $[infostore.Mod0] Music-Volume -5
+Key XF86AudioRaiseVolume A $[infostore.Mod0] Music-Volume +5
+
+#}}}1
+# Screen saver          XF86ScreenSaver {{{1
+
+Key XF86ScreenSaver A $[infostore.Mod] LockScreen
+
+#}}}1
+# Screenshot            Print {{{1
+
+Key Print A $[infostore.Mod] Screenshot
+
+#}}}1
+# Open new terminal     Mouse 3 on root-window {{{1
+
+Mouse 3 R $[infostore.Mod0] Exec exec $[infostore.cmd.term]
+
+#}}}1
+# Run program           Alt+R {{{1
+
+Key R A $[infostore.Mod1] RunProgram
+
+Key (FeelRO) R A $[infostore.Mod1] --
+Key (Esuna Ragnarok Online.exe) R A $[infostore.Mod1] --
+
+#}}}1
+# Toggle FvwmQuickConsole      Alt+; {{{1
+
+Key semicolon A $[infostore.Mod1] FvwmMiniConsole
+
+#}}}1
+
+# vim:foldmethod=marker:foldenable:foldlevel=0:ft=fvwm

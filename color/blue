@@ -1,0 +1,66 @@
+#
+# Black/Blue colorset
+#
+# Colorset 0	# see decorations
+# Colorset 1	# see decorations
+#
+#### Default {{{1
+
+# DefaultColorset used for GeometryWindow
+DefaultColorset $[infostore.cs.panel.inactive]
+
+#}}}1
+#### Window borders {{{1
+
+Colorset $[infostore.cs.window.border] \
+    fg black, bg #888888, Hilight #ffffff, IconAlpha 50
+
+Colorset $[infostore.cs.window.handles] \
+    fg black, bg #bbbbbb, Hilight #ffffff, IconAlpha 100
+
+#}}}1
+#### Pager {{{1
+
+Colorset $[infostore.cs.pager.inactive] \
+    fg #444, bg black, Pixmap $[FVWM_USERDIR]/img/pager.png
+
+Colorset $[infostore.cs.pager.active] \
+    fg #fff, hi #fff, RootTransparent
+#    fg gray, bg black, Pixmap $[FVWM_USERDIR]/img/pager-act.png
+
+# shadow/highlight for borders <- only if Window3DBorders is set!
+Colorset $[infostore.cs.pager.window.inactive] \
+    Alpha 100
+#    fg gray, bg #000, Hilight #444, Shadow #444
+
+Colorset $[infostore.cs.pager.window.active] \
+    Alpha 100
+#    Tint blue 50
+#    fg #888, bg #000, Hilight #fff, Shadow #fff
+
+#}}}1
+#### Panels {{{1
+
+Colorset $[infostore.cs.panel.inactive]	\
+    fg white, bg black, Hilight black, Shadow black, IconAlpha 80
+
+Colorset $[infostore.cs.panel.active] \
+    fg #ffffff, bg blue, Hilight #ffffff, Shadow #ffffff, \
+    IconAlpha 100, IconTint #ffff00 100
+
+#}}}1
+#### Menus {{{1
+
+Colorset $[infostore.cs.menu.title] \
+    fg #666666, bg black
+
+Colorset $[infostore.cs.menu.title.tearoff] \
+    fg white, bg black, Hilight black, Shadow black
+
+Colorset $[infostore.cs.menu.inactive] \
+    fg white, bg black, Hilight #222222, Shadow #222222
+
+Colorset $[infostore.cs.menu.active] \
+    fg #ffffff, bg blue, Hilight #ffffff, Shadow #ffffff
+
+#}}}1

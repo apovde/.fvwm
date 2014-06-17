@@ -1,0 +1,81 @@
+#
+# Window decoration inspired by deskshotfb07_by_VisionsofArt
+#
+# Required patches:
+#  * BorderUnderTitle
+#  * ButtonWidth
+#
+#### Colorset {{{1
+
+Colorset 0	fg black, bg black, Hilight #bbbbbb
+Colorset 1	fg black, bg black, Hilight white, fgsh black
+
+#}}}1
+#### Decor {{{1
+
+DestroyDecor recreate WindowDecoration
+AddToDecor WindowDecoration
+#+ TitleStyle LeftJustified
++ TitleStyle Height 8
++ TitleStyle -- flat
++ TitleStyle ButtonWidth 26
+
++ ButtonStyle 2 \
+	ActiveUp (Pixmap $[FVWM_USERDIR]/decor/vision/close-act.png) \
+	ActiveDown (Pixmap $[FVWM_USERDIR]/decor/vision/close-act.png) \
+	Inactive (Pixmap $[FVWM_USERDIR]/decor/vision/close-inact.png)
+
++ ButtonStyle 4 \
+	ActiveUp (Pixmap $[FVWM_USERDIR]/decor/vision/btnmid-act.png) \
+	ActiveDown (Pixmap $[FVWM_USERDIR]/decor/vision/btnmid-act.png) \
+	Inactive (Pixmap $[FVWM_USERDIR]/decor/vision/btnmid-inact.png)
+
++ ButtonStyle 6 \
+	ActiveUp (Pixmap $[FVWM_USERDIR]/decor/vision/btnleft-act.png) \
+	ActiveDown (Pixmap $[FVWM_USERDIR]/decor/vision/btnleft-act.png) \
+	Inactive (Pixmap $[FVWM_USERDIR]/decor/vision/btnleft-inact.png)
+
++ ButtonStyle All -- UseBorderStyle
++ ButtonStyle All -- flat
+
+#}}}1
+#### Bindings {{{1
+
+Mouse 1 2 $[Mod]	Window-Close
+Mouse 1 4 $[Mod]	Window-Maximize
+Mouse 1 6 $[Mod]	Window-Iconify
+
+ClickTime 250
+
+#}}}1
+#### Styles {{{1
+
+# use these buttons
+Style * Button 2
+Style * Button 4
+Style * Button 6
+
+# dont use these buttons
+Style * NoButton 1
+Style * NoButton 3
+Style * NoButton 5
+Style * NoButton 7
+Style * NoButton 8
+Style * NoButton 9
+
+Style * BorderWidth 0, HandleWidth 1, FvwmBorder
+Style * BorderUnderTitle
+
+Style * Colorset 0
+Style * HilightColorset 1
+Style * BorderColorset 2
+Style * HilightBorderColorset 3
+#Style * BorderColorsetRegions 0 0 0 0
+#Style * HilightBorderColorsetRegions 3 3 3 3
+#Style * BorderHandlesColorsetRegions 0 0 0 0
+#Style * HilightHandlesColorsetRegions 3 3 3 3
+
+# enable
+Style * UseDecor WindowDecoration
+
+#}}}1

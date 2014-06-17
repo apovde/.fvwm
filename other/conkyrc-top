@@ -1,0 +1,13 @@
+out_to_x no
+out_to_console yes
+update_interval 1.0
+update_interval_on_battery 10.0
+short_units yes
+
+#| ^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm)^fg(\#fff) ${upspeed} ^fg(\#67b15f)^i(/home/anton/.fvwm/img/net-down.xbm)^fg(\#fff) ${downspeed} \
+TEXT
+^fg(\#888)^r(1x14) ^fg(\#088)EDDP\
+^fg(\#fff) ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP temperature 30}°C \
+${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP cloud_cover} \
+^fg(\#888)^r(1x14) ^fg(\#fff)${time %b %d %a} \
+^fg(\#888)^r(1x14) ^fg(\#fff)${time %H:%M:%S %Z }

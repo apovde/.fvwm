@@ -1,0 +1,72 @@
+#
+# Window decoration inspired by screenshots of wmii
+#
+# Required patches:
+#  * BorderUnderTitle
+#
+# Notes:
+#  * This file resets TitleFormat
+#
+#### Colorset {{{1
+
+Colorset $[infostore.cs.window.title.inactive] \
+    fg #bbbbbb, bg black, Hilight #bbbbbb
+Colorset $[infostore.cs.window.title.active] \
+    fg #ffffff, bg black, Hilight white, fgsh black
+
+#}}}1
+#### Decor {{{1
+
+DestroyDecor recreate WindowDecoration
+AddToDecor WindowDecoration
++ TitleStyle LeftJustified
++ TitleStyle Height 12
++ TitleStyle -- flat
+
++ ButtonStyle 2 \
+	ActiveUp   (Pixmap $[FVWM_USERDIR]/decor/wmii/close-up.png) \
+	ActiveDown (Pixmap $[FVWM_USERDIR]/decor/wmii/close-down.png) \
+	Inactive   (Pixmap $[FVWM_USERDIR]/decor/wmii/close-inact.png)
++ ButtonStyle 4 \
+	ActiveUp   (Pixmap $[FVWM_USERDIR]/decor/wmii/maximize-up.png) \
+	ActiveDown (Pixmap $[FVWM_USERDIR]/decor/wmii/maximize-down.png) \
+	Inactive   (Pixmap $[FVWM_USERDIR]/decor/wmii/maximize-inact.png)
+
++ ButtonStyle All -- UseBorderStyle
++ ButtonStyle All -- flat
+
+#### Bindings {{{1
+
+Mouse 1 2 $[infostore.Mod]	Close
+Mouse 1 4 $[infostore.Mod]	Window-Maximize
+
+#}}}1
+#### Styles {{{1
+
+# use these buttons
+Style * Button 2
+Style * Button 4
+
+# dont use these buttons
+Style * NoButton 1
+Style * NoButton 3
+Style * NoButton 5
+Style * NoButton 6
+Style * NoButton 7
+Style * NoButton 8
+Style * NoButton 9
+
+Style * BorderWidth 0, HandleWidth 1, FvwmBorder
+Style * BorderUnderTitle
+
+Style * Colorset 0
+Style * HilightColorset 1
+Style * BorderColorset 2
+Style * HilightBorderColorset 3
+
+Style * TitleFormat %t | %I
+
+# enable
+Style * UseDecor WindowDecoration
+
+#}}}1

@@ -1,0 +1,68 @@
+#
+# Window decoration inspired by the movie Die Hard 4
+#
+# Required patches:
+#  * BorderUnderTitle
+#
+#### Colorset {{{1
+
+Colorset 0      fg #bbbbbb, bg black, Hilight #bbbbbb
+Colorset 1      fg #ffffff, bg black, Hilight white, fgsh black
+
+#}}}1
+#### Decor {{{1
+
+DestroyDecor recreate WindowDecoration
+AddToDecor WindowDecoration
++ TitleStyle LeftJustified
++ TitleStyle Height 23
++ TitleStyle -- flat
+
+# for height: 21
+#+ ButtonStyle 2 20 30x30@1 35x30@1 50x45@1 65x30@1 70x30@1 70x35@1 55x50@1 70x65@1 70x70@1 65x70@1 50x55@1 35x70@1 30x70@1 30x65@1 45x50@1 30x35@1 30x30@1 70x70@1 70x30@4 30x70@1 -- flat
+
++ ButtonStyle 2 20 32x32@1 37x32@1 50x45@1 63x32@1 68x32@1 68x35@1 55x50@1 68x65@1 68x68@1 65x68@1 50x55@1 37x68@1 32x68@1 32x65@1 45x50@1 32x37@1 32x32@1 68x68@1 68x32@4 32x68@1 -- flat
+
++ ButtonStyle 4 7 32x32@1 68x32@1 68x68@1 32x68@1 32x32@1 32x35@4 68x35@1
+
+#+ ButtonStyle 6 5 32x68@1 32x65@1 68x65@1 68x68@1 32x68@1
++ ButtonStyle 6 2 32x68@1 68x68@1
+
++ ButtonStyle All -- UseBorderStyle
++ ButtonStyle All -- flat
+
+#}}}1
+#### Bindings {{{1
+
+Mouse 1 2 $[infostore.Mod]	Close
+Mouse 1 4 $[infostore.Mod]	Window-Maximize
+Mouse 1 6 $[infostore.Mod]	Window-Iconify
+
+#}}}1
+#### Styles {{{1
+
+# use these buttons
+Style * Button 2
+Style * Button 4
+Style * Button 6
+
+# dont use these buttons
+Style * NoButton 1
+Style * NoButton 3
+Style * NoButton 5
+Style * NoButton 7
+Style * NoButton 8
+Style * NoButton 9
+
+Style * BorderWidth 0, HandleWidth 1, FvwmBorder
+Style * BorderUnderTitle
+
+Style * Colorset 0
+Style * HilightColorset 1
+Style * BorderColorset 2
+Style * HilightBorderColorset 3
+
+# enable
+Style * UseDecor WindowDecoration
+
+#}}}1

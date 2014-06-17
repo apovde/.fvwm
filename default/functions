@@ -1,0 +1,235 @@
+#===================#
+# Default functions #
+#===================#
+
+# WindowControl {{{1
+
+DestroyFunc Window-Iconify
+AddToFunc Window-Iconify
++ I Iconify $0
+#+ C Iconify $0
+#+ M Nop
+
+DestroyFunc Window-Raise-Move
+AddToFunc Window-Raise-Move
++ C Raise
++ M Move
+
+DestroyFunc Window-Close
+AddToFunc Window-Close
++ C Close
++ H Menu /Windows
++ M Nop
+
+DestroyFunc Window-Maximize
+AddToFunc Window-Maximize
++ I ThisWindow (!Maximized) Raise
++ I ThisWindow (!Maximized) WindowStyle !Borders
++ I ThisWindow (Maximized) WindowStyle Borders
++ I Schedule 1 ThisWindow Maximize
+
+DestroyFunc Window-Maximize-X
+AddToFunc Window-Maximize-X
++ I ThisWindow Maximize 100 0
+
+DestroyFunc Window-Maximize-Y
+AddToFunc Window-Maximize-Y
++ I ThisWindow Maximize 0 100
+
+DestroyFunc Window-Maximize-Full
+AddToFunc Window-Maximize-Full
++ I ThisWindow (!Maximized) EwmhBaseStruts 0 0 0 0
++ I ThisWindow (!Maximized) HidePanelTopBottom
++ I ThisWindow (Maximized) EwmhBaseStruts $[scr.left] $[scr.right] $[scr.top] $[scr.bottom]
++ I ThisWindow (Maximized) ShowPanelTopBottom
++ I ThisWindow Window-Maximize
+
+#}}}1
+# WindowWarp {{{1
+
+# Window-Warp {{{2
+DestroyFunc Window-MPAnimatedMove
+AddToFunc Window-MPAnimatedMove
++ I Current (HasPointer) AnimatedMove $0 $1 Warp
++ I TestRc (NoMatch) AnimatedMove $0 $1
+
+# CENTER {{{3
+
+DestroyFunc Window-Warp-CenterCenter
+AddToFunc Window-Warp-CenterCenter
++ I Current Piperead 'echo Window-MPAnimatedMove $(echo $((($[vp.width] - $[infostore.scr.left] - $[infostore.scr.right]) / 2 - $[w.width] / 2))p $((($[vp.height] - $[infostore.scr.top] - $[infostore.scr.bottom]) / 2 - $[w.height] / 2))p)'
+
+DestroyFunc Window-Warp-LeftCenter
+AddToFunc Window-Warp-LeftCenter
++ I Current Piperead 'echo Window-MPAnimatedMove $[infostore.scr.left]p `expr $[vp.height] / 2 - $[w.height] / 2`p'
+
+DestroyFunc Window-Warp-CenterTop
+AddToFunc Window-Warp-CenterTop
++ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] / 2 - $[w.width] / 2`p 0p'
+#+ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] / 2 - $[w.width] / 2`p $[infostore.scr.top]p'
+
+DestroyFunc Window-Warp-RightCenter
+AddToFunc Window-Warp-RightCenter
++ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] - $[infostore.scr.right] - $[w.width]`p `expr $[vp.height] / 2 - $[w.height] / 2`p'
+
+DestroyFunc Window-Warp-CenterBottom
+AddToFunc Window-Warp-CenterBottom
++ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] / 2 - $[w.width] / 2`p `expr $[vp.height] - $[infostore.scr.top] - $[infostore.scr.bottom] - $[w.height]`p'
+#+ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] / 2 - $[w.width] / 2`p `expr $[vp.height] - $[infostore.scr.bottom] - $[w.height]`p'
+
+# CORNERS {{{3
+
+DestroyFunc Window-Warp-LeftTop
+AddToFunc Window-Warp-LeftTop
++ I Current Window-MPAnimatedMove $[infostore.scr.left]p 0p
+#+ I Current Window-MPAnimatedMove $[infostore.scr.left]p $[infostore.scr.top]p
+
+DestroyFunc Window-Warp-RightTop
+AddToFunc Window-Warp-RightTop
++ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] - $[infostore.scr.right] - $[w.width]`p 0p'
+#+ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] - $[infostore.scr.right] - $[w.width]`p $[infostore.scr.top]p'
+
+DestroyFunc Window-Warp-LeftBottom
+AddToFunc Window-Warp-LeftBottom
++ I Current Piperead 'echo Window-MPAnimatedMove $[infostore.scr.left]p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top] - $[w.height]`p'
+
+DestroyFunc Window-Warp-RightBottom
+AddToFunc Window-Warp-RightBottom
++ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] - $[infostore.scr.right] - $[w.width]`p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top] - $[w.height]`p'
+
+# LEFT {{{3
+
+DestroyFunc Window-Warp-Left
+AddToFunc Window-Warp-Left
++ I Current Piperead 'echo Window-MPAnimatedMove $[infostore.scr.left]p keep'
+
+DestroyFunc Window-Warp-LeftLeft
+AddToFunc Window-Warp-LeftLeft
++ I Current Piperead 'pos=`xwininfo -id $[w.id] | sed -e \'s/\ \ Corners:/Corners/g;s/\ \ /\ /g\' | grep Corners | cut -d\' \' -f2 | sed -e \'s/[+-]/\ /g;s/^\ //g\' | cut -d\' \' -f1`; if [ "$pos" -eq "1" ]; then echo Window-Warp-LeftCenter; else echo Window-Warp-Left; fi'
+#+ I Current Piperead 'pos=`xwininfo -id $[w.id] | sed -e \'s/Absolute/Super/g\' | grep Super | grep X | sed -e \'s/Super.*:\ //g\'`; if [ "$pos" -eq "1" ]; then echo Window-Warp-LeftCenter; else echo Window-Warp-Left; fi'
+
+# TOP {{{3
+
+DestroyFunc Window-Warp-Top
+AddToFunc Window-Warp-Top
++ I Current Piperead 'echo Window-MPAnimatedMove keep 0p'
+#+ I Current Piperead 'echo Window-MPAnimatedMove keep $[infostore.scr.top]p'
+
+DestroyFunc Window-Warp-TopTop
+AddToFunc Window-Warp-TopTop
++ I Current Piperead 'pos=`xwininfo -id $[w.id] | sed -e \'s/\ \ Corners:/Corners/g;s/\ \ /\ /g\' | grep Corners | cut -d\' \' -f2 | sed -e \'s/[+-]/\ /g;s/^\ //g\' | cut -d\' \' -f2`; if [ "$pos" -eq "$(($[infostore.scr.top]+1))" ]; then echo Window-Warp-CenterTop; else echo Window-Warp-Top; fi'
+
+# RIGHT {{{3
+
+DestroyFunc Window-Warp-Right
+AddToFunc Window-Warp-Right
++ I Current Piperead 'echo Window-MPAnimatedMove `expr $[vp.width] - $[infostore.scr.right] - $[w.width]`p keep'
+
+DestroyFunc Window-Warp-RightRight
+AddToFunc Window-Warp-RightRight
++ I Current Piperead 'pos=`xwininfo -id $[w.id] | sed -e \'s/\ \ Corners:/Corners/g;s/\ \ /\ /g\' | grep Corners | cut -d\' \' -f3 | sed -e \'s/[+-]/\ /g;s/^\ //g\' | cut -d\' \' -f1`; if [ "$pos" -eq "1" ]; then echo Window-Warp-RightCenter; else echo Window-Warp-Right; fi'
+
+# BOTTOM {{{3
+
+DestroyFunc Window-Warp-Bottom
+AddToFunc Window-Warp-Bottom
++ I Current Piperead 'echo Window-MPAnimatedMove keep `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top] - $[w.height]`p'
+#+ I Current Piperead 'echo Window-MPAnimatedMove keep `expr $[vp.height] - $[infostore.scr.bottom] - $[w.height]`p'
+
+DestroyFunc Window-Warp-BottomBottom
+AddToFunc Window-Warp-BottomBottom
++ I Current Piperead 'pos=`xwininfo -id $[w.id] | sed -e \'s/\ \ Corners:/Corners/g;s/\ \ /\ /g\' | grep Corners | cut -d\' \' -f4 | sed -e \'s/[+-]/\ /g;s/^\ //g\' | cut -d\' \' -f2`; if [ "$pos" -eq "$(($[infostore.scr.bottom]+1))" ]; then echo Window-Warp-CenterBottom; else echo Window-Warp-Bottom; fi'
+#+ I Current Piperead 'pos=`xwininfo -id $[w.id] | sed -e \'s/\ \ Corners:/Corners/g;s/\ \ /\ /g\' | grep Corners | cut -d\' \' -f4 | sed -e \'s/[+-]/\ /g;s/^\ //g\' | cut -d\' \' -f2`; if [ "$pos" -eq "$(($[infostore.scr.bottom]+1))" ]; then echo Window-Warp-CenterBottom; else echo Window-Warp-Bottom; fi'
+
+#}}}2
+# MoveWindow {{{2
+DestroyFunc MoveWindowUp
+AddToFunc MoveWindowUp
++ I Current PipeRead 'echo Move keep $(($[w.y]-10))p Warp ewmhiwa'
+
+DestroyFunc MoveWindowRight
+AddToFunc MoveWindowRight
++ I Current PipeRead 'echo Move $(($[w.x]+10))p keep Warp ewmhiwa'
+
+DestroyFunc MoveWindowDown
+AddToFunc MoveWindowDown
++ I Current PipeRead 'echo Move keep $(($[w.y]+10))p Warp ewmhiwa'
+
+DestroyFunc MoveWindowLeft
+AddToFunc MoveWindowLeft
++ I Current PipeRead 'echo Move $(($[w.x]-10))p keep Warp ewmhiwa'
+
+#}}}2
+
+#}}}1
+# WindowRearrange {{{1
+
+# Columns {{{2
+
+DestroyFunc Window-Rearrange-One-Column
+AddToFunc Window-Rearrange-One-Column
++ I All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowShade off
+#+ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 1 -u -m 0p 0p `expr $[vp.width] - $[infostore.scr.right]`p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top]`p'
++ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 1 -u -m 0p 0p `expr $[vp.width] - $[infostore.scr.right]`p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top] - $[infostore.window.border.width] - $[infostore.window.border.width]`p'
+
+DestroyFunc Window-Rearrange-Two-Column
+AddToFunc Window-Rearrange-Two-Column
++ I All (CurrentPage,!Fvwm*, !gkrellm, !trayer) WindowShade off
+#+ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 2 -u -m 0p 0p `expr $[vp.width] - $[infostore.scr.right]`p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top]`p'
++ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 2 -u -m 0p 0p `expr $[vp.width] - $[infostore.scr.right]`p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.scr.top] - $[infostore.window.border.width] - $[infostore.window.border.width]`p'
+#+ I Piperead 'echo FvwmRearrange -tile -animate -resize -mn 2 -u -m $[infostore.scr.left]p $[infostore.scr.top]p `expr $[vp.width] - $[infostore.scr.right]`p `expr $[vp.height] - $[infostore.scr.bottom] - $[infostore.window.border.width] * 2`p'
+
+#}}}2
+# ResizeContext {{{2
+
+DestroyFunc Window-Resize-Context
+AddToFunc Window-Resize-Context
++ I Resize $0 $1
+
+DestroyFunc Window-Resize-Context-Center-X
+AddToFunc Window-Resize-Context-Center-X
++ I Window-Resize-Context $*
++ I AnimatedMove keep -25p
+
+DestroyFunc Window-Resize-Context-Center-Y
+AddToFunc Window-Resize-Context-Center-Y
++ I Window-Resize-Context $*
++ I AnimatedMove -1p keep
+
+DestroyFunc Window-Resize-Context-Center-XY
+AddToFunc Window-Resize-Context-Center-XY
++ I Window-Resize-Context $*
++ I AnimatedMove -2p -25p
+
+#}}}2
+
+#}}}1
+# Run program {{{1
+
+DestroyFunc RunProgram
+AddToFunc RunProgram
++ I Exec exec $[infostore.cmd.run]
+
+# Lock screen {{{1
+
+DestroyFunc LockScreen
+AddToFunc LockScreen
++ I Exec exec $[infostore.cmd.lock]
+#+ I Exec exec xscreensaver-command -lock
+
+#}}}1
+# QuitFunction {{{1
+
+DestroyFunc QuitFunction
+AddToFunc QuitFunction
++ I ExitFunction
++ I Quit
+
+#}}}1
+# NotifyMe {{{1
+
+DestroyFunc NotifyMe
+AddToFunc NotifyMe
++ I Echo INFO: $*
+
+#}}}1

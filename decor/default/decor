@@ -1,0 +1,25 @@
+#
+# Default window decoration
+#
+# Required patches:
+#  * FluxCorner
+#
+#### Colorset {{{1
+
+Colorset $[infostore.cs.window.title.inactive] \
+    fg #bbbbbb, bg black, Hilight #bbbbbb
+Colorset $[infostore.cs.window.title.active] \
+    fg #ffffff, bg black, Hilight white, fgsh black
+
+#}}}1
+#### Styles {{{1
+
+Style * BorderWidth 0, HandleWidth 1, FvwmBorder, !Title
+
+Style * Colorset 2
+Style * HilightColorset 3
+Style * BorderColorsetRegions 2 2 2 2
+#Style * HilightBorderColorsetRegions 3 3 3 3
+Style * BorderHandlesColorsetRegions 3 3 3 3
+
+#}}}1
