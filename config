@@ -43,7 +43,7 @@ InfoStoreAdd scr.right  0
 
 #InfoStoreAdd IconSize "16x16"
 #InfoStoreAdd Colorset ""
-InfoStoreAdd Font "xft:SnapTTF:pixelsize=10"
+InfoStoreAdd Font "SnapTTF:pixelsize=10"
 
 InfoStoreAdd window.border.width 1
 
@@ -107,6 +107,7 @@ Read prefs/Decoration
 Read prefs/Font
 Read prefs/IconSize
 Read prefs/Colorset
+Read prefs/ClickTime
 
 Read func/FvwmMiniConsole
 Read func/Screenshot.scrot
@@ -151,10 +152,10 @@ DesktopSize $[infostore.desk.size.x]x$[infostore.desk.size.y]
 Style * ResizeOpaque
 OpaqueMoveSize unlimited
 
-Style * Font $[infostore.Font]
+Style * Font "xft:$[infostore.Font]"
 
-Style fvwm_menu Title, Font $[infostore.Font], !Button 4, !Button 6
-MenuStyle * Font $[infostore.Font]
+Style fvwm_menu Title, Font "xft:$[infostore.Font]", !Button 4, !Button 6
+MenuStyle * Font "xft:$[infostore.Font]"
 MenuStyle * PopupOffset 0 99
 MenuStyle * BorderWidth 1
 # Hilight3DOff to draw border colors!
@@ -200,7 +201,7 @@ DestroyModuleConfig FvwmIdent: *
 #*FvwmIdent: Colorset ?
 *FvwmIdent: Fore white
 *FvwmIdent: Back black
-*FvwmIdent: Font $[infostore.Font]
+*FvwmIdent: Font "xft:$[infostore.Font]"
 *FvwmIdent: MinimalLayer 4
 #Module FvwmIdent
 
@@ -249,7 +250,7 @@ Style FvwmPager Sticky, !Title, !Borders, NeverFocus, WindowListSkip, FixedPosit
 
 KillModule FvwmProxy
 DestroyModuleConfig FvwmProxy: *
-*FvwmProxy: Font $[infostore.Font]
+*FvwmProxy: Font "xft:$[infostore.Font]"
 *FvwmProxy: ProxyMove false
 *FvwmProxy: Colorset $[infostore.cs.panel.inactive]
 Module FvwmProxy
@@ -266,7 +267,7 @@ Key Escape  A   M   SendToModule FvwmProxy ShowToggle
 
 KillModule FvwmIconMan
 DestroyModuleConfig FvwmIconMan: *
-*FvwmIconMan: Font $[infostore.Font]
+*FvwmIconMan: Font "xft:$[infostore.Font]"
 *FvwmIconMan: DontShow Class=FvwmPager,FvwmIdent,FvwmForm,FvwmButtons,FvwmIconMan
 *FvwmIconMan: ShowOnlyFocused True
 *FvwmIconMan: ShowTransient True
