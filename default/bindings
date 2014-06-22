@@ -260,7 +260,7 @@ Mouse 3 R $[infostore.Mod0] Exec exec $[infostore.cmd.term]
 Key R A $[infostore.Mod1] RunProgram
 
 Key (FeelRO) R A $[infostore.Mod1] --
-Key (Esuna Ragnarok Online.exe) R A $[infostore.Mod1] --
+Key (Esuna*) R A $[infostore.Mod1] --
 
 #}}}1
 # Toggle FvwmQuickConsole      Alt+; {{{1
