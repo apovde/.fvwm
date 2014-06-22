@@ -869,7 +869,8 @@ AddToMenu /Fvwm/Preferences/ClickTime
 DestroyFunc SetClickTime
 AddToFunc SetClickTime
 + I ClickTime $0
-+ I NotifyMe ClickTime set to: $0
++ I Piperead 'echo ClickTime $0 > $[FVWM_USERDIR]/prefs/ClickTime'
++ I NotifyMe ClickTime set to: $0 milliseconds
 
 # 1.2.3 MenuStyle {{{3
 
