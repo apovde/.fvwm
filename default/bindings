@@ -131,7 +131,6 @@ Key BackSpace   	A $[infostore.Mod2] Close
 
 # Maximize
 Key ssharp		A $[infostore.Mod2] Window-Maximize
-Key X			A $[infostore.Mod2] Window-Maximize-Full
 
 # Move
 Mouse 1			T  $[infostore.Mod]  Window-Raise-Move

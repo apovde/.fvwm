@@ -40,7 +40,8 @@ DestroyFunc Window-Maximize-Full
 AddToFunc Window-Maximize-Full
 + I ThisWindow (!Maximized) EwmhBaseStruts 0 0 0 0
 + I ThisWindow (!Maximized) HidePanelTopBottom
-+ I ThisWindow (Maximized) EwmhBaseStruts $[scr.left] $[scr.right] $[scr.top] $[scr.bottom]
++ I ThisWindow (Maximized) EwmhBaseStruts \
+    $[infostore.scr.left] $[infostore.scr.right] $[infostore.scr.top] $[infostore.scr.bottom]
 + I ThisWindow (Maximized) ShowPanelTopBottom
 + I ThisWindow Window-Maximize
 
