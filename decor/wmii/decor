@@ -59,10 +59,10 @@ Style * NoButton 9
 Style * BorderWidth 0, HandleWidth 1, FvwmBorder
 Style * BorderUnderTitle
 
-Style * Colorset 0
-Style * HilightColorset 1
-Style * BorderColorset 2
-Style * HilightBorderColorset 3
+Style * Colorset $[infostore.cs.window.title.inactive]
+Style * HilightColorset $[infostore.cs.window.title.active]
+Style * BorderColorset $[infostore.cs.window.border]
+Style * HilightBorderColorset $[infostore.cs.window.handles]
 
 Style * TitleFormat %t | %I
 

@@ -16,10 +16,14 @@ Colorset $[infostore.cs.window.title.active] \
 
 Style * BorderWidth 0, HandleWidth 1, FvwmBorder, !Title
 
-Style * Colorset 2
-Style * HilightColorset 3
-Style * BorderColorsetRegions 2 2 2 2
+Style * Colorset $[infostore.cs.window.border]
+Style * HilightColorset $[infostore.cs.window.handles]
+Style * BorderColorsetRegions \
+    $[infostore.cs.window.border] $[infostore.cs.window.border] \
+    $[infostore.cs.window.border] $[infostore.cs.window.border]
 #Style * HilightBorderColorsetRegions 3 3 3 3
-Style * BorderHandlesColorsetRegions 3 3 3 3
+Style * BorderHandlesColorsetRegions \
+    $[infostore.cs.window.handles] $[infostore.cs.window.handles] \
+    $[infostore.cs.window.handles] $[infostore.cs.window.handles]
 
 #}}}1
