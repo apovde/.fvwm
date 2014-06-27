@@ -267,5 +267,10 @@ Key (Esuna*) R A $[infostore.Mod1] --
 Key semicolon A $[infostore.Mod1] FvwmMiniConsole
 
 #}}}1
+# Toggle invert screen         Alt+Shift+Escape
+
+Key Escape A $[infostore.Mod2] Exec exec xcalib -i -a
+
+#}}}1
 
 # vim:foldmethod=marker:foldenable:foldlevel=0:ft=fvwm

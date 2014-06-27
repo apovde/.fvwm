@@ -6,7 +6,7 @@
 #
 #   Author: Anton Popov <mail@antonpopov.de>
 #  Created: 2013-10-02
-# Modified: 2014-06-17
+# Modified: 2014-06-27
 #
 # Recommended screen size: 1366x768
 # Fvwm version: 2.6.5
@@ -108,6 +108,7 @@ Read prefs/Font
 Read prefs/IconSize
 Read prefs/Colorset
 Read prefs/ClickTime
+Read prefs/Terminal
 
 Read func/FvwmMiniConsole
 Read func/Screenshot.scrot
@@ -247,6 +248,9 @@ Module FvwmPager
 Style FvwmPager Sticky, !Title, !Borders, NeverFocus, WindowListSkip, FixedPosition, FixedSize, !Closable, StaysOnTop
 
 #### FvwmProxy {{{2
+#
+# FIXME: Doesn't work with WindowListSkip pager
+#
 
 KillModule FvwmProxy
 DestroyModuleConfig FvwmProxy: *
@@ -257,12 +261,12 @@ Module FvwmProxy
 
 Style FvwmProxy !Borders
 
-Key Escape  A   M   SendToModule FvwmProxy ShowToggle
+Key Escape A $[infostore.Mod1] SendToModule FvwmProxy ShowToggle
 
 #}}}2
 #### FvwmIconMan {{{2
 #
-# Setting Format to %t instead of %i displays the windows title and not WM_NAME.
+# Setting Format to %t instead of %i displays the window title and not WM_NAME.
 #
 
 KillModule FvwmIconMan
@@ -284,9 +288,9 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: FocusAndSelectButton flat
 *FvwmIconMan: Colorset $[infostore.cs.panel.inactive]
 *FvwmIconMan: FocusAndSelectColorset $[infostore.cs.panel.inactive]
-*FvwmIconMan: Action Mouse 1 A SendCommand "WindowList (CurrentPage) Root +0p +14p NoCurrentDeskTitle NoHotkeys"
+*FvwmIconMan: Action Mouse 1 A SendCommand "SendToModule FvwmWindowMenu Post Root +0p +14p"
 *FvwmIconMan: Action Mouse 2 A SendCommand "Nop"
-*FvwmIconMan: Action Mouse 3 A SendCommand "WindowList Root +0p +14p NoCurrentDeskTitle NoHotkeys"
+*FvwmIconMan: Action Mouse 3 A SendCommand "WindowList Root +0p +14p NoHotkeys UseSkipList Geometry"
 *FvwmIconMan: Action Mouse 4 A SendCommand "Nop"
 *FvwmIconMan: Action Mouse 5 A SendCommand "Nop"
 Module FvwmIconMan
