@@ -9,5 +9,5 @@ TEXT
 ^fg(\#888)^r(1x14) ^fg(\#088)EDDP\
 ^fg(\#fff) ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP temperature 30}°C \
 ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP cloud_cover} \
-^fg(\#888)^r(1x14) ^fg(\#fff)${time %b %d %a} \
-^fg(\#888)^r(1x14) ^fg(\#fff)${time %H:%M:%S %Z }
+^fg(\#888)^r(1x14) ^fg(\#fff)${tztime Europe/Berlin %b %d %a} \
+^fg(\#888)^r(1x14) ^fg(\#fff)${tztime Europe/Berlin %H:%M:%S %Z }
