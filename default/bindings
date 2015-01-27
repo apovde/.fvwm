@@ -43,21 +43,9 @@ InfoStoreAdd Mod3 MC
 
 #}}}1
 
-# Apps menu             Alt+Menu {{{1
-
-Key Menu A $[infostore.Mod1] Menu /Applications
-
 # Window menu           Super_L {{{1
 
 Key Super_L A $[infostore.Mod] Menu /Windows
-
-# Root menu             Mouse 1 on root-window {{{1
-
-Mouse 1 R $[infostore.Mod0] Menu /RootMenu $[infostore.MenuPosition-Below]
-
-# +                     Alt+Shift+Menu {{{1
-
-Key Menu A $[infostore.Mod2] Menu /RootMenu Root c-10 c-10
 
 # WindowList            Alt+Tab {{{1
 
