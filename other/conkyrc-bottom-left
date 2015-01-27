@@ -5,7 +5,15 @@ update_interval_on_battery 10.0
 short_units yes
 
 TEXT
+# openvpn
+# ^fg(\#888)^r(1x14)
+${if_running openvpn}\
+^fg(\#fff)^bg(\#00f) openvpn ^bg(\#000)\
+${else}\
+^fg(\#fff)^bg(\#000) openvpn \
+${endif}\
 # apache
+^fg(\#888)^r(1x14)\
 ${if_running apache2}\
 ^fg(\#fff)^bg(\#00f) apache ^bg(\#000)\
 ${else}\

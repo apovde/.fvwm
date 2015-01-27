@@ -7,11 +7,13 @@ DestroyFunc Screenshot
 AddToFunc Screenshot
 #+ I NotifyStep Taking screenshot...
 + I Exec exec scrot fvwm-$(date +%Y%m%d_%H%M%S).png
++ I NotifyMe Screenshot taken
 
 DestroyFunc ScreenshotIn
 AddToFunc ScreenshotIn
 #+ I NotifyMe Taking screenshot...
 + I Exec exec scrot -d $0 fvwm-$(date +%Y%m%d_%H%M%S)+$0s.png
++ I NotifyMe Screenshot taken
 
 #}}}1
 # Menu entry {{{1

@@ -24,8 +24,8 @@ AddToFunc Window-Close
 DestroyFunc Window-Maximize
 AddToFunc Window-Maximize
 + I ThisWindow (!Maximized) Raise
-+ I ThisWindow (!Maximized) WindowStyle !Borders
-+ I ThisWindow (Maximized) WindowStyle Borders
+#+ I ThisWindow (!Maximized) WindowStyle !Borders
+#+ I ThisWindow (Maximized) WindowStyle Borders
 + I Schedule 1 ThisWindow Maximize
 
 DestroyFunc Window-Maximize-X

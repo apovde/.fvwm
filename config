@@ -6,7 +6,7 @@
 #
 #   Author: Anton Popov <mail@antonpopov.de>
 #  Created: 2013-10-02
-# Modified: 2014-06-27
+# Modified: 2014-12-31
 #
 # Recommended screen size: 1366x768
 # Fvwm version: 2.6.5
@@ -38,12 +38,20 @@ InfoStoreAdd scr.bottom 14
 InfoStoreAdd scr.left   0
 InfoStoreAdd scr.right  0
 
+InfoStoreAdd scr.0.x    277
+InfoStoreAdd scr.0.y    1080
+InfoStoreAdd scr.0.w    1366
+InfoStoreAdd scr.0.h    768
+InfoStoreAdd scr.1.x    0
+InfoStoreAdd scr.1.y    0
+InfoStoreAdd scr.1.w    1920
+InfoStoreAdd scr.1.h    1080
+
 #}}}2
 #### Appearance {{{2
 
-#InfoStoreAdd IconSize "16x16"
-#InfoStoreAdd Colorset ""
-InfoStoreAdd Font "SnapTTF:pixelsize=10"
+InfoStoreAdd icon.size  "16x16"
+InfoStoreAdd font       "SnapTTF:pixelsize=10"
 
 InfoStoreAdd window.border.width 1
 
@@ -112,15 +120,21 @@ Read prefs/Terminal
 
 Read func/FvwmMiniConsole
 Read func/Screenshot.scrot
+Read func/NotifyMe.dzen
+Read func/ThumbnailMirror
 
 DestroyFunc InitFunction
 AddToFunc InitFunction
 + I Exec exec hsetroot -full $[FVWM_USERDIR]/wp/orbit-redux_1366x768_mono.png
 + I Exec exec compton -c -C -f -i 0.8 --shadow-red 0.2 --shadow-green 0.8 --shadow-blue 0.9 -D 10 -I 0.08 -O 0.05 -l -18 -t -18 --shadow-exclude-reg x14+0+0 --shadow-exclude-reg x14+0-0 --shadow-exclude 'name *?= "dzen title"' --shadow-exclude 'class_g *?= "Fvwm"'
++ I InitConky
+
+DestroyFunc InitConky
+AddToFunc InitConky
 + I PipeRead 'killall dzen2 2>/dev/null'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "SnapTTF:pixelsize=10" -x 680 -y 0 -w 686 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "SnapTTF:pixelsize=10" -x 199 -y 754 -w 367 -h 14 -ta l -fg white -bg black -e 'button2=raise;'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "SnapTTF:pixelsize=10" -x 566 -y 754 -w 800 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((680+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 686 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 321 -h 14 -ta l -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((521+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 845 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
 
 #}}}1
 #### DESKTOP {{{1
@@ -153,10 +167,10 @@ DesktopSize $[infostore.desk.size.x]x$[infostore.desk.size.y]
 Style * ResizeOpaque
 OpaqueMoveSize unlimited
 
-Style * Font "xft:$[infostore.Font]"
+Style * Font "xft:$[infostore.font]"
 
-Style fvwm_menu Title, Font "xft:$[infostore.Font]", !Button 4, !Button 6
-MenuStyle * Font "xft:$[infostore.Font]"
+Style fvwm_menu Title, Font "xft:$[infostore.font]", !Button 4, !Button 6
+MenuStyle * Font "xft:$[infostore.font]"
 MenuStyle * PopupOffset 0 99
 MenuStyle * BorderWidth 1
 # Hilight3DOff to draw border colors!
@@ -172,7 +186,7 @@ MenuStyle * HilightBack
 
 Style * DecorateTransient
 
-Style * InitialMapCommand Current (Maximized) !Borders
+#Style * InitialMapCommand Current (Maximized) !Borders
 
 #### Application styles {{{2
 
@@ -187,13 +201,14 @@ Style urxvt ResizeHintOverride
 
 #### FvwmEvent {{{2
 
-KillModule FvwmEvent
-DestroyModuleConfig FvwmEvent: *
-*FvwmEvent: Cmd "Exec mplayer -really-quiet "
-*FvwmEvent: destroy_window "$[FVWM_USERDIR]/sound/close.mp3 2>/dev/null"
-*FvwmEvent: raise_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
-*FvwmEvent: lower_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
-Module FvwmEvent
+#KillModule FvwmEvent
+#DestroyModuleConfig FvwmEvent: *
+#*FvwmEvent: Cmd "Exec mplayer -really-quiet "
+##*FvwmEvent: destroy_window "$[FVWM_USERDIR]/sound/close.mp3 2>/dev/null"
+#*FvwmEvent: destroy_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
+#*FvwmEvent: raise_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
+#*FvwmEvent: lower_window "$[FVWM_USERDIR]/sound/raise.mp3 2>/dev/null"
+#Module FvwmEvent
 
 #}}}2
 #### FvwmIdent {{{2
@@ -202,50 +217,55 @@ DestroyModuleConfig FvwmIdent: *
 #*FvwmIdent: Colorset ?
 *FvwmIdent: Fore white
 *FvwmIdent: Back black
-*FvwmIdent: Font "xft:$[infostore.Font]"
+*FvwmIdent: Font "xft:$[infostore.font]"
 *FvwmIdent: MinimalLayer 4
 #Module FvwmIdent
 
 Style FvwmIdent Title, Borders
 
-#### FvwmPager{{{2
+#### FvwmButtonsPager {{{2
+# -> Pager replacement
 
-# FvwmPager doesn't seem to allow you to hide all windows.
-# Setting the window-colorsets to Transparent leaves strange artifacts.
-# WindowListSkip on all windows (together with UseSkipList) is used to emulate
-# this.
-# As a consequence the normal WindowList won't work if certain windows are not to
-# be listed in it (like Fvwm* modules). Use the FvwmWindowMenu module for this!
-#
-# Page highlighting is done by RootTransparent and an image of the pager with the
-# desired highlight effect on the wallpaper. The highlight effect is partly
-# obscured by the inactive pager-colorset.
-# This way we can have a non-regular pager background that is always visible and
-# can be highlighted.
-#
-# This method is ugly as it has lots of implications.
-#
-# TODO: find a better way for this (wallpaper-independant, WindowListSkip-less)!
-#
-# See also FvwmIconMan config and pager colorsets.
-Style * WindowListSkip
+KillModule FvwmButtons FvwmButtonsPager
+DestroyModuleConfig FvwmButtonsPager: *
+*FvwmButtonsPager: Colorset $[infostore.cs.panel.inactive]
+*FvwmButtonsPager: ActiveColorset $[infostore.cs.panel.active]
+*FvwmButtonsPager: Frame 0
+*FvwmButtonsPager: Rows 1
+*FvwmButtonsPager: Columns 8
+*FvwmButtonsPager: Padding 0 0
+*FvwmButtonsPager: Font "xft:$[infostore.font]"
+*FvwmButtonsPager: Geometry 200x14+0-0
+*FvwmButtonsPager: (1x1, Id "Page0", Icon "$[FVWM_USERDIR]/img/pager-0.png", Action GotoPage 0 0)
+*FvwmButtonsPager: (1x1, Id "Page1", Icon "$[FVWM_USERDIR]/img/pager-1.png", Action GotoPage 1 0)
+*FvwmButtonsPager: (1x1, Id "Page2", Icon "$[FVWM_USERDIR]/img/pager-2.png", Action GotoPage 2 0)
+*FvwmButtonsPager: (1x1, Id "Page3", Icon "$[FVWM_USERDIR]/img/pager-3.png", Action GotoPage 3 0)
+*FvwmButtonsPager: (1x1, Id "Page4", Icon "$[FVWM_USERDIR]/img/pager-4.png", Action GotoPage 4 0)
+*FvwmButtonsPager: (1x1, Id "Page5", Icon "$[FVWM_USERDIR]/img/pager-5.png", Action GotoPage 5 0)
+*FvwmButtonsPager: (1x1, Id "Page6", Icon "$[FVWM_USERDIR]/img/pager-6.png", Action GotoPage 6 0)
+*FvwmButtonsPager: (1x1, Id "Page7", Icon "$[FVWM_USERDIR]/img/pager-7.png", Action GotoPage 7 0)
 
-#All (FvwmPager) Close
-KillModule FvwmPager
-DestroyModuleConfig FvwmPager: *
-*FvwmPager: Colorset * $[infostore.cs.pager.inactive]
-*FvwmPager: HilightColorset * $[infostore.cs.pager.active]
-*FvwmPager: WindowColorsets $[infostore.cs.pager.window.inactive] $[infostore.cs.pager.window.active]
-#*FvwmPager: Window3DBorders
-*FvwmPager: WindowBorderWidth 0
-*FvwmPager: UseSkipList
-*FvwmPager: NoSeparators
-*FvwmPager: Font none
-#*FvwmPager: Geometry 199x14+0-0
-PipeRead 'echo "*FvwmPager: Geometry $(($[infostore.desk.size.x]*$[infostore.page.w]-1))x$[infostore.dock.h]+0-0"'
-Module FvwmPager
+Module FvwmButtons FvwmButtonsPager
 
-Style FvwmPager Sticky, !Title, !Borders, NeverFocus, WindowListSkip, FixedPosition, FixedSize, !Closable, StaysOnTop
+Style FvwmButtonsPager !Title, !Borders, Sticky, !Closable, StaysOnTop, SkipMapping, WindowListSkip, FixedSize, FixedPosition, NoIcon, !Iconifiable, !Maximizable, NeverFocus
+
+DestroyFunc UpdatePager
+AddToFunc UpdatePager
++ I SendToModule FvwmButtonsPager ChangeButton Page0 Icon "$[FVWM_USERDIR]/img/pager-0.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page1 Icon "$[FVWM_USERDIR]/img/pager-1.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page2 Icon "$[FVWM_USERDIR]/img/pager-2.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page3 Icon "$[FVWM_USERDIR]/img/pager-3.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page4 Icon "$[FVWM_USERDIR]/img/pager-4.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page5 Icon "$[FVWM_USERDIR]/img/pager-5.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page6 Icon "$[FVWM_USERDIR]/img/pager-6.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page7 Icon "$[FVWM_USERDIR]/img/pager-7.png"
++ I SendToModule FvwmButtonsPager ChangeButton Page$[page.nx] Icon "$[FVWM_USERDIR]/img/pager-$[page.nx]_act.png"
+
+KillModule FvwmEvent FvwmPagerEvent
+DestroyModuleConfig FvwmPagerEvent: *
+*FvwmPagerEvent: Cmd
+*FvwmPagerEvent: new_page UpdatePager
+Module FvwmEvent FvwmPagerEvent
 
 #### FvwmProxy {{{2
 #
@@ -254,7 +274,7 @@ Style FvwmPager Sticky, !Title, !Borders, NeverFocus, WindowListSkip, FixedPosit
 
 KillModule FvwmProxy
 DestroyModuleConfig FvwmProxy: *
-*FvwmProxy: Font "xft:$[infostore.Font]"
+*FvwmProxy: Font "xft:$[infostore.font]"
 *FvwmProxy: ProxyMove false
 *FvwmProxy: Colorset $[infostore.cs.panel.inactive]
 Module FvwmProxy
@@ -271,7 +291,7 @@ Key Escape A $[infostore.Mod1] SendToModule FvwmProxy ShowToggle
 
 KillModule FvwmIconMan
 DestroyModuleConfig FvwmIconMan: *
-*FvwmIconMan: Font "xft:$[infostore.Font]"
+*FvwmIconMan: Font "xft:$[infostore.font]"
 *FvwmIconMan: DontShow Class=FvwmPager,FvwmIdent,FvwmForm,FvwmButtons,FvwmIconMan
 *FvwmIconMan: ShowOnlyFocused True
 *FvwmIconMan: ShowTransient True
@@ -336,7 +356,7 @@ Key Tab A $[infostore.Mod1] SendToModule FvwmWindowMenu Post Root c c
 # Overrides NotifyMe in default/functions
 DestroyFunc NotifyMe
 AddToFunc NotifyMe
-+ I Exec exec echo "$*" | dzen2 -h $[infostore.dock.h] -bg blue -fg white -fn $(echo "$[infostore.Font]" | sed -e's/xft://') -p 2
++ I Exec exec echo "$*" | dzen2 -h $[infostore.dock.h] -bg blue -fg white -fn $(echo "$[infostore.font]" | sed -e's/xft://') -p 2
 
 #}}}1
 #### CURSORS {{{1

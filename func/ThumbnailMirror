@@ -1,0 +1,85 @@
+# Show iconified windows as mini-screenshots on the desktop
+
+# Setup variables {{{1
+
+InfoStoreAdd thumbs.cachedir  "$[FVWM_USERDIR]/var/cache/"
+InfoStoreAdd thumbs.maxwidth  120
+InfoStoreAdd thumbs.maxheight 200
+
+# Style {{{1
+
+Style * IconBox $[vp.width]x$[vp.height], \
+        IconFill Bottom Left, \
+        IconSize -1 -1 120 240, \
+        IconTitleRelief 0, \
+        StickyIcon, !IconTitle, \
+        !StippledIconTitle, \
+        IconBackgroundRelief 0, \
+        IconGrid 140 140
+
+#}}}1
+
+# Thumbnail: Update Window-Iconify function {{{1
+
+DestroyFunc Window-Iconify
+AddToFunc Window-Iconify
++ I ThisWindow (!Iconic) Thumbnail
+
+# DeThumbnail: Set bindings {{{1
+
+Mouse 1		I A DeThumbnail
+
+#}}}1
+
+# Thumbnail {{{1
+
+DestroyFunc Thumbnail
+AddToFunc Thumbnail
++ I Raise
++ I ThisWindow (!Shaded, Iconifiable, !Iconic) PipeRead "sh $[FVWM_USERDIR]/bin/iconify-thumbnail.sh $[w.id]"
++ I ThisWindow (!Iconic, !Fvwm*) Iconify on
++ I All (Iconic, !Fvwm*) WindowStyle MouseFocus
++ I All (Iconic, !Fvwm*) Layer 0 0
++ I All (!Iconic, !Fvwm*) WindowStyle SloppyFocus
++ I All (!Iconic, !Fvwm*) Layer default
++ I Next (!Iconic, !Fvwm*, CurrentPage) Focus
+
+# DeThumbnail {{{1
+
+DestroyFunc DeThumbnail
+AddToFunc DeThumbnail
++ I PipeRead "echo WindowStyle WindowListHit, Icon \\$\\[Icon-$[w.id]\\]"
++ I UnsetEnv Icon-$[w.id]
++ I Exec rm -f $[infostore.thumbs.cachedir]/db.$[w.id].png
++ I Iconify off
++ I All (Iconic, !Fvwm*) WindowStyle MouseFocus
++ I All (Iconic, !Fvwm*) Layer 0 0
++ I All (!Iconic, !Fvwm*) WindowStyle SloppyFocus
++ I All (!Iconic, !Fvwm*) Layer default
+
+#}}}1
+
+# Add to functions menu {{{1
+
+# AddToMenu /Fvwm/Functions
+# + "" Nop
+# + "Thumbnail" Thumbnail
+# + "DeThumbnail" DeThumbnail
+
+#}}}1
+
+# Set Icon on StartFunction {{{1
+
+AddToFunc StartFunction
++ I Test (Restart) All (Iconic) \
+	Test (f $[infostore.thumbs.cachedir]/db.$[w.id].png) \
+	WindowStyle IconOverride, Icon $[infostore.thumbs.cachedir]/db.$[w.id].png
+
+# Thumbnail remove on ExitFunc {{{1
+
+AddToFunc ExitFunction
++ I Test (!ToRestart) \
+	Exec rm -f $[infostore.thumbs.cachedir]/db.*
+
+#}}}1
+

@@ -6,8 +6,8 @@ short_units yes
 
 TEXT
 # networking
+#^fg(\#888)^r(1x14) 
 ${if_existing /proc/net/route wlan0}\
-^fg(\#888)^r(1x14) \
 ^fg(\#088)WLAN0^fg(\#fff) ${addr wlan0} \
 ^fg(\#fff) ${wireless_essid wlan0} (${wireless_link_qual_perc wlan0}%) \
 ^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm) ${upspeed wlan0} \
@@ -50,4 +50,7 @@ ${else}\
 ^bg(\#000)^fg(\#088) \
 ${endif}${endif}\
 BAT\
-^fg(\#fff) $battery_short (AC $acpiacadapter)
+^fg(\#fff) $battery_short \
+${if_match "$acpiacadapter" == "on-line"}\
+AC \
+${endif}

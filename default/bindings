@@ -88,7 +88,7 @@ Key Up A $[infostore.Mod3] GotoDesk -1
 Key Down A $[infostore.Mod3] GotoDesk 1
 
 #}}}1
-# GotoPage              Alt+{F1-F8} {{{1
+# GotoPage              Alt+{F1-F8} Ctrl+Alt+{arrows} {{{1
 
 Key F1 A $[infostore.Mod1] GotoPage 0 0
 Key F2 A $[infostore.Mod1] GotoPage 1 0

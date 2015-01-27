@@ -1,0 +1,4 @@
+DestroyFunc NotifyMe
+AddToFunc NotifyMe
++ I Echo INFO: $*
++ I Exec exec echo $* | dzen2 -p 5 -fn "SnapTTF:pixelsize=10" -x $((0+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w $[infostore.scr.0.w] -h 14 -ta c -fg white -bg blue -e 'button2=raise;'
