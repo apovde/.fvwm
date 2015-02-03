@@ -132,7 +132,7 @@ AddToFunc InitFunction
 DestroyFunc InitConky
 AddToFunc InitConky
 + I PipeRead 'killall dzen2 2>/dev/null'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((680+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 686 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((640+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 726 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
 + I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 321 -h 14 -ta l -fg white -bg black -e 'button2=raise;'
 + I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((521+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 845 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
 
@@ -301,7 +301,7 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: FollowFocus True
 *FvwmIconMan: Title "No window"
 *FvwmIconMan: Format "%c | %i"
-*FvwmIconMan: ButtonGeometry 680x14
+*FvwmIconMan: ButtonGeometry 640x14
 *FvwmIconMan: ManagerGeometry 1x1+0+0
 *FvwmIconMan: MaxButtonWidthByColumns 1
 *FvwmIconMan: FocusButton flat

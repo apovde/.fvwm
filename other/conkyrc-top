@@ -6,6 +6,20 @@ short_units yes
 
 #| ^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm)^fg(\#fff) ${upspeed} ^fg(\#67b15f)^i(/home/anton/.fvwm/img/net-down.xbm)^fg(\#fff) ${downspeed} \
 TEXT
+# networking
+#^fg(\#888)^r(1x14) 
+${if_existing /proc/net/route wlan0}\
+^fg(\#088)WLAN0^fg(\#fff) ${addr wlan0} \
+^fg(\#fff) ${wireless_essid wlan0} (${wireless_link_qual_perc wlan0}%) \
+^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm) ${upspeed wlan0} \
+^fg(\#67b15f)^i(/home/anton/.fvwm/img/net-down.xbm) ${downspeed wlan0} \
+${else}${if_existing /proc/net/route eth0}\
+^fg(\#888)^r(1x14) \
+^fg(\#088)ETH0^fg(\#fff) ${addr eth0} \
+^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm) ${upspeed eth0} \
+^fg(\#67b15f)^i(/home/anton/.fvwm/img/net-down.xbm) ${downspeed eth0} \
+${endif}${endif}\
+# weather
 ^fg(\#888)^r(1x14) ^fg(\#088)EDDP\
 ^fg(\#fff) ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP temperature 30}°C \
 ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP cloud_cover} / \
