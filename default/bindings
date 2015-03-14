@@ -222,7 +222,7 @@ Key XF86AudioPlay A $[infostore.Mod] Music-PlayPause
 Key XF86AudioStop A $[infostore.Mod] Music-Stop
 Key XF86AudioNext A $[infostore.Mod] Music-Next
 Key XF86AudioPrev A $[infostore.Mod] Music-Prev
-Key XF86AudioMute A $[infostore.Mod] Music-PlayPause
+Key XF86AudioMute A $[infostore.Mod] AudioToggleMute
 Key XF86AudioLowerVolume A $[infostore.Mod0] Music-Volume -5
 Key XF86AudioRaiseVolume A $[infostore.Mod0] Music-Volume +5
 

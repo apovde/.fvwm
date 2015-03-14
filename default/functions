@@ -218,6 +218,13 @@ AddToFunc QuitFunction
 + I Quit
 
 #}}}1
+# AudioToggleMute {{{1
+
+DestroyFunc AudioToggleMute
+AddToFunc AudioToggleMute
++ I Exec exec amixer set Master toggle
+
+#}}}1
 # NotifyMe {{{1
 
 DestroyFunc NotifyMe
