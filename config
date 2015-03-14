@@ -38,14 +38,20 @@ InfoStoreAdd scr.bottom 14
 InfoStoreAdd scr.left   0
 InfoStoreAdd scr.right  0
 
-InfoStoreAdd scr.0.x    277
-InfoStoreAdd scr.0.y    1080
+# single screen layout
+InfoStoreAdd scr.0.x    0
+InfoStoreAdd scr.0.y    0
 InfoStoreAdd scr.0.w    1366
 InfoStoreAdd scr.0.h    768
-InfoStoreAdd scr.1.x    0
-InfoStoreAdd scr.1.y    0
-InfoStoreAdd scr.1.w    1920
-InfoStoreAdd scr.1.h    1080
+# dual screen layout
+#InfoStoreAdd scr.0.x    277
+#InfoStoreAdd scr.0.y    1080
+#InfoStoreAdd scr.0.w    1366
+#InfoStoreAdd scr.0.h    768
+#InfoStoreAdd scr.1.x    0
+#InfoStoreAdd scr.1.y    0
+#InfoStoreAdd scr.1.w    1920
+#InfoStoreAdd scr.1.h    1080
 
 #}}}2
 #### Appearance {{{2
@@ -125,14 +131,14 @@ Read func/ThumbnailMirror
 
 DestroyFunc InitFunction
 AddToFunc InitFunction
-+ I Exec exec hsetroot -full $[FVWM_USERDIR]/wp/orbit-redux_1366x768_mono.png
++ I Exec exec hsetroot -full $[FVWM_USERDIR]/wp/earth_caplog_1366x768.png
 + I Exec exec compton -c -C -f -i 0.8 --shadow-red 0.2 --shadow-green 0.8 --shadow-blue 0.9 -D 10 -I 0.08 -O 0.05 -l -18 -t -18 --shadow-exclude-reg x14+0+0 --shadow-exclude-reg x14+0-0 --shadow-exclude 'name *?= "dzen title"' --shadow-exclude 'class_g *?= "Fvwm"'
 + I InitConky
 
 DestroyFunc InitConky
 AddToFunc InitConky
 + I PipeRead 'killall dzen2 2>/dev/null'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((640+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 726 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((540+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 826 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
 + I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 321 -h 14 -ta l -fg white -bg black -e 'button2=raise;'
 + I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((521+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 845 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
 
@@ -301,7 +307,7 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: FollowFocus True
 *FvwmIconMan: Title "No window"
 *FvwmIconMan: Format "%c | %i"
-*FvwmIconMan: ButtonGeometry 640x14
+*FvwmIconMan: ButtonGeometry 540x14
 *FvwmIconMan: ManagerGeometry 1x1+0+0
 *FvwmIconMan: MaxButtonWidthByColumns 1
 *FvwmIconMan: FocusButton flat

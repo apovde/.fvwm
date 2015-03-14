@@ -7,14 +7,14 @@ short_units yes
 TEXT
 # fs
 ^fg(\#888)^r(1x14)\
-${if_match ${fs_free_perc} <= 10}\
+${if_match ${fs_free_perc /} <= 10}\
 ^bg(\#f00)^fg(\#fff) \
-${else}${if_match ${fs_free_perc} <= 5}\
+${else}${if_match ${fs_free_perc /} <= 5}\
 ^bg(\#00f)^fg(\#fff) \
 ${else}\
 ^bg(\#000)^fg(\#088) \
 ${endif}${endif}\
-sda1\
+SDA1\
 ^fg(\#fff) ${fs_used /}/${fs_size /} \
 # cpu
 ^fg(\#888)^r(1x14)\
