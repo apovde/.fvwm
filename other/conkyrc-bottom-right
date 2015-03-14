@@ -42,11 +42,13 @@ MEM\
 ^fg(\#888)^r(1x14)\
 ${if_match $battery_percent <= 10}\
 ^bg(\#f00)^fg(\#fff) \
+${else}${if_match "${execi 10 acpi | grep Charging | wc -l}" == "1"}\
+^bg(\#0a0)^fg(\#fff) \
 ${else}${if_match "$acpiacadapter" != "on-line"}\
 ^bg(\#00f)^fg(\#fff) \
 ${else}\
 ^bg(\#000)^fg(\#088) \
-${endif}${endif}\
+${endif}${endif}${endif}\
 BAT\
 ^fg(\#fff) $battery_short \
 ${if_match "$acpiacadapter" == "on-line"}\
