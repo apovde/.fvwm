@@ -314,9 +314,9 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: FocusAndSelectButton flat
 *FvwmIconMan: Colorset $[infostore.cs.panel.inactive]
 *FvwmIconMan: FocusAndSelectColorset $[infostore.cs.panel.inactive]
-*FvwmIconMan: Action Mouse 1 A SendCommand "WindowMenuCurrentPage Post Root +0p +14p"
+*FvwmIconMan: Action Mouse 1 A SendCommand "FvwmWindowMenuCurrentPage Post Root +0p +14p"
 *FvwmIconMan: Action Mouse 2 A SendCommand "Nop"
-*FvwmIconMan: Action Mouse 3 A SendCommand "WindowMenuAllPages Post Root +0p +14p
+*FvwmIconMan: Action Mouse 3 A SendCommand "FvwmWindowMenuAllPages Post Root +0p +14p
 *FvwmIconMan: Action Mouse 4 A SendCommand "Nop"
 *FvwmIconMan: Action Mouse 5 A SendCommand "Nop"
 Module FvwmIconMan
@@ -352,16 +352,16 @@ CopyMenuStyle * WindowMenu
 MenuStyle WindowMenu SelectOnRelease Meta_L
 
 # overrides binding in default/bindings
-Key Tab A $[infostore.Mod1] WindowMenuCurrentPage Post Root c c
+Key Tab A $[infostore.Mod1] FvwmWindowMenuCurrentPage Post Root c c
 
-DestroyFunc WindowMenuCurrentPage
-AddToFunc WindowMenuCurrentPage
+DestroyFunc FvwmWindowMenuCurrentPage
+AddToFunc FvwmWindowMenuCurrentPage
 + I *FvwmWindowMenu: AllPages off
 # + I *FvwmWindowMenu: AllDesks off
 + I SendToModule FvwmWindowMenu $*
 
-DestroyFunc WindowMenuAllPages
-AddToFunc WindowMenuAllPages
+DestroyFunc FvwmWindowMenuAllPages
+AddToFunc FvwmWindowMenuAllPages
 + I *FvwmWindowMenu: AllPages on
 # + I *FvwmWindowMenu: AllDesks on
 + I SendToModule FvwmWindowMenu $*
