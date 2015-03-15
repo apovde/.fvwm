@@ -218,6 +218,25 @@ AddToFunc QuitFunction
 + I Quit
 
 #}}}1
+# Music keys {{{1
+
+DestroyFunc Music-Volume
+AddToFunc Music-Volume
++ I Exec exec mpc volume $*
+
+DestroyFunc Music-PlayPause
+AddToFunc Music-PlayPause
++ I Exec exec mpc toggle
+
+DestroyFunc Music-Next
+AddToFunc Music-Next
++ I Exec exec mpc next
+
+DestroyFunc Music-Prev
+AddToFunc Music-Prev
++ I Exec exec mpc prev
+
+#}}}1
 # AudioToggleMute {{{1
 
 DestroyFunc AudioToggleMute
