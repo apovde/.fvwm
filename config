@@ -274,10 +274,10 @@ DestroyModuleConfig FvwmPagerEvent: *
 *FvwmPagerEvent: new_page UpdatePager
 Module FvwmEvent FvwmPagerEvent
 
+# initial highlight
+SendToModule FvwmButtonsPager ChangeButton Page0 Icon "$[FVWM_USERDIR]/img/pager-0_act.png"
+
 #### FvwmProxy {{{2
-#
-# FIXME: Doesn't work with WindowListSkip pager
-#
 
 KillModule FvwmProxy
 DestroyModuleConfig FvwmProxy: *
