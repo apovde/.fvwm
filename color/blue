@@ -41,7 +41,7 @@ Colorset $[infostore.cs.panel.inactive]	\
     fg white, bg black, Hilight black, Shadow black, IconAlpha 100
 
 Colorset $[infostore.cs.panel.active] \
-    fg white, bg blue, Hilight blue, Shadow blue, IconAlpha 100
+    fg white, bg blue, Hilight blue, Shadow blue, IconAlpha 100, IconTint white 50
 
 #}}}1
 #### Menus {{{1
