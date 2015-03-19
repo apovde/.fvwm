@@ -243,7 +243,7 @@ DestroyModuleConfig FvwmButtonsPager: *
 *FvwmButtonsPager: Padding 0 0
 *FvwmButtonsPager: Font "xft:$[infostore.font]"
 *FvwmButtonsPager: Geometry 200x14+0-0
-*FvwmButtonsPager: (1x1, Id "Page0", Icon "$[FVWM_USERDIR]/img/pager-0.png", Action GotoPage 0 0)
+*FvwmButtonsPager: (1x1, Id "Page0", Icon "$[FVWM_USERDIR]/img/pager-0_act.png", Action GotoPage 0 0)
 *FvwmButtonsPager: (1x1, Id "Page1", Icon "$[FVWM_USERDIR]/img/pager-1.png", Action GotoPage 1 0)
 *FvwmButtonsPager: (1x1, Id "Page2", Icon "$[FVWM_USERDIR]/img/pager-2.png", Action GotoPage 2 0)
 *FvwmButtonsPager: (1x1, Id "Page3", Icon "$[FVWM_USERDIR]/img/pager-3.png", Action GotoPage 3 0)
@@ -273,9 +273,6 @@ DestroyModuleConfig FvwmPagerEvent: *
 *FvwmPagerEvent: Cmd
 *FvwmPagerEvent: new_page UpdatePager
 Module FvwmEvent FvwmPagerEvent
-
-# initial highlight
-SendToModule FvwmButtonsPager ChangeButton Page0 Icon "$[FVWM_USERDIR]/img/pager-0_act.png"
 
 #### FvwmProxy {{{2
 
