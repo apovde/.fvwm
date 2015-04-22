@@ -222,7 +222,7 @@ AddToFunc QuitFunction
 
 DestroyFunc Music-Volume
 AddToFunc Music-Volume
-+ I Exec exec mpc volume $*
++ I Piperead 'echo "NotifyMe $(mpc volume $* | tail -n1)"'
 
 DestroyFunc Music-PlayPause
 AddToFunc Music-PlayPause
