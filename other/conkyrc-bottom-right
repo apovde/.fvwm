@@ -8,9 +8,9 @@ TEXT
 # fs
 ^fg(\#888)^r(1x14)\
 ${if_match ${fs_free_perc /} <= 10}\
-^bg(\#f00)^fg(\#fff) \
-${else}${if_match ${fs_free_perc /} <= 5}\
 ^bg(\#00f)^fg(\#fff) \
+${else}${if_match ${fs_free_perc /} <= 5}\
+^bg(\#f00)^fg(\#fff) \
 ${else}\
 ^bg(\#000)^fg(\#088) \
 ${endif}${endif}\
