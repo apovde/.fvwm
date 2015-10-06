@@ -24,5 +24,5 @@ ${endif}${endif}\
 ^fg(\#fff) ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP temperature 30}°C \
 ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP cloud_cover} / \
 ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ EDDP weather} \
-^fg(\#888)^r(1x14) ^fg(\#088)${tztime Europe/Berlin %b}^fg(\#fff) ${tztime Europe/Berlin %d %a} \
+^fg(\#888)^r(1x14) ^fg(\#fff)${tztime Europe/Berlin %b %d}^fg(\#088) ${tztime Europe/Berlin %a} \
 ^fg(\#888)^r(1x14) ^fg(\#fff)${tztime Europe/Berlin %H:%M:%S} ^fg(\#088)${tztime Europe/Berlin %Z }
