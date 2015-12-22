@@ -8,9 +8,9 @@ TEXT
 # openvpn
 # ^fg(\#888)^r(1x14)
 ${if_running openvpn}\
-^fg(\#fff)^bg(\#00f) openvpn ^bg(\#000)\
+^fg(\#fff)^bg(\#00f) vpn ^bg(\#000)\
 ${else}\
-^fg(\#fff)^bg(\#000) openvpn \
+^fg(\#fff)^bg(\#000) vpn \
 ${endif}\
 # apache
 ^fg(\#888)^r(1x14)\
