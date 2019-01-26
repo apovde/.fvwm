@@ -206,8 +206,9 @@ AddToFunc RunProgram
 
 DestroyFunc LockScreen
 AddToFunc LockScreen
-+ I Exec exec $[infostore.cmd.lock]
-#+ I Exec exec xscreensaver-command -lock
++ I Piperead 'echo "Test (X $(echo \"$[infostore.cmd.lock]\" | cut -d\' \' -f1)) Exec exec $[infostore.cmd.lock]"'
++ I TestRc (Match) Exec exec echo Screen locked on $(date)
++ I TestRc (NoMatch) Exec exec echo Screen lock command seems not to be in \$PATH: $[infostore.cmd.lock]
 
 #}}}1
 # QuitFunction {{{1
