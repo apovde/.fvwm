@@ -251,4 +251,8 @@ DestroyFunc NotifyMe
 AddToFunc NotifyMe
 + I Echo INFO: $*
 
+DestroyFunc NotifyError
+AddToFunc NotifyError
++ I Echo ERROR: $*
+
 #}}}1
