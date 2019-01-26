@@ -6,14 +6,16 @@
 DestroyFunc Screenshot
 AddToFunc Screenshot
 #+ I NotifyStep Taking screenshot...
-+ I Exec exec scrot fvwm-$(date +%Y%m%d_%H%M%S).png
-+ I NotifyMe Screenshot taken
++ I Piperead 'echo "Test (X scrot) Exec exec scrot fvwm-$(date +%Y%m%d_%H%M%S).png"'
++ I TestRc (Match) Piperead 'sleep 1s; echo "NotifyMe Screenshot taken"'
++ I TestRc (NoMatch) NotifyError scrot is not installed
 
 DestroyFunc ScreenshotIn
 AddToFunc ScreenshotIn
 #+ I NotifyMe Taking screenshot...
-+ I Exec exec scrot -d $0 fvwm-$(date +%Y%m%d_%H%M%S)+$0s.png
-+ I NotifyMe Screenshot taken
++ I Piperead 'echo "Test (X scrot) Exec exec scrot -d $0 fvwm-$(date +%Y%m%d_%H%M%S)+$0s.png"'
++ I TestRc (Match) Piperead 'sleep 1s; echo "NotifyMe Screenshot taken"'
++ I TestRc (NoMatch) NotifyError scrot is not installed
 
 #}}}1
 # Menu entry {{{1
@@ -21,8 +23,8 @@ AddToFunc ScreenshotIn
 AddToMenu /Fvwm/Functions
 + "" Nop
 + "Screenshot" Screenshot
-+ "ScreenshotIn 5" ScreenshotIn 5
-+ "ScreenshotIn 10" ScreenshotIn 10
++ "Screenshot in 5s" ScreenshotIn 5
++ "Screenshot in 10s" ScreenshotIn 10
 
 #}}}1
 
