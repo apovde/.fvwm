@@ -1,0 +1,66 @@
+#!/usr/bin/perl
+#--------------------------------------------------------
+# File:     FvwmPageTracker
+# Version:  1.0.0
+# License:  GPL 2
+#
+# Description:  
+#   Module to track the current page. Based on the example of the old fvwm.org
+#   website here: https://github.com/fvwmorg/fvwm/blob/master/tests/perl/module-flash
+#   Requires package 'xosd-bin'
+#
+# Author:   Anton Popov <mail@antonpopov.de>
+#
+# Changed:  2016-11-25
+#
+# Usage:
+#   # Start the module
+#   AddToFunc StartFunction
+#   + I Module FvwmPageTracker
+#
+#--------------------------------------------------------
+
+use strict;
+use warnings;
+
+use lib `fvwm-perllib dir`;
+use FVWM::Module;
+
+use Data::Dumper;
+
+my $debug = 1;
+
+# my $font = '-*-urw gothic l-demibold-r-*-*-64-*-*-*-*-*-*-*';
+my $font = '-*-helvetica-bold-r-*-*-34-*-*-*-*-*-*-*';
+my $color = 'green';
+my $delay = 1;
+
+my $bin = 'osd_cat';
+my $cmd = sprintf "%s -A center -p middle -f '%s' -c %s -l 1 -d %d",
+        $bin, $font, $color, $delay;
+
+my ($module, $tracker);
+
+init_module();
+
+sub init_module
+{
+    $module = new FVWM::Module(
+        Name        => 'FvwmPageTracker',
+        Debug       => $debug,
+        EnableAlias => 0
+    );
+
+    $tracker = $module->track('PageInfo');
+    $tracker->observe( \&on_page_info );
+
+    $module->eventLoop;
+}
+
+sub on_page_info
+{
+    my ($mod, $track, $info) = @_;
+
+    $module->send( sprintf "Exec killall %s 2>/dev/null; echo %d | %s", $bin, $info->{page_nx}+1, $cmd );
+}
+
