@@ -1,6 +1,0 @@
-#SetEnv Screensaver xtrlock
-DestroyFunc LockScreen
-AddToFunc LockScreen
-+ I Exec exec xtrlock
-+ I Exec exec echo Screen locked on $(date)
-

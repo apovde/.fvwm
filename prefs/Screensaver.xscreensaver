@@ -1,5 +1,0 @@
-#SetEnv Screensaver xscreensaver
-DestroyFunc LockScreen
-AddToFunc LockScreen
-+ I Exec exec xscreensaver-command -lock
-+ I Exec exec echo Screen locked on $(date)
