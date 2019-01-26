@@ -6,7 +6,7 @@
 #
 #   Author: Anton Popov <mail@antonpopov.de>
 #  Created: 2013-10-02
-# Modified: 2014-12-31
+# Modified: 2019-01-26
 #
 # Recommended screen size: 1366x768
 # Fvwm version: 2.6.5
@@ -20,9 +20,19 @@
 #  * hsetroot 1.0.2
 #
 # Use at your own risk.
-#
-#### VARIABLES {{{1
 
+#### VARIABLES {{{1
+#
+# Note: Some of the following variables might be overwritten later (see "prefs" directory or StartFunction for examples)
+
+#### Environment variables {{{2
+
+SetEnv MPD_HOST "ap-rpi"
+
+# Perl modules
+ModulePath $[FVWM_USERDIR]/lib:+
+
+#}}}2
 #### Desktop settings {{{2
 #
 # pager width is calculated by 'desk.size.x * page.w - 1'
@@ -61,10 +71,19 @@ InfoStoreAdd font       "SnapTTF:pixelsize=10"
 
 InfoStoreAdd window.border.width 1
 
+#}}}2
+#### Commands {{{2
+
+InfoStoreAdd cmd.term   "urxvt"
+InfoStoreAdd cmd.lock   "xtrlock"
+#InfoStoreAdd cmd.lock   "xscreensaver-command -lock"
+InfoStoreAdd cmd.run    "dmenu_recent"
+
+#}}}2
 #### Colorset definitions {{{2
 
-#  0 = window title-inactive	# also used by FvwmIdent
-#  1 = window title-active	# also used by FvwmIdent
+#  0 = window title-inactive    # also used by FvwmIdent
+#  1 = window title-active      # also used by FvwmIdent
 #  2 = window borders
 #  3 = window handles
 InfoStoreAdd cs.window.title.inactive   0
@@ -102,13 +121,6 @@ InfoStoreAdd cs.menu.active             17
 # 15 = newpanel-active
 
 #}}}2
-#### Commands {{{2
-
-InfoStoreAdd cmd.term   "urxvt"
-InfoStoreAdd cmd.lock   "xtrlock"
-InfoStoreAdd cmd.run    "dmenu_recent"
-
-#}}}2
 
 #}}}1
 #### INIT {{{1
@@ -123,6 +135,7 @@ Read prefs/IconSize
 Read prefs/Colorset
 Read prefs/ClickTime
 Read prefs/Terminal
+Read prefs/Screensaver
 
 Read func/FvwmMiniConsole
 Read func/Screenshot.scrot
@@ -375,7 +388,13 @@ AddToFunc FvwmWindowMenuAllPages
 # Overrides NotifyMe in default/functions
 DestroyFunc NotifyMe
 AddToFunc NotifyMe
++ I Echo INFO: $*
 + I Exec exec echo "$*" | dzen2 -h $[infostore.dock.h] -bg blue -fg white -fn $(echo "$[infostore.font]" | sed -e's/xft://') -p 2
+
+DestroyFunc NotifyError
+AddToFunc NotifyError
++ I Echo ERROR: $*
++ I Exec exec echo "$*" | dzen2 -h $[infostore.dock.h] -bg red -fg white -fn $(echo "$[infostore.font]" | sed -e's/xft://') -p 5
 
 #}}}1
 #### CURSORS {{{1
