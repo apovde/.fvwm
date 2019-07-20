@@ -237,9 +237,11 @@ Key XF86ScreenSaver A $[infostore.Mod] LockScreen
 Key Print A $[infostore.Mod] Screenshot
 
 #}}}1
-# Open new terminal     Mouse 3 on root-window {{{1
+# Open new terminal     Mouse 3 on root-window & Alt+` {{{1
 
 Mouse 3 R $[infostore.Mod0] Exec exec $[infostore.cmd.term]
+
+Key dead_acute A $[infostore.Mod2] Exec exec $[infostore.cmd.term]
 
 #}}}1
 # Run program           Alt+R {{{1
