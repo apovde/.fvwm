@@ -1,1 +1,8 @@
-Key Tab A $[infostore.Mod1] Exec if [ -z "$(pidof skippy-xd)" ]; then skippy-xd > /dev/null 2>&1; fi
+# old:
+#Key Tab A $[infostore.Mod1] Exec if [ -z "$(pidof skippy-xd)" ]; then skippy-xd > /dev/null 2>&1; fi
+
+# no daemon:
+Key Tab A $[infostore.Mod1] Exec exec skippy-xd > /dev/null 2>&1; fi
+
+# using daemon:
+# Key Tab A $[infostore.Mod1] Exec skippy-xd --toggle-window-picker > /dev/null 2>&1
