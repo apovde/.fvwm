@@ -154,6 +154,19 @@ Key L   A $[infostore.Mod2] Window-Warp-RightBottom
 
 Key M   A $[infostore.Mod2] Window-Warp-CenterCenter
 
+#----------------------------------------------------------
+# AnimatedMove bindings
+#----------------------------------------------------------
+Key H A $[infostore.Mod1] SendToModule FvwmAnimatedMove move l $[w.width] $[w.height] $[w.x] $[w.y]
+Key J A $[infostore.Mod1] SendToModule FvwmAnimatedMove move b $[w.width] $[w.height] $[w.x] $[w.y]
+Key K A $[infostore.Mod1] SendToModule FvwmAnimatedMove move t $[w.width] $[w.height] $[w.x] $[w.y]
+Key L A $[infostore.Mod1] SendToModule FvwmAnimatedMove move r $[w.width] $[w.height] $[w.x] $[w.y]
+
+Key M A $[infostore.Mod2] SendToModule FvwmAnimatedMove move m $[w.width] $[w.height] $[w.x] $[w.y]
+
+#----------------------------------------------------------
+# Overrides
+#----------------------------------------------------------
 Key (FeelRO) H A $[infostore.Mod1] --
 Key (FeelRO) J A $[infostore.Mod1] --
 Key (FeelRO) K A $[infostore.Mod1] --
@@ -164,6 +177,11 @@ Key (Limit*) K A $[infostore.Mod1] --
 Key (Limit*) L A $[infostore.Mod1] --
 
 Key (Limit*) S A $[infostore.Mod1] --
+
+Key (Ragnarok) H A $[infostore.Mod1] --
+Key (Ragnarok) J A $[infostore.Mod1] --
+Key (Ragnarok) K A $[infostore.Mod1] --
+Key (Ragnarok) L A $[infostore.Mod1] --
 
 #}}}1
 # Window move           Alt+Arrows {{{1
@@ -227,17 +245,24 @@ Key XF86AudioLowerVolume A $[infostore.Mod0] Music-Volume -5
 Key XF86AudioRaiseVolume A $[infostore.Mod0] Music-Volume +5
 
 #}}}1
-# Screen saver          XF86ScreenSaver {{{1
+# Screen saver          XF86ScreenSaver|Ctrl+Alt+L {{{1
 
+Key L A $[infostore.Mod3] LockScreen
 Key XF86ScreenSaver A $[infostore.Mod] LockScreen
 
 #}}}1
 # Screenshot            Print {{{1
 
 Key Print A $[infostore.Mod] Screenshot
+Key Print A $[infostore.Mod1] ScreenshotWindow
 
 #}}}1
-# Open new terminal     Mouse 3 on root-window & Alt+` {{{1
+# Disable root menu     Mouse 1 on root-window {{{1
+
+Mouse 1 R $[infostore.Mod0] Nop
+
+#}}}1
+# Open new terminal     Mouse 3 on root-window & Alt+Shift+`{{{1
 
 Mouse 3 R $[infostore.Mod0] Exec exec $[infostore.cmd.term]
 
