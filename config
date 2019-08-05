@@ -160,8 +160,8 @@ DestroyFunc InitConky
 AddToFunc InitConky
 + I PipeRead 'killall dzen2 2>/dev/null'
 + I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((540+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 826 -h $[infostore.dock.h] -ta r -fg white -bg black -e 'button2=raise;'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 321 -h $[infostore.dock.h] -ta l -fg white -bg black -e 'button2=raise;'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((521+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 845 -h $[infostore.dock.h] -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 381 -h $[infostore.dock.h] -ta l -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((581+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 785 -h $[infostore.dock.h] -ta r -fg white -bg black -e 'button2=raise;'
 
 #}}}1
 #### DESKTOP {{{1
