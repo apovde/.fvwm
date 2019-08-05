@@ -1,0 +1,551 @@
+#!/usr/bin/perl
+#
+# Description:
+#   Module to move a focused window around multiple screens using AnimatedMove.
+#   Stops when hitting a screen border. Moves the window to the next screen if
+#   the same direction is requested again.
+#   Attempts to detect current screen setup using 'xrandr' on startup.
+#
+# Usage:
+#   # Start the module
+#   AddToFunc StartFunction
+#   + I Module FvwmAnimatedMove
+#
+#   # Alt+[hjkl] to move window <left,down,up,right>
+#   # Alt+Shift+m to center window
+#   Key H A M SendToModule FvwmAnimatedMove move l $[w.width] $[w.height] $[w.x] $[w.y]
+#   Key J A M SendToModule FvwmAnimatedMove move b $[w.width] $[w.height] $[w.x] $[w.y]
+#   Key K A M SendToModule FvwmAnimatedMove move t $[w.width] $[w.height] $[w.x] $[w.y]
+#   Key L A M SendToModule FvwmAnimatedMove move r $[w.width] $[w.height] $[w.x] $[w.y]
+#   Key M A MS SendToModule FvwmAnimatedMove move m $[w.width] $[w.height] $[w.x] $[w.y]
+#
+#--------------------------------------------------------
+
+use strict;
+use warnings;
+
+use lib `fvwm-perllib dir`;
+use FVWM::Module;
+
+use File::Basename;
+use lib dirname(__FILE__);
+use Screen;
+
+my $debug = 0;
+
+my @screens = (
+    {
+        n => 0,
+        w => 1920,
+        h => 1200,
+        x => 0,
+        y => 0
+    }
+);
+my $window_id = 0;
+my $module;
+
+#--------------------------------------------------------
+# Initialize
+#--------------------------------------------------------
+detect_screens();
+init_module();
+
+#--------------------------------------------------------
+# Functions
+#--------------------------------------------------------
+sub detect_screens
+{
+    undef @screens;
+    @screens = Screen->detect_screens;
+
+    my $count = scalar @screens;
+    printf "Found %d screen%s:\n", $count, ($count != 1 ? 's' : '');
+
+    foreach my $screen (@screens)
+    {
+        printf "  %d: %dx%d+%d+%d\t%s%s\n", $screen->{'n'},
+                                            $screen->{'w'},
+                                            $screen->{'h'},
+                                            $screen->{'x'},
+                                            $screen->{'y'},
+                                            $screen->{'name'},
+                                            $screen->{'primary'} ? ' (primary)' : '';
+    }
+}
+
+sub init_module
+{
+    $module = new FVWM::Module(
+        Name        => 'FvwmAnimatedMove',
+        Mask        => M_FOCUS_CHANGE | M_STRING,
+        Debug       => $debug,
+        EnableAlias => 0
+    );
+
+    $module->showMessage( sprintf("Starting %s ... ", $module->name ) );
+
+    $module->addHandler( M_STRING, \&on_message );
+    $module->addHandler( M_FOCUS_CHANGE, \&on_focus_change );
+
+    $module->eventLoop;
+}
+
+sub on_focus_change
+{
+    my ($module, $event) = @_;
+    $window_id = $event->_win_id;
+
+    $module->debug( sprintf("focus_change: %d", $window_id ), 2 );
+}
+
+sub on_message
+{
+    my ($module, $event) = @_;
+    processCmd( $event->_text );
+}
+
+sub processCmd
+{
+    my ($s) = @_;
+    my ($command, $args) = $s =~ /\s*(\w+)\s*(.*)/;
+
+    my %cmd = (
+        detect_screens => sub { &detect_screens; },
+        move           => sub { &process_move; },
+        stop           => sub { &request_stop; },
+    );
+
+    if( defined( $cmd{$command} ) )
+    {
+        $module->debug( sprintf("Command: %s(%s)", $command, $args), 1 );
+        $cmd{$command}( $args );
+    }
+    else
+    {
+        $module->showError( sprintf("Unknown command \"%s\"", $command ) );
+    }
+}
+
+sub process_move
+{
+    my $args = shift;
+    my ($dir, $w, $h, $x, $y) = split( /\ /, $args );
+
+    $module->debug( sprintf("window %d [%dx%d+%d+%d]",
+            $window_id, $w, $h, $x, $y ), 1 );
+
+    my %window = (
+        w => $w,
+        h => $h,
+        x => $x,
+        y => $y
+    );
+    debug_relations( \%window );
+
+    if( $window_id != 0 )
+    {
+        if( $dir eq 'm')
+        {
+            $module->send( center_center( \%window, $dir ), $window_id );
+        }
+        else
+        {
+            $module->send( move( \%window, $dir ), $window_id );
+        }
+    }
+    else
+    {
+        $module->debug("No window selected.", 1 );
+    }
+}
+
+sub request_stop
+{
+    alarm(0);
+    &stop_module;
+}
+
+sub stop_module
+{
+    $module->showMessage("FvwmAnimatedMove stopped.");
+    $module->terminate;
+}
+
+sub debug_window
+{
+    my $win = shift;
+
+    $module->debug( sprintf("Window [%dx%d+%d+%d]",
+            $win->{'w'}, $win->{'h'}, $win->{'x'}, $win->{'y'} ), 1 );
+}
+
+sub debug_screen
+{
+    my $screen = shift;
+
+    $module->debug( sprintf("Screen %d [%dx%d+%d+%d]", $screen->{'n'},
+            $screen->{'w'}, $screen->{'h'}, $screen->{'x'}, $screen->{'y'} ), 1 );
+}
+
+sub relate
+{
+    my $win = shift;
+    my $screen = shift;
+
+    my ($t, $r, $b, $l);
+
+    $t = $win->{'y'}                     - $screen->{'y'};
+    $l = $win->{'x'}                     - $screen->{'x'};
+    $b = ($screen->{'y'}+$screen->{'h'}) - ($win->{'y'}+$win->{'h'});
+    $r = ($screen->{'x'}+$screen->{'w'}) - ($win->{'x'}+$win->{'w'});
+
+    $module->debug( sprintf("  margin: t=%d r=%d b=%d l=%d", $t, $r, $b, $l ), 1 );
+
+    return { t => $t, r => $r, b => $b, l => $l };
+}
+
+sub within
+{
+    my $relate = shift;
+    my $win    = shift;
+    my $screen = shift;
+
+    my ($t, $r, $b, $l) = ( $relate->{'t'},
+                            $relate->{'r'},
+                            $relate->{'b'},
+                            $relate->{'l'} );
+
+    return $t >= 0 && $b >= 0 && $r >= 0 && $l >= 0
+        || 0;
+}
+
+sub overlaps
+{
+    my $relate = shift;
+    my $win    = shift;
+    my $screen = shift;
+
+    my ($t, $r, $b, $l) = ( $relate->{'t'},
+                            $relate->{'r'},
+                            $relate->{'b'},
+                            $relate->{'l'} );
+
+    my $in_t = $t < 0 ? -1 : ($t >= $screen->{'h'} ? 1 : 0);
+    my $in_r = $r < 0 ? -1 : ($r >= $screen->{'w'} ? 1 : 0);
+    my $in_b = $b < 0 ? -1 : ($b >= $screen->{'h'} ? 1 : 0);
+    my $in_l = $l < 0 ? -1 : ($l >= $screen->{'w'} ? 1 : 0);
+
+    my $dtb = $in_t-$in_b;
+    my $dlr = $in_l-$in_r;
+    if( $in_t == -1 && $in_b == -1 ) { $dtb = 1 };
+    if( $in_l == -1 && $in_r == -1 ) { $dlr = 1 };
+
+    # print "  __\n  t: $in_t, r: $in_r, b: $in_b, l: $in_l\n";
+    # print "  __\n  tb: $dtb, lr: $dlr\n";
+
+    if( ($dtb != 0 || $dlr != 0) && (abs( $dtb ) < 2 && abs( $dlr ) < 2) )
+    {
+        return {
+            t => $in_t != 0 || 0,
+            r => $in_r != 0 || 0,
+            b => $in_b != 0 || 0,
+            l => $in_l != 0 || 0
+        };
+    }
+    return {
+        t => 0,
+        r => 0,
+        b => 0,
+        l => 0
+    };
+}
+
+sub touches
+{
+    my $relate = shift;
+    my $win    = shift;
+    my $screen = shift;
+
+    my ($t, $r, $b, $l) = ( $relate->{'t'},
+                            $relate->{'r'},
+                            $relate->{'b'},
+                            $relate->{'l'} );
+
+    my $t_within = $t >= 0 && $t < $screen->{'h'};
+    my $r_within = $r >= 0 && $r < $screen->{'w'};
+    my $b_within = $b >= 0 && $b < $screen->{'h'};
+    my $l_within = $l >= 0 && $l < $screen->{'w'};
+
+    return
+    {
+        t => ( ( $t == 0 || $t == $screen->{'h'} ) && ( $r_within || $l_within ) ) || 0,
+        r => ( ( $r == 0 || $r == $screen->{'w'} ) && ( $t_within || $b_within ) ) || 0,
+        b => ( ( $b == 0 || $b == $screen->{'h'} ) && ( $r_within || $l_within ) ) || 0,
+        l => ( ( $l == 0 || $l == $screen->{'w'} ) && ( $t_within || $b_within ) ) || 0
+    };
+}
+
+sub debug_relations
+{
+    my $win = shift;
+
+    if( $debug < 1 )
+    {
+        return;
+    }
+
+    foreach my $screen (@screens)
+    {
+        debug_screen( $screen );
+
+        my $relate   = relate( $win, $screen );
+        my $within   = within( $relate, $win, $screen );
+        my $touches  = touches( $relate, $win, $screen );
+        my $overlaps = overlaps( $relate, $win, $screen );
+
+        $module->debug( sprintf("  window within screen %d: %d",
+                $screen->{'n'}, $within ), 1 );
+        $module->debug( sprintf("  window touches screen %d: t=%d r=%d b=%d l=%d",
+                $screen->{'n'},
+                $touches->{'t'}, $touches->{'r'}, $touches->{'b'}, $touches->{'l'} ), 1 );
+        $module->debug( sprintf("  window overlaps screen %d: t=%d r=%d b=%d l=%d",
+                $screen->{'n'},
+                $overlaps->{'t'}, $overlaps->{'r'}, $overlaps->{'b'}, $overlaps->{'l'} ), 1 );
+        $module->debug('');
+    }
+}
+
+sub get_next_screen
+{
+    my $screen = shift;
+    my $dir    = shift;
+
+    my $next_screen;
+    my $thresh_nearest;
+
+    my $screen_border = $dir eq 'r' ? $screen->{'x'} + $screen->{'w'}
+                      : $dir eq 'l' ? $screen->{'x'}
+                      : $dir eq 't' ? $screen->{'y'}
+                      : $dir eq 'b' ? $screen->{'y'} + $screen->{'h'}
+                      : $module->showError("Invalid direction '$dir'");
+
+    $module->debug( sprintf("_%d_screen_border[%s]       : %d",
+            $screen->{'n'}, $dir, $screen_border ), 2 );
+
+    foreach my $screen_candidate (@screens)
+    {
+        my $add;
+        if( $dir eq 'r' || $dir eq 'l' )
+        {
+            $add = $screen_candidate->{'x'} + ($dir eq 'r' ? 0 : $screen_candidate->{'w'});
+        }
+        elsif( $dir eq 't' || $dir eq 'b' )
+        {
+            $add = $screen_candidate->{'y'} + ($dir eq 'b' ? 0 : $screen_candidate->{'h'});
+        }
+
+        $module->debug( sprintf("_%d_add                    : %d",
+                $screen_candidate->{'n'}, $add ), 2 );
+
+        if( defined( $thresh_nearest ) )
+        {
+            $module->debug( sprintf("_%d_current_threshold[%s]: %d",
+                    $screen_candidate->{'n'}, $dir, $thresh_nearest ), 2 );
+        }
+        if(
+            (
+                (
+                    ($dir eq 'r' || $dir eq 'b') && $add >= $screen_border
+                )
+                || (
+                    ($dir eq 'l' || $dir eq 't') && $add <= $screen_border
+                )
+            )
+            && ( !defined( $thresh_nearest ) || $add <= $thresh_nearest )
+        ) {
+            if( defined( $thresh_nearest ) && $add == $thresh_nearest )
+            {
+                my $relate = relate( $screen, $screen_candidate );
+                my $touches = touches( $relate, $screen, $screen_candidate );
+                if( $touches->{$dir} )
+                {
+                    $module->debug( sprintf("Preferring screen %d over screen %d",
+                            $screen_candidate->{'n'}, $next_screen->{'n'} ), 1 );
+
+                    $next_screen = $screen_candidate;
+                }
+            }
+            else
+            {
+                $next_screen = $screen_candidate;
+            }
+            $thresh_nearest = $add;
+
+            $module->debug( sprintf("Found screen %d %s of screen %d",
+                    $next_screen->{'n'}, $dir, $screen->{'n'} ), 1 );
+        }
+    }
+
+    if( !defined( $next_screen ) )
+    {
+        $module->debug( sprintf("No screen found %s of screen %d",
+                $dir, $screen->{'n'} ), 1 );
+    }
+
+    return $next_screen;
+}
+
+sub center_left_right
+{
+    my $win = shift;
+    my $screen = shift;
+
+    my $y = int $screen->{'y'} + $screen->{'h'}/2 - $win->{'h'}/2;
+
+    return "AnimatedMove keep ${y}p Warp";
+}
+
+sub center_top_bottom
+{
+    my $win = shift;
+    my $screen = shift;
+
+    my $x = int $screen->{'x'} + $screen->{'w'}/2 - $win->{'w'}/2;
+
+    return "AnimatedMove ${x}p keep Warp";
+}
+
+sub center_center
+{
+    my $win = shift;
+    my $dir = shift;
+    my $screen = shift || current_screen( $win, $dir );
+
+    my $x = int $screen->{'x'} + $screen->{'w'}/2 - $win->{'w'}/2;
+    my $y = int $screen->{'y'} + $screen->{'h'}/2 - $win->{'h'}/2;
+
+    return "AnimatedMove ${x}p ${y}p Warp";
+}
+
+sub move
+{
+    my $win = shift;
+    my $dir = shift;
+
+    debug_window( $win );
+
+    my ($relate, $touches);
+
+    my $target_screen;
+    my $current_screen = current_screen( $win, $dir );
+
+    # determine target screen
+    if( defined( $current_screen ) )
+    {
+        $relate = relate( $win, $current_screen );
+        $touches = touches( $relate, $win, $current_screen );
+
+        $target_screen = $current_screen;
+        my $candidate;
+        if( $touches->{$dir} )
+        {
+            $module->debug("Touching the border. Looking for next screen ... ");
+
+            $candidate = get_next_screen( $current_screen, $dir);
+            $target_screen = defined( $candidate ) ? $candidate : $current_screen;
+        }
+    }
+    else
+    {
+        $module->showError("Failed to determine current screen.");
+    }
+
+    # do the magic
+    my $ret = 'Nop';
+
+    if( defined( $target_screen ) )
+    {
+        if( $target_screen->{'n'} == $current_screen->{'n'} && $touches->{$dir} )
+        {
+            if( $dir eq 'r' || $dir eq 'l' )
+            {
+                $ret = center_left_right( $win, $target_screen );
+            }
+            elsif( $dir eq 't' || $dir eq 'b' )
+            {
+                $ret = center_top_bottom( $win, $target_screen );
+            }
+        }
+        else
+        {
+            my ($x, $y);
+            my $add;
+
+            if( $dir eq 'r' || $dir eq 'l' )
+            {
+                $x = $target_screen->{'x'}
+                   + ($dir eq 'r' ? $target_screen->{'w'} - $win->{'w'} : 0);
+                $y = $win->{'y'};
+                $x = int $x;
+                $y = int $y;
+                $ret = "AnimatedMove ${x}p keep Warp";
+            }
+            elsif( $dir eq 't' || $dir eq 'b' )
+            {
+                $x = $win->{'x'};
+                $y = $target_screen->{'y'}
+                   + ($dir eq 'b' ? $target_screen->{'h'} - $win->{'h'} : 0);
+                $x = int $x;
+                $y = int $y;
+                $ret = "AnimatedMove keep ${y}p Warp";
+            }
+        }
+    }
+    else
+    {
+        $module->showError("Failed to determine target screen.");
+    }
+
+    $module->debug( sprintf("Execute: %s", $ret ), 1 );
+    return $ret;
+}
+
+sub current_screen
+{
+    my $win = shift;
+    my $dir = shift;
+    my $rdir = $dir eq 'r' ? 'l'
+             : $dir eq 'l' ? 'r'
+             : $dir eq 't' ? 'b'
+             : $dir eq 'b' ? 't'
+             : $dir eq 'm' ? 'm'
+             : $module->showError("Invalid direction '$dir'");
+
+    my $current_screen;
+
+    $module->debug( sprintf("Configured screens: %d", scalar(@screens) ), 2 );
+
+    foreach my $screen (@screens)
+    {
+        my $relate   = relate( $win, $screen );
+        my $touches  = touches( $relate, $win, $screen );
+        my $within   = within( $relate, $win, $screen );
+        my $overlaps = overlaps( $relate, $win, $screen );
+
+        $module->debug( sprintf("  Checking screen %d: within=%d, overlaps=[t:%d, r:%d, b:%d, l:%d].",
+                $screen->{'n'},
+                $within,
+                $overlaps->{'t'}, $overlaps->{'r'}, $overlaps->{'b'}, $overlaps->{'l'} ), 2 );
+
+        if( $within || ($overlaps->{$rdir} && !$overlaps->{$dir}) )
+        {
+            $current_screen = $screen;
+            $module->debug( sprintf("On screen %d.", $screen->{'n'}), 1 );
+            last;
+        }
+    }
+
+    return $current_screen;
+}
+
