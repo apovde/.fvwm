@@ -12,6 +12,33 @@ ${if_running openvpn}\
 ${else}\
 ^fg(\#fff)^bg(\#000) vpn \
 ${endif}\
+# ssh
+^fg(\#888)^r(1x14)\
+^fg(\#fff)\
+${if_running sshd}${if_match 0 == ${exec last -p now|grep logged|wc -l }}\
+^bg(\#00f)${else}^bg(\#f00)${endif} \
+ssh: ${exec last -p now | grep logged | wc -l}/${exec pidof ssh | wc -w} \
+^bg(\#000)\
+${else}\
+^fg(\#fff)^bg(\#000) ssh \
+${endif}\
+## virtualbox
+#^fg(\#888)^r(1x16)\
+#${if_running VirtualBoxVM}\
+#^fg(\#fff)^bg(\#00f) vbox: ${exec vboxmanage list vms | wc -l} ^bg(\#000)\
+#${else}${if_running VBoxHeadless}\
+#^fg(\#fff)^bg(\#00f) vbox: ${exec vboxmanage list vms | wc -l} ^bg(\#000)\
+#${else}\
+#^fg(\#fff)^bg(\#000) vbox \
+#${endif}\
+#${endif}\
+## docker
+#^fg(\#888)^r(1x16)\
+#${if_running dockerd}\
+#^fg(\#fff)^bg(\#00f) docker: ${exec docker ps -q | wc -l} ^bg(\#000)\
+#${else}\
+#^fg(\#fff)^bg(\#000) docker \
+#${endif}\
 # apache
 ^fg(\#888)^r(1x14)\
 ${if_running apache2}\
