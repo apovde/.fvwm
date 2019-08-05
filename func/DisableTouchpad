@@ -1,0 +1,4 @@
+DestroyFunc DisableTouchpad
+AddToFunc DisableTouchpad
++ I Exec exec sh $[FVWM_USERDIR]/bin/disable-touchpad.sh
++ I NotifyMe "Touchpad disabled"
