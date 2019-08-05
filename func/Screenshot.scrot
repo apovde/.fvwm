@@ -10,6 +10,13 @@ AddToFunc Screenshot
 + I TestRc (Match) Piperead 'sleep 1s; echo "NotifyMe Screenshot taken"'
 + I TestRc (NoMatch) NotifyError scrot is not installed
 
+DestroyFunc ScreenshotWindow
+AddToFunc ScreenshotWindow
+#+ I NotifyStep Taking screenshot...
++ I Piperead 'echo "Test (X scrot) Exec exec scrot -u fvwm-$(date +%Y%m%d_%H%M%S).png"'
++ I TestRc (Match) Piperead 'sleep 1s; echo "NotifyMe Screenshot taken"'
++ I TestRc (NoMatch) NotifyError scrot is not installed
+
 DestroyFunc ScreenshotIn
 AddToFunc ScreenshotIn
 #+ I NotifyMe Taking screenshot...
