@@ -6,7 +6,7 @@
 #
 #   Author: Anton Popov <mail@antonpopov.de>
 #  Created: 2013-10-02
-# Modified: 2019-01-26
+# Modified: 2019-08-02
 #
 # Recommended screen size: 1366x768
 # Fvwm version: 2.6.5
@@ -20,6 +20,10 @@
 #  * hsetroot 1.0.2
 #  * scrot
 #  * xosd-bin
+#  * xrandr
+#
+# Things that break on fvwm update:
+# - FvwmWindowMenu
 #
 # Use at your own risk.
 
@@ -143,24 +147,37 @@ Read func/FvwmMiniConsole
 Read func/Screenshot.scrot
 Read func/NotifyMe.dzen
 Read func/ThumbnailMirror
+Read func/DisableTouchpad
+Read func/StartOffice
 
 DestroyFunc InitFunction
 AddToFunc InitFunction
 + I Exec exec hsetroot -full $[FVWM_USERDIR]/wp/earth_caplog_1366x768.png
-+ I Exec exec compton -c -C -f -i 0.8 --shadow-red 0.2 --shadow-green 0.8 --shadow-blue 0.9 -D 10 -I 0.08 -O 0.05 -l -18 -t -18 --shadow-exclude-reg x14+0+0 --shadow-exclude-reg x14+0-0 --shadow-exclude 'name *?= "dzen title"' --shadow-exclude 'class_g *?= "Fvwm"'
++ I Exec exec compton -c -C -f -i 0.8 --shadow-red 0.2 --shadow-green 0.8 --shadow-blue 0.9 -D 10 -I 0.08 -O 0.05 -l -18 -t -18 --shadow-exclude-reg x$[infostore.dock.h]+0+0 --shadow-exclude-reg x$[infostore.dock.h]+0-0 --shadow-exclude 'name *?= "dzen title"' --shadow-exclude 'name *?= "XOSD"' --shadow-exclude 'class_g *?= "Fvwm"'
 + I InitConky
 
 DestroyFunc InitConky
 AddToFunc InitConky
 + I PipeRead 'killall dzen2 2>/dev/null'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((540+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 826 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 321 -h 14 -ta l -fg white -bg black -e 'button2=raise;'
-+ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((521+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 845 -h 14 -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-top | dzen2 -fn "$[infostore.font]" -x $((540+$[infostore.scr.0.x])) -y $((0+$[infostore.scr.0.y])) -w 826 -h $[infostore.dock.h] -ta r -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-left | dzen2 -fn "$[infostore.font]" -x $((200+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 321 -h $[infostore.dock.h] -ta l -fg white -bg black -e 'button2=raise;'
++ I Exec exec conky -c $[FVWM_USERDIR]/other/conkyrc-bottom-right | dzen2 -fn "$[infostore.font]" -x $((521+$[infostore.scr.0.x])) -y $((754+$[infostore.scr.0.y])) -w 845 -h $[infostore.dock.h] -ta r -fg white -bg black -e 'button2=raise;'
 
 #}}}1
 #### DESKTOP {{{1
 
 BusyCursor * True
+
+IgnoreModifiers L25
+
+#XineramaSlsSize 3x1
+# Needs to be dynamic when starting up in different environments
+PipeRead 'echo XineramaSlsSize $(xrandr | grep " connected " | wc -l)x1'
+XineramaSls On
+XineramaPrimaryScreen 0
+Xinerama On
+Style * StartsOnScreen p
+Style * CaptureHonorsStartsOnPage, RecaptureHonorsStartsOnPage
 
 Style * PositionPlacement Center
 Style * SnapAttraction 8 Screen
@@ -245,6 +262,25 @@ DestroyModuleConfig FvwmIdent: *
 
 Style FvwmIdent Title, Borders
 
+#### FvwmButtonsLock {{{2
+
+KillModule FvwmButtons FvwmButtonsLock
+DestroyModuleConfig FvwmButtonsLock: *
+*FvwmButtonsLock: Colorset $[infostore.cs.panel.inactive]
+*FvwmButtonsLock: ActiveColorset $[infostore.cs.panel.active]
+*FvwmButtonsLock: Frame 0
+*FvwmButtonsLock: Rows 1
+*FvwmButtonsLock: Columns 1
+*FvwmButtonsLock: Padding 0 0
+*FvwmButtonsLock: Font "xft:$[infostore.font]"
+*FvwmButtonsLock: Geometry $[infostore.dock.h]x$[infostore.dock.h]-0+0
+*FvwmButtonsLock: (1x1, Id "LockScreen", Icon "$[FVWM_USERDIR]/img/lock.png", Action LockScreen)
+
+# Module FvwmButtons FvwmButtonsLock
+
+Style FvwmButtonsLock !Title, !Borders, Sticky, !Closable, StaysOnTop, SkipMapping, WindowListSkip, FixedSize, FixedPosition, NoIcon, !Iconifiable, !Maximizable, NeverFocus
+
+#}}}2
 #### FvwmButtonsPager {{{2
 # -> Pager replacement
 
@@ -257,7 +293,7 @@ DestroyModuleConfig FvwmButtonsPager: *
 *FvwmButtonsPager: Columns 8
 *FvwmButtonsPager: Padding 0 0
 *FvwmButtonsPager: Font "xft:$[infostore.font]"
-*FvwmButtonsPager: Geometry 200x14+0-0
+*FvwmButtonsPager: Geometry 200x$[infostore.dock.h]+0-0
 *FvwmButtonsPager: (1x1, Id "Page0", Icon "$[FVWM_USERDIR]/img/pager-0_act.png", Action GotoPage 0 0)
 *FvwmButtonsPager: (1x1, Id "Page1", Icon "$[FVWM_USERDIR]/img/pager-1.png", Action GotoPage 1 0)
 *FvwmButtonsPager: (1x1, Id "Page2", Icon "$[FVWM_USERDIR]/img/pager-2.png", Action GotoPage 2 0)
@@ -320,7 +356,7 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: FollowFocus True
 *FvwmIconMan: Title "No window"
 *FvwmIconMan: Format "%c | %i"
-*FvwmIconMan: ButtonGeometry 540x14
+*FvwmIconMan: ButtonGeometry 540x$[infostore.dock.h]
 *FvwmIconMan: ManagerGeometry 1x1+0+0
 *FvwmIconMan: MaxButtonWidthByColumns 1
 *FvwmIconMan: FocusButton flat
@@ -330,9 +366,10 @@ DestroyModuleConfig FvwmIconMan: *
 *FvwmIconMan: FocusAndSelectColorset $[infostore.cs.panel.active]
 *FvwmIconMan: PlainColorset $[infostore.cs.panel.inactive]
 *FvwmIconMan: SelectColorset $[infostore.cs.panel.active]
-*FvwmIconMan: Action Mouse 1 A SendCommand "FvwmWindowMenuCurrentPage Post Root +0p +14p"
+# TODO: fvwm-2.6.7+ will not contain FvwmWindowMenu anymore!
+*FvwmIconMan: Action Mouse 1 A SendCommand "FvwmWindowMenuCurrentPage Post Root +0p +$[infostore.dock.h]p"
 *FvwmIconMan: Action Mouse 2 A SendCommand "Nop"
-*FvwmIconMan: Action Mouse 3 A SendCommand "FvwmWindowMenuAllPages Post Root +0p +14p
+*FvwmIconMan: Action Mouse 3 A SendCommand "FvwmWindowMenuAllPages Post Root +0p +$[infostore.dock.h]p
 *FvwmIconMan: Action Mouse 4 A SendCommand "Nop"
 *FvwmIconMan: Action Mouse 5 A SendCommand "Nop"
 Module FvwmIconMan
@@ -343,6 +380,7 @@ Style FvwmIconMan !Title, !Borders, Sticky, !Closable, StaysOnTop, SkipMapping, 
 
 #}}}2
 #### FvwmWindowMenu {{{2
+# Module was deprecated and has been removed with fvwm-2.6.7
 #
 # A warning appeared in ~/.xsession-errors:
 #
@@ -381,6 +419,16 @@ AddToFunc FvwmWindowMenuAllPages
 + I *FvwmWindowMenu: AllPages on
 # + I *FvwmWindowMenu: AllDesks on
 + I SendToModule FvwmWindowMenu $*
+
+#}}}2
+#### FvwmAnimatedMove {{{2
+
+Module FvwmAnimatedMove
+
+#}}}2
+#### FvwmPageTracker {{{2
+
+Module FvwmPageTracker
 
 #}}}2
 
