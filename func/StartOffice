@@ -1,0 +1,7 @@
+# Start office tools
+
+DestroyFunc StartOffice
+AddToFunc StartOffice
++ I None (Navigator) Exec exec firefox-esr
++ I None (Mail) Exec exec thunderbird
+# + I None (Chromium) Exec exec chromium
