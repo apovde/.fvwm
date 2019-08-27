@@ -31,9 +31,6 @@ DestroyMenu /Windows
 AddToMenu /Windows
 + '&Identify window'	Module FvwmIdent
 + "" Nop
-+ "Screen sessions"	Popup /Windows/Screen
-+ "" Nop
-+ "Listen to events"	Popup /Windows/Events
 + "&Layer"		Popup /Windows/Layer
 + "" Nop
 + "Raise"		Pick Raise
@@ -85,21 +82,6 @@ AddToMenu /Windows
 + "" Nop
 + "Destroy window"	Exec xkill
 
-# screen {{{2
-
-DestroyMenu /Windows/Screen
-AddToMenu /Windows/Screen
-+ DynamicPopUpAction MakeMenu-ScreenSessions
-
-DestroyFunc MakeMenu-ScreenSessions
-AddToFunc MakeMenu-ScreenSessions
-+ I DestroyMenu /Windows/Screen
-+ I AddToMenu /Windows/Screen
-+ I + DynamicPopUpAction MakeMenu-ScreenSessions
-+ I Piperead 'screen -list | grep "[0-9][0-9]" | grep -v Sockets | while read line; do echo "+ \\"$line\\" Nop"; done'
-# nu wuk nu more
-#+ I Piperead 'i=0; screen -list | grep "[0-9][0-9]" | grep -v Sockets | while read line; do echo "+ \\"$line\\" Nop"; i=`expr $i + 1`; done; if [ $i = 0 ]; then echo "+ \\"No session found\\" Title"; fi'
-
 # opacity {{{2
 
 DestroyMenu /Windows/Opacity
@@ -141,17 +123,6 @@ AddToMenu /Windows/MoveToPage
 + "Six"		MoveToPage 5 0
 + "Seven"	MoveToPage 6 0
 + "Eight"	MoveToPage 7 0
-
-# Events {{{2
-
-DestroyMenu /Windows/Events
-AddToMenu /Windows/Events
-+ "" Nop
-+ "Add new event listener"	NewFvwmEvent
-
-DestroyFunc NewFvwmEvent
-AddToFunc NewFvwmEvent
-+ I Echo FvwmForm-AddWindowListener
 
 # Layer {{{2
 
