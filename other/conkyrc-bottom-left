@@ -25,9 +25,9 @@ ${endif}\
 ## virtualbox
 #^fg(\#888)^r(1x16)\
 #${if_running VirtualBoxVM}\
-#^fg(\#fff)^bg(\#00f) vbox: ${exec vboxmanage list vms | wc -l} ^bg(\#000)\
+#^fg(\#fff)^bg(\#00f) vbox: ${exec vboxmanage list runningvms | wc -l} ^bg(\#000)\
 #${else}${if_running VBoxHeadless}\
-#^fg(\#fff)^bg(\#00f) vbox: ${exec vboxmanage list vms | wc -l} ^bg(\#000)\
+#^fg(\#fff)^bg(\#00f) vbox: ${exec vboxmanage list runningvms | wc -l} ^bg(\#000)\
 #${else}\
 #^fg(\#fff)^bg(\#000) vbox \
 #${endif}\
