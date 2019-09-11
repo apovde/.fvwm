@@ -13,10 +13,10 @@ DefaultColorset $[infostore.cs.panel.inactive]
 #### Window borders {{{1
 
 Colorset $[infostore.cs.window.border] \
-    fg black, bg #888, Hilight white, IconAlpha 50
+    fg #888, bg #888, Hilight #888, Shadow #888, IconAlpha 50
 
 Colorset $[infostore.cs.window.handles] \
-    fg black, bg #bbb, Hilight white, IconAlpha 100
+    fg #bbb, bg #bbb, Hilight #bbb, Shadow #bbb, IconAlpha 100
 
 #}}}1
 #### Pager {{{1
