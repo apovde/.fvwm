@@ -155,6 +155,7 @@ AddToFunc InitFunction
 + I Exec exec hsetroot -full $[FVWM_USERDIR]/wp/earth_caplog_1366x768.png
 + I Exec exec compton -c -C -f -i 0.8 --shadow-red 0.2 --shadow-green 0.8 --shadow-blue 0.9 -D 10 -I 0.08 -O 0.05 -l -18 -t -18 --shadow-exclude-reg x$[infostore.dock.h]+0+0 --shadow-exclude-reg x$[infostore.dock.h]+0-0 --shadow-exclude 'name *?= "dzen title"' --shadow-exclude 'name *?= "XOSD"' --shadow-exclude 'class_g *?= "Fvwm"'
 + I InitConky
++ I DisableTouchpad
 
 DestroyFunc InitConky
 AddToFunc InitConky
