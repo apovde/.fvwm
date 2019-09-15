@@ -64,7 +64,7 @@ Style * HilightColorset $[infostore.cs.window.title.active]
 Style * BorderColorset $[infostore.cs.window.border]
 Style * HilightBorderColorset $[infostore.cs.window.handles]
 
-Style * TitleFormat %t | %I
+Style * TitleFormat %t | %I | %n
 
 # enable
 Style * UseDecor WindowDecoration
