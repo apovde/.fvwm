@@ -7,8 +7,10 @@ short_units yes
 #| ^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm)^fg(\#fff) ${upspeed} ^fg(\#67b15f)^i(/home/anton/.fvwm/img/net-down.xbm)^fg(\#fff) ${downspeed} \
 TEXT
 # key status
-^fg(\#888)^r(1x16)^fg(\#fff)${if_empty ${exec xset q | grep "Caps Lock:   off"}}\
-^bg(\#f00)${endif} CAPS ^bg(\#000)\
+${if_empty ${exec xset q | grep "Caps Lock:   off"}}\
+^fg(\#888)^r(1x16)\
+^fg(\#fff)^bg(\#f00) Caps Lock ^bg(\#000)\
+${endif}\
 # networking
 ${if_existing /proc/net/route wlan0}\
 ^fg(\#888)^r(1x14) \
