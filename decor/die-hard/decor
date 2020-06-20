@@ -54,7 +54,7 @@ Style * NoButton 7
 Style * NoButton 8
 Style * NoButton 9
 
-Style * BorderWidth 0, HandleWidth 1, FvwmBorder
+Style * BorderWidth 0, HandleWidth $[infostore.window.border.width], FvwmBorder
 Style * BorderUnderTitle
 
 Style * Colorset 0

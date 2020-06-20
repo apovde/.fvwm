@@ -14,7 +14,7 @@ Colorset $[infostore.cs.window.title.active] \
 #}}}1
 #### Styles {{{1
 
-Style * BorderWidth 0, HandleWidth 1, FvwmBorder, !Title
+Style * BorderWidth 0, HandleWidth $[infostore.window.border.width], FvwmBorder, !Title
 
 Style * Colorset $[infostore.cs.window.border]
 Style * HilightColorset $[infostore.cs.window.handles]
