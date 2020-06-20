@@ -38,6 +38,19 @@ ${else}\
 ${endif}${endif}\
 MEM\
 ^fg(\#fff) $mem/$memmax \
+# swap
+${if_match $swapperc >= 1}\
+^fg(\#888)^r(1x14)\
+${if_match $swapperc >= 10}\
+^bg(\#f00)^fg(\#fff) \
+${else}${if_match $swapperc >= 5}\
+^bg(\#00f)^fg(\#fff) \
+${else}\
+^bg(\#000)^fg(\#088) \
+${endif}${endif}\
+SWAP\
+^fg(\#fff) $swap/$swapmax \
+${endif}\
 # battery
 ^fg(\#888)^r(1x14)\
 ${if_match $battery_percent <= 10}\
