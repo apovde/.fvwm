@@ -5,3 +5,4 @@ AddToFunc StartOffice
 + I None (Navigator) Exec exec firefox-esr
 + I None (Mail) Exec exec thunderbird
 # + I None (Chromium) Exec exec chromium
++ I None (Slack) Exec exec slack
