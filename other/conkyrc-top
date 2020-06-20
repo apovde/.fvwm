@@ -8,13 +8,13 @@ short_units yes
 TEXT
 # key status
 ${if_empty ${exec xset q | grep "Caps Lock:   off"}}\
-^fg(\#888)^r(1x16)\
+^fg(\#888)^r(1x14)\
 ^fg(\#fff)^bg(\#f00) Caps Lock ^bg(\#000)\
 ${endif}\
 # networking
 ${if_existing /proc/net/route wlan0}\
 ^fg(\#888)^r(1x14) \
-^fg(\#088)WLAN0 \
+^fg(\#088)WIFI \
 #^fg(\#fff)${addr wlan0} 
 ^fg(\#fff)${wireless_essid wlan0} (${wireless_link_qual_perc wlan0}%) \
 ^fg(\#a64)^i(/home/anton/.fvwm/img/net-up.xbm) ${upspeed wlan0} \
