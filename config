@@ -6,7 +6,7 @@
 #
 #   Author: Anton Popov <mail@antonpopov.de>
 #  Created: 2013-10-02
-# Modified: 2019-08-02
+# Modified: 2020-06-20
 #
 # Recommended screen size: 1366x768
 # Fvwm version: 2.6.5
@@ -430,6 +430,19 @@ Module FvwmAnimatedMove
 #### FvwmPageTracker {{{2
 
 Module FvwmPageTracker
+
+#}}}2
+#### FvwmWarpCycle {{{2
+
+Module FvwmWarpCycle
+
+DestroyFunc WarpCycle
+AddToFunc WarpCycle
++ I SendToModule FvwmWarpCycle $0 $[pointer.screen] $[pointer.x] $[pointer.y]
+
+# Overrides bindings in default/bindings
+Key Home A $[infostore.Mod1] WarpCycle position
+Key End A $[infostore.Mod1] WarpCycle screen
 
 #}}}2
 

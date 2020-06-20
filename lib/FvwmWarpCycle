@@ -1,0 +1,131 @@
+#!/usr/bin/perl
+#--------------------------------------------------------
+# Description:
+#   Warp the mouse pointer to predefined positions.
+#   In 'screen' mode:
+#     - Warp the pointer to the center of the current screen.
+#     - If already at the center, warp to the center of the next screen.
+#   In 'position' mode:
+#     - Cycle through predefined positions.
+#     - Uses the full desktop geometry (all screens).
+#     - Relative values possible (+10, -10).
+#
+#   Requires package 'xrandr'
+#
+# Usage:
+#   # Startup
+#   AddToFunc StartFunction
+#   + I Module FvwmWarpCycle
+#
+#   # Pointer context
+#   DestroyFunc WarpCycle
+#   AddToFunc WarpCycle
+#   + I SendToModule FvwmWarpCycle $0 $[pointer.screen] $[pointer.x] $[pointer.y]
+#
+#   # Trigger
+#   WarpCycle position  # first position
+#   WarpCycle position  # (without moving mouse!) second
+#   WarpCycle position  # ...
+#   WarpCycle position  # restart at first
+#   WarpCycle screen    # screen center
+#
+# Note:
+#   $[pointer.?] variables need an immediate context, hence the function above.
+#
+#--------------------------------------------------------
+use strict;
+use warnings;
+
+use lib `fvwm-perllib dir`;
+use FVWM::Module;
+
+use File::Basename;
+use lib dirname(__FILE__);
+use Screen;
+
+use Data::Dumper;
+
+#--------------------------------------------------------
+# Initialize
+#--------------------------------------------------------
+my $debug = 0;
+my $module;
+
+my @screens = Screen->detect_screens();
+my $primary = Screen->primary_screen_number();
+my $desktop = Screen->detect_desktop();
+my @pos = ();
+push(@pos, {(x => +8, y => +8)});
+push(@pos, {(x => -8, y => +8)});
+push(@pos, {(x => -8, y => -8)});
+push(@pos, {(x => +8, y => -8)});
+
+init_module();
+
+#--------------------------------------------------------
+# Functions
+#--------------------------------------------------------
+sub init_module
+{
+    $module = new FVWM::Module(
+        Name        => 'FvwmWarpCycle',
+        Debug       => $debug,
+        EnableAlias => 0
+    );
+
+    $module->showMessage(sprintf("Starting %s ... ", $module->name));
+    $module->addHandler(M_STRING, \&toggle_warp);
+    $module->eventLoop;
+}
+
+sub toggle_warp
+{
+    my ($module, $event) = @_;
+    my ($mode, $screen, $x, $y) = split(/\ /, $event->_text);
+    my $s;
+    $module->debug(sprintf("event: %s", $event->_text));
+
+    if($mode eq 'position') {
+        $s = $screens[$primary];
+        my $i = 0;
+        my $j = 0;
+        foreach my $p (@pos) {
+            my $px = $p->{'x'};
+            my $py = $p->{'y'};
+            if($px < 0) {
+                $px = $desktop->{'w'} + $px;
+            }
+            if($py < 0) {
+                $py = $desktop->{'h'} + $py;
+            }
+            if($x == $px and $y == $py) {
+                $j = ($i+1) % scalar @pos;
+                $module->debug(
+                    sprintf("match \@pos{%s} -> next \@pos{%s}", $i, $j)
+                );
+            }
+            $i++;
+        }
+        $x = $pos[$j]->{'x'};
+        $y = $pos[$j]->{'y'};
+    } elsif($mode eq 'screen') {
+        $s = $screens[$screen];
+        if($x-$s->{'x'} == $s->{'w'}/2 and $y-$s->{'y'} == $s->{'h'}/2) {
+            $screen += 1;
+            if($screen >= scalar @screens) {
+                $screen = 0;
+            }
+            $module->debug("next screen: $screen");
+            $s = $screens[$screen];
+        } else {
+            $module->debug("center screen");
+        }
+        $x = $s->{'x'} + $s->{'w'}/2;
+        $y = $s->{'y'} + $s->{'h'}/2;
+    } else {
+        $module->showMessage(sprintf("Invalid mode: %s", $mode));
+        return;
+    }
+    $module->debug(sprintf("x=%s\ty=%s", $x, $y));
+    $module->send(sprintf('WindowId root 1 WarpToWindow %dp %dp', $x, $y));
+}
